@@ -22,7 +22,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-function DashboardStack() {
+export const  DashboardStack=()=> {
   return (
     <Stack.Navigator>
       <Stack.Screen

@@ -8,6 +8,7 @@ import {
   TextInput,
   Image,
   Button,
+  StatusBar
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from "./Carousel";
@@ -205,6 +206,7 @@ const Dashboard = ({ navigation }) => {
 
   return (
     <ScrollView style={styles.container}>
+      <StatusBar barStyle='dark-content' backgroundColor='#414141' />
       <View>
         <View style={styles.profile}>
           <Grid style={{ justifyContent: "space-between" }}>
@@ -270,9 +272,9 @@ const Dashboard = ({ navigation }) => {
         />
       </View>
 
-      <Text style={{ fontSize: 20, margin: 5, color: "white" }}>
-        {" "}
-        Daily Deals:{" "}
+      <Text style={{ fontSize: 25,fontWeight:'bold', margin: 5, color: "white" }}>
+        
+        Daily Deals
       </Text>
       {/* <Carousel
         layout='default'

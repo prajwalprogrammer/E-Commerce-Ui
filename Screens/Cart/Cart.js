@@ -1,7 +1,6 @@
 import React from 'react'
 import {View,Text,StyleSheet,TouchableOpacity,ScrollView,Image,StatusBar} from 'react-native'
-import { Button,Appbar } from 'react-native-paper';
-
+import {Button } from 'native-base'
 import
  MaterialCommunityIcons
 from 'react-native-vector-icons/MaterialCommunityIcons';
