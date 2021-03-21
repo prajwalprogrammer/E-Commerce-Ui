@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "agaval",
-    "slug": "snack-ff17868d-83eb-475b-9870-51b91e22d271",
+    "name": "E-commerce",
+    "slug": "E-commerce",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,6 +9,10 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
+    },
+    "androidStatusBar":{
+      "backgroundColor":"#6a5acd",
+      "barStyle":"light-content"
     },
     "updates": {
       "fallbackToCacheTimeout": 0

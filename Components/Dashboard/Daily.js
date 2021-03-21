@@ -66,6 +66,8 @@ export const renderItem = ({ item, index }) => {
           left: 0,
           justifyContent: "center",
           alignItems: "center",
+          borderRadius: 10,
+          marginHorizontal: 10,
         }}
       >
         <Text style={{ color: "white" }}>15% off</Text>
@@ -81,6 +83,7 @@ export const renderItem = ({ item, index }) => {
           justifyContent: "center",
           marginHorizontal: 10,
           marginVertical: 5,
+          marginTop: -19,
         }}
       >
         <TouchableOpacity
@@ -89,7 +92,12 @@ export const renderItem = ({ item, index }) => {
         >
           <Text style={styles.texts}>Add to Cart</Text>
         </TouchableOpacity>
-        <Icon name="heart" size={25} color="#FF0707" style={{justifyContent:'center',alignSelf:'center'}}  />
+        <Icon
+          name="heart"
+          size={30}
+          color="#FF0707"
+          style={{ justifyContent: "center", alignSelf: "center" }}
+        />
       </View>
       {/* <Grid>
         <Col size={70}>
@@ -101,8 +109,10 @@ export const renderItem = ({ item, index }) => {
           <Icon name="heart" size={25} color="#FF0707" />
         </Col>
       </Grid> */}
-      <View style={{justifyContent:'center',alignSelf:'center'}}>
-        <Text style={{...styles.body,fontWeight:'bold'}}>{item.description}</Text>
+      <View style={{ justifyContent: "center", alignSelf: "center" }}>
+        <Text style={{ ...styles.body, fontWeight: "bold" }}>
+          {item.description}
+        </Text>
       </View>
       <Grid>
         <Col size={100}>
@@ -244,7 +254,7 @@ const styles = StyleSheet.create({
     height: 300,
   },
   image: {
-    width: 200,
+    width: 280,
     height: 150,
     margin: 10,
     marginBottom: 1,
