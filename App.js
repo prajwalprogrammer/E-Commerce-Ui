@@ -22,7 +22,7 @@ import Icon from "react-native-vector-icons/AntDesign";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-export const  DashboardStack=()=> {
+export const DashboardStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -57,57 +57,121 @@ export const  DashboardStack=()=> {
       />
     </Stack.Navigator>
   );
-}
+};
+const tabOptions = {
+  showLabel: false,
+
+  style: {
+    height: "8%",
+  },
+};
 const App = () => {
   return (
     <NavigationContainer>
-      <Tab.Navigator>
+      <Tab.Navigator
+        tabBarOptions={tabOptions}
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused }) => {
+            const tintColor = focused ? "#6a5acd" : "gray";
+
+            switch (route.name) {
+              case "Dashboard":
+                return (
+                  <MaterialCommunityIcons
+                    name="home"
+                    color={tintColor}
+                    size={35}
+                    style={{
+                      tintColor: tintColor,
+                      // width: 25,
+                      // height: 25,
+                    }}
+                  />
+                );
+              case "Report":
+                return (
+                  <MaterialCommunityIcons
+                    name="cart-outline"
+                    color={tintColor}
+                    size={35}
+                    style={{
+                      tintColor: tintColor,
+                    }}
+                  />
+                );
+
+              case "Cart":
+                return (
+                  <MaterialCommunityIcons
+                    name="cart-arrow-right"
+                    color={tintColor}
+                    size={35}
+                    style={{
+                      tintColor: tintColor,
+                    }}
+                  />
+                );
+              case "Profile":
+                return (
+                  <MaterialCommunityIcons
+                    name="face"
+                    color={tintColor}
+                    size={35}
+                    style={{
+                      tintColor: tintColor,
+                    }}
+                  />
+                );
+            }
+          },
+        })}
+      >
         <Tab.Screen
-          options={{
-            tabBarLabel: "Home",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="home" color={color} size={size} />
-            ),
-          }}
+          // options={{
+          //   tabBarLabel: "Home",
+          //   tabBarIcon: ({ color, size }) => (
+          //     <MaterialCommunityIcons name="home" color={color} size={30} />
+          //   ),
+          // }}
           name="Dashboard"
           component={DashboardStack}
         />
 
         <Tab.Screen
-          options={{
-            tabBarLabel: "Repeat",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="cart-outline"
-                color="blue"
-                size={size}
-              />
-            ),
-          }}
+          // options={{
+          //   tabBarLabel: "Repeat",
+          //   tabBarIcon: ({ color, size }) => (
+          //     <MaterialCommunityIcons
+          //       name="cart-outline"
+          //       color={color}
+          //       size={30}
+          //     />
+          //   ),
+          // }}
           name="Report"
           component={Cart}
         />
         <Tab.Screen
-          options={{
-            tabBarLabel: "Show All",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons
-                name="cart-arrow-right"
-                color={color}
-                size={size}
-              />
-            ),
-          }}
+          // options={{
+          //   tabBarLabel: "Show All",
+          //   tabBarIcon: ({ color, size }) => (
+          //     <MaterialCommunityIcons
+          //       name="cart-arrow-right"
+          //       color={color}
+          //       size={30}
+          //     />
+          //   ),
+          // }}
           name="Cart"
           component={Allproduct}
         />
         <Tab.Screen
-          options={{
-            tabBarLabel: "Profile",
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="face" color={color} size={size} />
-            ),
-          }}
+          // options={{
+          //   tabBarLabel: "Profile",
+          //   tabBarIcon: ({ color, size }) => (
+          //     <MaterialCommunityIcons name="face" color={color} size={30} />
+          //   ),
+          // }}
           name="Profile"
           component={Profile}
         />

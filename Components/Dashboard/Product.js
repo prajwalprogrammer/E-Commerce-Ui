@@ -12,7 +12,7 @@ const Product = ({navigation,route}) => {
   const [value,setvalue]=useState(1)
     useEffect(()=>{console.log(route.params.description)},[])
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={{backgroundColor:'#6a5acd'}}>
           <View style={{margin:20}}>
             <Image 
                 source={{uri:route.params.uri1}}                                               
@@ -24,7 +24,7 @@ const Product = ({navigation,route}) => {
               />   
               </View>    
               <View style={{margin:20}}>
-            <Text style={{fontSize:24,color:"white"  }} > {route.params.name}</Text>
+            <Text style={{fontSize:24,color:"white",color:"white",fontWeight:'bold'  }} > {route.params.name}</Text>
             <Text style={{fontSize:20,color:"white"}}> $ {route.params.price}</Text>
             <Text style={styles.texts}>
                   <MaterialIcons name="star-rate" color="yellow" size={25}/>
@@ -33,10 +33,10 @@ const Product = ({navigation,route}) => {
                   <MaterialIcons name="star-rate" color="yellow" size={25}/>
                   </Text>
                   <Text>{"\n"}</Text>
-            <Text  style={{fontSize:20,color:"white"}}> Know More About :</Text>
+            <Text  style={{fontSize:25,color:"white",fontWeight:'bold'}}> Know More About :</Text>
             <View style={{marginLeft:10,marginTop:10}}>
-            <Text style={{color:"white"}}>  {route.params.know_more}</Text>
-            <Text style={{color:"white"}}>  {route.params.description}</Text>
+            <Text style={{color:"white",fontSize:15}}>  {route.params.know_more}</Text>
+            <Text style={{color:"white",fontSize:15}}>  {route.params.description}</Text>
             </View>
             </View>
             <Grid >

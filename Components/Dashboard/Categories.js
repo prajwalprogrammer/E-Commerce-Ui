@@ -28,9 +28,9 @@ const Categories = ({ navigation, route }) => {
   }, []);
 
   return (
-    <ScrollView style={styles.container}>
-      <View>
-        <View style={styles.profile}>
+    <ScrollView style={{backgroundColor:'#ffffff'}}>
+      <View style={{backgroundColor:'#6a5acd',paddingBottom:'12%',borderBottomRightRadius:30,borderBottomLeftRadius:30}}>
+        <View style={{...styles.profile}}>
           <Grid style={{ justifyContent: "space-between" }}>
             <Row>
               <Col>
@@ -92,8 +92,8 @@ const Categories = ({ navigation, route }) => {
           value={value}
         />
       </View>
-      <Text style={{ fontSize: 20, margin: 5, color: "white" }}>
-        Select a Category:
+      <Text style={{ fontSize: 30,fontWeight:'bold', margin: 5, color: "#6a5acd" }}>
+        Select a Category
       </Text>
       <Grid>
         <Col>

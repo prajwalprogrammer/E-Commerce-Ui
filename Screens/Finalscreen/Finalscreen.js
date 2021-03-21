@@ -10,7 +10,7 @@ const FinalScreen = ({route}) => {
       
     }, [])
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={{backgroundColor:'#6a5acd'}}>
              <Image 
             source={   require('../../Assets/Banner.png')}                                               
             style={{ width: 350,  height: 370,marginTop:50     ,marginLeft:20       
