@@ -58,21 +58,33 @@ const category_data = [
     price: "200",
   },
 ];
-
+import { COLORS, FONTS, SIZES } from "../../Assets/theme";
+import { LinearGradient } from "expo-linear-gradient";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 const Cart = ({ navigation }) => {
   return (
     <Container>
-      <Header style={{ backgroundColor: "white" }}>
+      <Header
+        style={{
+          backgroundColor: "#202020",
+          elevation: 12,
+          height:80
+         // borderBottomColor: "white",
+          // borderBottomWidth: 0.5,
+        }}
+      >
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" style={{ color: "#6a5acd" }} />
+            <Icon name="arrow-back" style={{ color: COLORS.font }} />
           </Button>
         </Left>
         <Body>
-          <Title style={{ fontSize: 20, fontWeight: "bold", color: "#6a5acd" }}>
+          <Title
+            style={{fontSize: 20, fontWeight: "bold",color: COLORS.font }}
+          >
             Cart
           </Title>
-          <Subtitle style={{ fontSize: 11, color: "#6a5acd" }}>
+          <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
             CLUS Pvt Ltd.
           </Subtitle>
         </Body>
@@ -80,126 +92,167 @@ const Cart = ({ navigation }) => {
           <Button transparent>{/* <Icon name='menu' /> */}</Button>
         </Right>
       </Header>
-      <ScrollView style={{ backgroundColor: "#6a5acd" }}>
-        {/* <TouchableOpacity style={styles.cartheader}>
+      <ScrollView style={{}}>
+        <LinearGradient
+          colors={["#000000", "#474747"]}
+          style={{
+            borderBottomRightRadius: 35,
+            borderBottomLeftRadius: 35,
+            elevation: 0.8,
+          }}
+          start={{ x: 0.9, y: 0.25 }}
+        >
+          {/* <TouchableOpacity style={styles.cartheader}>
           <Text style={{ fontSize: 20 }}>Cart</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.clus}>
           <Text style={{ color: "white" }}>CLUS Pvt Ltd.</Text>
         </TouchableOpacity> */}
-        <TouchableOpacity
-          style={{
-            ...styles.additems,
-            alignSelf: "center",
-            width: "80%",
-            height: 50,
-            justifyContent: "center",
-          }}
-        >
-          <Text
-            style={{ fontSize: 21, fontWeight: "bold", alignSelf: "center" }}
-          >
-            <MaterialCommunityIcons
-              name="cart-outline"
-              color="black"
-              size={30}
-            />{" "}
-            ADD NEW ITEMS{" "}
-          </Text>
-        </TouchableOpacity>
-        <View>
-          {category_data.map((item) => (
-            <Grid
-              style={styles.tab}
-              onPress={() =>
-                navigation.navigate("Product", {
-                  name: item.product_name,
-                  description: item.description,
-                  uri1: item.uri1,
-                  know_more: item.know_more,
-                  price: item.price,
-                })
-              }
-              key={item.key}
+          <TouchableWithoutFeedback>
+            <LinearGradient
+              colors={["#000000", "#474747"]}
+              style={{
+                ...styles.additems,
+                alignSelf: "center",
+                width: "80%",
+                height: 50,
+                justifyContent: "center",
+                elevation: 0.8,
+              }}
+              start={{ x: 1.3, y: 0.25 }}
             >
-              <Row>
-                <Col size={30}>
-                  <Image source={{ uri: imageuri }} style={styles.image} />
-                </Col>
-                <Col
-                  size={50}
-                  style={{ backgroundColor: "#DCDCDC", borderRadius: 15,paddingVertical:4,alignSelf:'center',justifyContent:'center',elevation:23,paddingLeft:12}}
-                >
-                  <Row style={{alignSelf:'center',marginLeft:10}}>
-                    <Col size={110} style={{alignSelf:'center'}}>
-                      <Text style={{ fontSize: 20,fontWeight:'bold' }}>Title</Text>
-                      <Text>Item Code : BN1</Text>
-                    </Col>
-                    <Col size={40}>
-                      <Text style={{ color: "red" }}>Delete</Text>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col size={20}>
-                      <Text>$ 100 x</Text>
-                    </Col>
-                    <Col size={50}>
-                      <Text>
-                        <TouchableOpacity
-                          style={{
-                            backgroundColor: "#8DD6FF",
-                            margin: 2,
-                            padding: 2,
-                          }}
-                        >
-                          <Text>Quantity : 10</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                          <Text>= $1000</Text>
-                        </TouchableOpacity>
-                      </Text>
-                    </Col>
-                  </Row>
-                </Col>
-              </Row>
+              <Text
+                style={{
+                  fontSize: 21,
+                  fontWeight: "bold",
+                  alignSelf: "center",
+                  color: COLORS.font,
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="cart-outline"
+                  color={COLORS.font}
+                  size={30}
+                />{" "}
+                ADD NEW ITEMS{" "}
+              </Text>
+            </LinearGradient>
+          </TouchableWithoutFeedback>
 
-              {/* <Col>
+          <View>
+            {category_data.map((item) => (
+              <LinearGradient
+                colors={["#474747", "#474747", "#202020"]}
+                style={styles.tab}
+                start={{ x: 1.3, y: 1.3 }}
+              >
+                <Grid
+                  onPress={() =>
+                    navigation.navigate("Product", {
+                      name: item.product_name,
+                      description: item.description,
+                      uri1: item.uri1,
+                      know_more: item.know_more,
+                      price: item.price,
+                    })
+                  }
+                  key={item.key}
+                >
+                  <Row>
+                    <Col size={30}>
+                      <Image source={{ uri: imageuri }} style={styles.image} />
+                    </Col>
+                    <Col
+                      size={50}
+                      style={{
+                        backgroundColor:"#202020",
+                        borderRadius: 15,
+                        paddingVertical: 4,
+                        alignSelf: "center",
+                        justifyContent: "center",
+                        elevation: 23,
+                        paddingLeft: 12,
+                      }}
+                    >
+                      <Row style={{ alignSelf: "center", marginLeft: 10 }}>
+                        <Col size={110} style={{ alignSelf: "center" }}>
+                          <Text style={{ fontSize: 20, fontWeight: "bold",color:COLORS.font }}>
+                            Title
+                          </Text>
+                          <Text style={{color:COLORS.font}}>Item Code : BN1</Text>
+                        </Col>
+                        <Col size={40}>
+                          <Text style={{ color: "red" }}>Delete</Text>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col size={20}>
+                          <Text style={{color:COLORS.font}}>$ 100 x</Text>
+                        </Col>
+                        <Col size={50}>
+                          <Text>
+                            <TouchableOpacity
+                              style={{
+                                backgroundColor:COLORS.black1,
+                                margin: 2,
+                                padding: 2,
+                                
+                              }}
+                            >
+                              <Text style={{color:COLORS.font}}>Quantity : 10</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                              <Text style={{color:COLORS.font}}>= $1000</Text>
+                            </TouchableOpacity>
+                          </Text>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+
+                  {/* <Col>
       <Text onPress={() => navigation.navigate('Favourites')}>
-          <Image 
-            source={   require('../../Assets/Redheart.png')}                                               
-            style={{ width: 50,  height: 50, marginBottom:100,marginLeft:50             
+      <Image 
+      source={   require('../../Assets/Redheart.png')}                                               
+      style={{ width: 50,  height: 50, marginBottom:100,marginLeft:50             
             }}
-          /> </Text>
-      </Col> */}
-            </Grid>
-          ))}
-          <Text>{"\n"}</Text>
-        </View>
-        <View
-          style={{
-            backgroundColor: "white",
-            borderTopLeftRadius: 30,
-            borderTopRightRadius: 30,
-            height: "100%",
-            marginVertical: 10,
-          }}
-        >
-          <TouchableOpacity
-            style={styles.checkout}
-            onPress={() => navigation.navigate("Checkout")}
+            /> </Text>
+          </Col> */}
+                </Grid>
+              </LinearGradient>
+            ))}
+            <Text>{"\n"}</Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: "#303030",
+              borderTopLeftRadius: 30,
+              borderTopRightRadius: 30,
+              height: "100%",
+              marginVertical: 10,
+              elevation:20,
+              borderTopColor:"red"
+            }}
           >
-            <Text style={{ color: "white", fontSize: 16 }}>Checkout $4000</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.cancel}>
-            <Text style={{ color: "white", fontSize: 16 }}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-        {/* <TouchableOpacity style={styles.checkout} onPress={() => navigation.navigate('Checkout')}>
+            <TouchableOpacity
+              style={styles.checkout}
+              onPress={() => navigation.navigate("Checkout")}
+            >
+              <Text style={{ color: "white", fontSize: 16 }}>
+                Checkout $4000
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.cancel}>
+              <Text style={{ color: "white", fontSize: 16 }}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
+          {/* <TouchableOpacity style={styles.checkout} onPress={() => navigation.navigate('Checkout')}>
             <Text style={{color:'white',fontSize:16}}>Checkout $4000</Text>
             </TouchableOpacity> 
             <TouchableOpacity style={styles.cancel}>
             <Text style={{color:'white',fontSize:16}}>Cancel</Text>
             </TouchableOpacity> */}
+        </LinearGradient>
       </ScrollView>
     </Container>
   );
@@ -217,7 +270,7 @@ const styles = StyleSheet.create({
   },
   additems: {
     alignItems: "center",
-    backgroundColor: "#99FF75",
+    // backgroundColor: "#99FF75",
     borderRadius: 20,
     marginBottom: 5,
     marginTop: 10,
@@ -280,7 +333,6 @@ const styles = StyleSheet.create({
     height: 120,
     margin: 5,
     borderRadius: 13,
-    
   },
   tab: {
     //zIndex: 1,
@@ -288,15 +340,16 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginRight: "5%",
     width: "93%",
-    borderRadius: 15,
+     borderRadius: 15,
     padding: 15,
     borderColor: "gray",
-    borderWidth: 1,
+    borderWidth: 0.2,
     padding: 5,
-    backgroundColor: "#ffffff",
-    paddingHorizontal:13,
-    paddingVertical:13,
-    elevation:20,
+    // backgroundColor: "#202020",
+    paddingHorizontal: 13,
+    paddingVertical: 13,
+    elevation: 99,
+    
   },
 });
 

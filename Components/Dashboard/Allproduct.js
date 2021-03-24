@@ -75,21 +75,26 @@ const category_data = [
       "https://www.google.com/imgres?imgurl=https%3A%2F%2Fupload.wikimedia.org%2Fwikipedia%2Fen%2Fd%2Fdb%2FWhu_this_kolaveri_di.JPG&imgrefurl=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FWhy_This_Kolaveri_Di&tbnid=r2IuaEx756Mr0M&vet=12ahUKEwi05-_Rm6zvAhWNgEsFHfxTB2UQMygCegQIARAx..i&docid=RcUyM_qhMuS-sM&w=316&h=316&q=dhanish%20why%20this%20kolveri&ved=2ahUKEwi05-_Rm6zvAhWNgEsFHfxTB2UQMygCegQIARAx",
   },
 ];
+
+import { COLORS, FONTS, SIZES } from "../../Assets/theme";
+import { LinearGradient } from "expo-linear-gradient";
 const Allproduct = ({ navigation, route }) => {
   return (
     <Container>
-      <Header style={{ backgroundColor: "white" }}>
+      <Header style={{ backgroundColor: "#202020", elevation: 12, height: 80 }}>
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
             {/* <Icon name="arrow-back" style={{ color: "#6a5acd" }} /> */}
-            <Icon name="back" size={30} color="#6a5acd" />
+            <Icon name="back" size={30} color={COLORS.font} />
           </Button>
         </Left>
         <Body>
-          <Title style={{ fontSize: 20, fontWeight: "bold", color: "#6a5acd" }}>
+          <Title
+            style={{ fontSize: 20, fontWeight: "bold", color: COLORS.font }}
+          >
             All Products
           </Title>
-          <Subtitle style={{ fontSize: 11, color: "#6a5acd" }}>
+          <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
             CLUS Pvt Ltd.
           </Subtitle>
         </Body>
@@ -97,64 +102,107 @@ const Allproduct = ({ navigation, route }) => {
           <Button transparent>{/* <Icon name='menu' /> */}</Button>
         </Right>
       </Header>
-      <ScrollView style={{ backgroundColor: "#6a5acd" }}>
-        {category_data.map((item) => (
-          <TouchableOpacity
-            style={styles.tab}
-            onPress={() =>
-              navigation.navigate("Product", {
-                name: item.product_name,
-                description: item.description,
-                uri1: item.uri1,
-                know_more: item.know_more,
-                price: item.price,
-              })
-            }
-            key={item.key}
-          >
-            <TouchableOpacity
-              style={{
-                padding: 4,
-                width: 80,
-                zIndex: 2,
-                position: "absolute",
-                top: 0,
-                right: -20,
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+      <ScrollView style={{}}>
+        <LinearGradient
+          colors={["#000000", "#474747"]}
+          style={{
+            // borderBottomRightRadius: 35,
+            // borderBottomLeftRadius: 35,
+            paddingBottom: "10%",
+            elevation: 0.8,
+          }}
+          start={{ x: 0.9, y: 0.25 }}
+        >
+          {category_data.map((item) => (
+            <LinearGradient
+              colors={["#383838", "#282828", "#202020"]}
+              style={styles.tab}
+              start={{ x: 0.7, y: 1.3 }}
             >
-              <Icon name="heart" size={25} color="#FF0707" />
-            </TouchableOpacity>
-
-            <Grid>
-              <Col size={30}>
-                <Image source={{ uri: imageuri }} style={{...styles.image,borderRadius:12}} />
-              </Col>
-              <Col size={40}>
-                <View style={{ marginTop: 15 }}>
-                  <Text style={styles.texts}>{item.product_name}</Text>
-                  <Text style={styles.texts}>Price : $ {item.price}</Text>
-                  <Text style={styles.texts}>
-                    <MaterialIcons name="star-rate" color="yellow" size={25} />
-                    <MaterialIcons name="star-rate" color="yellow" size={25} />
-                    <MaterialIcons name="star-rate" color="yellow" size={25} />
-                    <MaterialIcons name="star-rate" color="yellow" size={25} />
-                  </Text>
-                </View>
-              </Col>
-              <Col size={30} style={{alignItem:'center',justifyContent:'center',paddingTop:10}}>
-                <TouchableOpacity style={styles.tab1} onPress={() => {}}>
-                  <Text style={styles.texts1}>Quantity 1</Text>
+              <TouchableOpacity
+                // style={styles.tab}
+                onPress={() =>
+                  navigation.navigate("Product", {
+                    name: item.product_name,
+                    description: item.description,
+                    uri1: item.uri1,
+                    know_more: item.know_more,
+                    price: item.price,
+                  })
+                }
+                key={item.key}
+              >
+                <TouchableOpacity
+                  style={{
+                    padding: 4,
+                    width: 80,
+                    zIndex: 2,
+                    position: "absolute",
+                    top: -20,
+                    right: -20,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Icon name="heart" size={25} color="#FF0707" />
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.tab2} onPress={() => {}}>
-                  <Text style={styles.texts2}>Add to Cart</Text>
-                </TouchableOpacity>
-              </Col>
-            </Grid>
-          </TouchableOpacity>
-        ))}
+                <Grid>
+                  <Col size={30}>
+                    <Image
+                      source={{ uri: imageuri }}
+                      style={{ ...styles.image, borderRadius: 12 }}
+                    />
+                  </Col>
+                  <Col size={40}>
+                    <View style={{ marginTop: 15 }}>
+                      <Text style={styles.texts}>{item.product_name}</Text>
+                      <Text style={styles.texts}>Price : $ {item.price}</Text>
+                      <Text style={styles.texts}>
+                        <MaterialIcons
+                          name="star-rate"
+                          color="#DBA800"
+                          size={25}
+                        />
+                        <MaterialIcons
+                          name="star-rate"
+                          color="#DBA800"
+                          size={25}
+                        />
+                        <MaterialIcons
+                          name="star-rate"
+                          color="#DBA800"
+                          size={25}
+                        />
+                        <MaterialIcons
+                          name="star-rate"
+                          color="#DBA800"
+                          size={25}
+                        />
+                      </Text>
+                    </View>
+                  </Col>
+                  <Col
+                    size={30}
+                    style={{
+                      alignItem: "center",
+                      justifyContent: "center",
+                      paddingTop: 10,
+                    }}
+                  >
+                    <TouchableOpacity style={styles.tab1} onPress={() => {}}>
+                      <Text style={styles.texts1}>Quantity 1</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.tab2} onPress={() => {}}>
+                      <Text style={styles.texts2}>Add to Cart</Text>
+                    </TouchableOpacity>
+                  </Col>
+                </Grid>
+              </TouchableOpacity>
+            </LinearGradient>
+          ))}
+        </LinearGradient>
       </ScrollView>
     </Container>
   );
@@ -165,24 +213,25 @@ const styles = StyleSheet.create({
     backgroundColor: "#414141",
   },
   tab: {
+    alignSelf:'center',
     zIndex: 1,
     marginTop: 20,
     marginLeft: "5%",
     marginRight: "5%",
     width: "93%",
-    paddingVertical:'5%',
+    paddingVertical: "5%",
     borderRadius: 10,
     padding: 15,
-    borderColor: "gray",
-    borderWidth: 1,
+    // borderColor: "gray",
+    // borderWidth: 1,
     padding: 5,
     backgroundColor: "white",
-    elevation:12
+    elevation: 12,
   },
   texts: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "black",
+    color: COLORS.font,
   },
   tab1: {
     zIndex: 1,
@@ -190,7 +239,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
     marginBottom: 10,
     width: "80%",
-    backgroundColor: "#D3A708",
+    backgroundColor: "#DBA800",//"#D3A708",
     borderRadius: 100,
     padding: 10,
     width: 100,
@@ -202,7 +251,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
     marginBottom: 10,
     width: "85%",
-    backgroundColor: "#7389FF",
+    backgroundColor: "#707070",
     borderRadius: 100,
     padding: 10,
     width: 100,

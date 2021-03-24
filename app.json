@@ -4,15 +4,15 @@
     "slug": "E-commerce",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./Assets/E2.png",
+    "githubUrl":"https://github.com/prajwalprogrammer/E-Commerce-Ui",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./Assets/E2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "androidStatusBar":{
-      "backgroundColor":"#6a5acd",
-      "barStyle":"light-content"
+      "backgroundColor":"#020001"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -24,10 +24,8 @@
       "supportsTablet": true
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
+      "package": "com.prajwalprogrammer.Ecommerce",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

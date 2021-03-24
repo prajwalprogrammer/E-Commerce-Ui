@@ -32,11 +32,11 @@ export default class DAily1 extends React.Component {
 
   render() {
     return (
-      <SafeAreaView
-        style={{ flex: 1, backgroundColor: "#6a5acd", paddingTop: 20,paddingHorizontal:10 }}
-      >
+      // <SafeAreaView
+      //   style={{ flex: 1, backgroundColor: "#6a5acd", paddingTop: 20,paddingHorizontal:10 }}
+      // >
         <View
-          style={{ flex: 1, flexDirection: "row", justifyContent: "center" }}
+          style={{ flex: 1,paddingTop: 20,paddingHorizontal:10 , flexDirection: "row", justifyContent: "center" }}
         >
           <Carousel
             layout={"default"}
@@ -48,7 +48,7 @@ export default class DAily1 extends React.Component {
             onSnapToItem={(index) => this.setState({ activeIndex: index })}
           />
         </View>
-      </SafeAreaView>
+      // </SafeAreaView>
     );
   }
 }

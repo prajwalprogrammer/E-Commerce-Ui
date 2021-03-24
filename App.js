@@ -18,10 +18,10 @@ import Finalscreen from "./Screens/Finalscreen/Finalscreen";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon from "react-native-vector-icons/AntDesign";
-
+import { View } from "react-native";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
-
+import { COLORS, FONTS, SIZES } from "./Assets/theme";
 export const DashboardStack = () => {
   return (
     <Stack.Navigator>
@@ -35,10 +35,26 @@ export const DashboardStack = () => {
         name="Categories"
         component={Categories}
       />
-      <Stack.Screen name="Selected_Category" component={Categories} />
-      <Stack.Screen name="lists" component={List} />
-      <Stack.Screen name="Product" component={Product} />
-      <Stack.Screen name="Profiles" component={Profile} />
+      <Stack.Screen
+        name="Selected_Category"
+        component={Categories}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="lists"
+        component={List}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Product"
+        component={Product}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Profiles"
+        component={Profile}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen
         options={{ title: "MWC Dispensary Depot" }}
         name="Cart"
@@ -63,64 +79,132 @@ const tabOptions = {
 
   style: {
     height: "8%",
+    backgroundColor: COLORS.black,
+    // borderTopRightRadius: 35, borderTopLeftRadius: 35
   },
 };
 const App = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer style={{ backgroundColor: COLORS.black }}>
       <Tab.Navigator
         tabBarOptions={tabOptions}
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused }) => {
-            const tintColor = focused ? "#6a5acd" : "gray";
+            const tintColor = focused ? COLORS.white : COLORS.black1;
 
             switch (route.name) {
               case "Dashboard":
                 return (
-                  <MaterialCommunityIcons
-                    name="home"
-                    color={tintColor}
-                    size={35}
-                    style={{
-                      tintColor: tintColor,
-                      // width: 25,
-                      // height: 25,
-                    }}
-                  />
+                  <View
+                    style={
+                      focused
+                        ? {
+                            borderRedius: "50%",
+                            backgroundColor: COLORS.black1,
+                            width: "60%",
+                            height: "70%",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: 50,
+                          }
+                        : null
+                    }
+                  >
+                    <MaterialCommunityIcons
+                      name="home"
+                      color={tintColor}
+                      size={35}
+                      style={
+                        {
+                          //tintColor: tintColor,
+                          // width: 25,
+                          // height: 25,
+                        }
+                      }
+                    />
+                  </View>
                 );
               case "Report":
                 return (
-                  <MaterialCommunityIcons
-                    name="cart-outline"
-                    color={tintColor}
-                    size={35}
-                    style={{
-                      tintColor: tintColor,
-                    }}
-                  />
+                  <View
+                    style={
+                      focused
+                        ? {
+                            borderRedius: "50%",
+                            backgroundColor: COLORS.black1,
+                            width: "60%",
+                            height: "70%",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: 50,
+                          }
+                        : null
+                    }
+                  >
+                    <MaterialCommunityIcons
+                      name="cart-outline"
+                      color={tintColor}
+                      size={35}
+                      style={{
+                        tintColor: tintColor,
+                      }}
+                    />
+                  </View>
                 );
 
               case "Cart":
                 return (
-                  <MaterialCommunityIcons
-                    name="cart-arrow-right"
-                    color={tintColor}
-                    size={35}
-                    style={{
-                      tintColor: tintColor,
-                    }}
-                  />
+                  <View
+                    style={
+                      focused
+                        ? {
+                            borderRedius: "50%",
+                            backgroundColor: COLORS.black1,
+                            width: "60%",
+                            height: "70%",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: 50,
+                          }
+                        : null
+                    }
+                  >
+                    <MaterialCommunityIcons
+                      name="cart-arrow-right"
+                      color={tintColor}
+                      size={35}
+                      style={{
+                        tintColor: tintColor,
+                      }}
+                    />
+                  </View>
                 );
               case "Profile":
                 return (
-                  <MaterialCommunityIcons
-                    name="face"
-                    color={tintColor}
-                    size={35}
-                    style={{
-                      tintColor: tintColor,
-                    }}
-                  />
+                  <View
+                    style={
+                      focused
+                        ? {
+                            borderRedius: "50%",
+                            backgroundColor: COLORS.black1,
+                            width: "60%",
+                            height: "70%",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: 50,
+                          }
+                        : null
+                    }
+                  >
+                    <MaterialCommunityIcons
+                      name="face"
+                      color={tintColor}
+                      size={35}
+                      style={{
+                        tintColor: tintColor,
+                      }}
+                    />
+                  </View>
                 );
             }
           },
