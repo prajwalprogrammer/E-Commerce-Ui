@@ -25,9 +25,34 @@ const Tab = createBottomTabNavigator();
 import { COLORS, FONTS, SIZES } from "./Assets/theme";
 import  CartProvider  from "./Components/GlobalContext/CartProvider";
 import RenderItem from "./Components/Dashboard/Daily";
+import SignIn from "./Screens/Sign/SignIn";
+import SignUpOne from './Screens/Sign/SignUpOne'
+import SignUpTwo from "./Screens/Sign/SignUpTwo";
+import SignUpFinal from "./Screens/Sign/SignUpFinal";
 export const DashboardStack = () => {
   return (
     <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="SignIn"
+        component={SignIn}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="SignUpOne"
+        component={SignUpOne}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="SignUpTwo"
+        component={SignUpTwo}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="FinalPage"
+        component={SignUpFinal}
+      />
+      
       <Stack.Screen
         options={{ headerShown: false }}
         name="Dashboard"

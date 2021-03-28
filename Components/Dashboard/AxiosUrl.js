@@ -57,3 +57,35 @@ export const GetMyCart = async (Pids) => {
     console.log(error);
   }
 };
+export const SignUp = async (useName,password,name,address,email,phone,TaxId,setTaxExpire) => {
+  //alert("gyy")
+  const obj = {
+    id: useName,
+    isActive: false,
+    AccountName: name,
+    AccountSince: "Mar 17, 2021 4:28 PM",
+    Contact: [
+      {
+        Address: address,
+        EmailId: email,
+        PhoneNumber:phone,
+      },
+    ],
+    OrderList: null,
+    STD: {
+      Sales_Id: TaxId,
+      Sales_Tax_Link:
+        "https://digitalasset.intuit.com/IMAGE/A06yW2VcG/w-9_tax_form.jpg",
+      Sales_expire_Date: setTaxExpire,
+    },
+  };
+  console.log(JSON.stringify(obj))
+  try {
+    const { data } =await axios.post(
+      "https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/account/create",obj
+    );
+    console.log("daas"+data)
+  } catch (error) {
+    console.log("ghk"+error);
+  }
+};

@@ -2,14 +2,19 @@ import React, { useState } from "react";
 import { View, Dimensions, StatusBar, Image, Text } from "react-native";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Input/Button";
-
+import BcryptReactNative from "bcrypt-react-native";
 const { height, width } = Dimensions.get("window");
 
 export default function SignUpOne({ navigation }) {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("AC-");
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
-
+  const saltRounds = 10;
+  //const myPlaintextPassword = password;
+  // const someOtherPlaintextPassword = cpassword;
+  const CheckAuth = async () => {
+    navigation.navigate("SignUpTwo", { useName: username, password: password });
+  };
   return (
     <View style={{ flex: 1, backgroundColor: "rgba(21, 21, 21, 0.79)" }}>
       <StatusBar
@@ -26,7 +31,7 @@ export default function SignUpOne({ navigation }) {
           marginTop: 54,
         }}
       >
-       /* <Image
+        {/* /* <Image
           source={require("../../Assets/mwc-title.png")}
           style={{ height: 38, width: 134, alignSelf: "center", marginTop: 34 }}
         />
@@ -38,7 +43,7 @@ export default function SignUpOne({ navigation }) {
             alignSelf: "center",
             marginTop: 13,
           }}
-        />*/
+        /> */}
         <Input
           placeholder="Username"
           value={username}
@@ -57,11 +62,7 @@ export default function SignUpOne({ navigation }) {
           marginTop={13}
           onChangeText={(text) => setCpassword(text)}
         />
-        <Button
-          title="Go ->"
-          marginTop={48}
-          onPress={() => navigation.navigate("Sign Up Two")}
-        />
+        <Button title="Go ->" marginTop={48} onPress={() => CheckAuth()} />
         <Text
           style={{
             textAlign: "center",
@@ -73,7 +74,7 @@ export default function SignUpOne({ navigation }) {
           Already have an account |{" "}
           <Text
             style={{ color: "red" }}
-            onPress={() => navigation.navigate("Sign In")}
+            onPress={() => navigation.navigate("SignIn")}
           >
             Login
           </Text>

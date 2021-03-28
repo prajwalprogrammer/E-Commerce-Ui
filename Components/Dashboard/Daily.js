@@ -50,10 +50,9 @@ import { CartContext } from "../GlobalContext/CartProvider";
 export const RenderItem = (props) => {
   console.log(props.data.id);
   const { CheckTheProduct, user, AddToCart } = React.useContext(CartContext);
-  console.log("User" + JSON.stringify(user));
-
+  console.log("User" + user);
   var N1 = JSON.stringify(user).includes(props.data.id);
-  // alert(N1)
+   //alert(N1)
   // alert("fgg"+JSON.stringify(N1))
   return (
     <TouchableWithoutFeedback

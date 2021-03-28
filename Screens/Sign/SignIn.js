@@ -32,11 +32,11 @@ export default function SignIn({ navigation }) {
           marginTop: height * 0.077,
         }}
       >
-           /* <Image
+            {/* <Image
               source={require("../../Assets/mwc-title.png")}
               style={{ height: 38, width: 134, alignSelf: "center", marginTop: 34 }}
-            />
-            <Image
+            /> */}
+            {/* <Image
               source={require("../../Assets/mwc-text.png")}
               style={{
                 height: 21.36,
@@ -44,7 +44,7 @@ export default function SignIn({ navigation }) {
                 alignSelf: "center",
                 marginTop: 13,
               }}
-            />*/
+            /> */}
         <Input
           placeholder="Username"
           marginTop={59.64}
@@ -77,10 +77,10 @@ export default function SignIn({ navigation }) {
             marginTop: 24,
           }}
         >
-          Don't have an account ?{" "}
+          Don't have an account ?
           <Text
             style={{ color: "red" }}
-            onPress={() => navigation.navigate("Sign Up One")}
+            onPress={() => navigation.navigate("SignUpOne")}
           >
             Sign Up
           </Text>

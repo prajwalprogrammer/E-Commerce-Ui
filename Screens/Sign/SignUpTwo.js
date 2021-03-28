@@ -4,14 +4,20 @@ import Input from "../../Components/Input/Input";
 import Button from "../../Components/Input/Button";
 
 const { height, width } = Dimensions.get("window");
-
-export default function SignUpTwo({ navigation }) {
+import {SignUp} from '../../Components/Dashboard/AxiosUrl'
+export const SignUpTwo=({ navigation,route })=> {
+  //alert(route.params.useName)
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [upload, setUpload] = useState("");
-
+const [TaxId, setTaxId] = useState("")
+const [TaxExpire, setTaxExpire] = useState("")
+const PassToAxios=async()=>{
+ // alert("fdf")
+  await SignUp(route.params.useName,route.params.password,name,address,email,phone,TaxId,setTaxExpire).then(()=>navigation.navigate("Dashboard"))
+}
   return (
     <View style={{ flex: 1, backgroundColor: "rgba(21, 21, 21, 0.79)" }}>
       <StatusBar
@@ -28,7 +34,7 @@ export default function SignUpTwo({ navigation }) {
           marginTop: 54,
         }}
       >
-       /* <Image
+        {/* /* <Image
           source={require("../../Assets/mwc-title.png")}
           style={{
             height: 38,
@@ -45,7 +51,7 @@ export default function SignUpTwo({ navigation }) {
             alignSelf: "center",
             marginTop: 13,
           }}
-        />*/
+        /> */}
         <Input
           placeholder="Business Name"
           marginTop={15}
@@ -70,7 +76,19 @@ export default function SignUpTwo({ navigation }) {
           value={phone}
           onChangeText={(text) => setPhone(text)}
         />
-        <TextInput
+        <Input
+          placeholder="Sales Tax Id"
+          marginTop={18}
+          value={TaxId}
+          onChangeText={(text) => setTaxId(text)}
+        />
+        <Input
+          placeholder="Sales Tax Expire Date"
+          marginTop={18}
+          value={TaxExpire}
+          onChangeText={(text) => setTaxExpire(text)}
+        />
+        {/* <TextInput
           placeholder="Upload Sales Tax Id"
           style={{
             width: width * 0.82,
@@ -86,13 +104,14 @@ export default function SignUpTwo({ navigation }) {
           placeholderTextColor="#BDBDBD"
           value={upload}
           onChangeText={(text) => setUpload(text)}
-        />
+        /> */}
         <Button
           title="SUBMIT"
           marginTop={height * 0.052}
-          onPress={() => navigation.navigate("Sign Up Final")}
+            onPress={() =>navigation.navigate("Dashboard")}
         />
       </View>
     </View>
   );
 }
+export default SignUpTwo;

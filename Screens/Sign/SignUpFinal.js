@@ -23,7 +23,7 @@ export default function SignUpFinal() {
         barStyle="light-content"
         backgroundColor="rgba(21, 21, 21, 0.79)"
       />
-      /*<ImageBackground
+      {/* /*<ImageBackground
         source={require("../../Assets/picture.png")}
         style={{
           height: height * 0.542,
@@ -31,7 +31,7 @@ export default function SignUpFinal() {
           alignSelf: "center",
           marginTop: height * 0.16,
         }}
-      />*/
+      /> */}
       <View
         style={{
           backgroundColor: "transparent",
@@ -40,7 +40,7 @@ export default function SignUpFinal() {
           left: width * 0.07,
         }}
       >
-        /*<Image
+        {/* /*<Image
           source={require("../../Assets/mwc-title.png")}
           style={{
             height: height * 0.032,
@@ -57,7 +57,7 @@ export default function SignUpFinal() {
             alignSelf: "center",
             marginTop: 13,
           }}
-        />*/
+        />*/}
         <Text style={{ fontSize: 18, fontWeight: "500", marginTop: 15 }}>
           Dear Customer,
         </Text>
