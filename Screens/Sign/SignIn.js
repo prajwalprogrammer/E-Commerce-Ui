@@ -9,13 +9,24 @@ import {
 } from "react-native";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Input/Button";
+import { SignIn123 } from "../../Components/Dashboard/AxiosUrl";
 
 const { height, width } = Dimensions.get("window");
 
 export default function SignIn({ navigation }) {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("AC-");
   const [password, setPassword] = useState("");
-
+  const SignIn1 = async () => {
+    await SignIn123(username, password).then((res) => {
+      if (res === password) {
+        navigation.navigate("Dashboard");
+      } else if (res === "undefined") {
+        alert("Username does not exist");
+      } else {
+        alert("Wrong Username or Password");
+      }
+    });
+  };
   return (
     <View style={{ flex: 1, backgroundColor: "rgba(21, 21, 21, 0.79)" }}>
       <StatusBar
@@ -32,11 +43,11 @@ export default function SignIn({ navigation }) {
           marginTop: height * 0.077,
         }}
       >
-            {/* <Image
+        {/* <Image
               source={require("../../Assets/mwc-title.png")}
               style={{ height: 38, width: 134, alignSelf: "center", marginTop: 34 }}
             /> */}
-            {/* <Image
+        {/* <Image
               source={require("../../Assets/mwc-text.png")}
               style={{
                 height: 21.36,
@@ -68,7 +79,7 @@ export default function SignIn({ navigation }) {
         >
           Forgot Password
         </Text>
-        <Button title="SIGN IN" marginTop={60} />
+        <Button title="SIGN IN" marginTop={60} onPress={() => SignIn1()} />
         <Text
           style={{
             textAlign: "center",

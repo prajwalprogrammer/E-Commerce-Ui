@@ -89,3 +89,14 @@ export const SignUp = async (useName,password,name,address,email,phone,TaxId,set
     console.log("ghk"+error);
   }
 };
+
+
+export const SignIn123=async(username,password)=>{
+  try {
+    const {data}= await axios.get(`https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/account/read/${username}`);
+    console.log(data.Password)
+    return data.Password
+  } catch (error) {
+    console.log(error)
+  }
+}
