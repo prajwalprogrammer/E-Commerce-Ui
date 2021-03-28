@@ -13,6 +13,7 @@ import Product from "./Components/Dashboard/Product";
 import Allproduct from "./Components/Dashboard/Allproduct";
 import Cart from "./Screens/Cart/Cart";
 import Checkout from "./Screens/Checkout/Checkout";
+import CheckoutModal from './Screens/Checkout/CheckoutModal'
 import Favourites from "./Screens/Favourites/Favourites";
 import Finalscreen from "./Screens/Finalscreen/Finalscreen";
 
@@ -22,6 +23,8 @@ import { View } from "react-native";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 import { COLORS, FONTS, SIZES } from "./Assets/theme";
+import  CartProvider  from "./Components/GlobalContext/CartProvider";
+import RenderItem from "./Components/Dashboard/Daily";
 export const DashboardStack = () => {
   return (
     <Stack.Navigator>
@@ -56,18 +59,134 @@ export const DashboardStack = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        options={{ title: "MWC Dispensary Depot" }}
+        options={{ headerShown: false }}
         name="Cart"
         component={Cart}
       />
       <Stack.Screen
         options={{ title: "MWC Dispensary Depot" }}
+        name="RenderItem"
+        component={RenderItem}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
         name="Checkout"
         component={Checkout}
       />
       <Stack.Screen name="Favourites" component={Favourites} />
       <Stack.Screen
-        options={{ title: "MWC Dispensary Depot" }}
+        options={{ headerShown: false }}
+        name="Finalscreen"
+        component={Finalscreen}
+      />
+    </Stack.Navigator>
+  );
+};
+
+export const AllProductStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Allproduct"
+        component={Allproduct}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Categories"
+        component={Categories}
+      />
+      <Stack.Screen
+        name="Selected_Category"
+        component={Categories}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="lists"
+        component={List}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Product"
+        component={Product}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Profiles"
+        component={Profile}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Cart"
+        component={Cart}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Checkout"
+        component={Checkout}
+      />
+      <Stack.Screen name="Favourites" component={Favourites} />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Finalscreen"
+        component={Finalscreen}
+      />
+    </Stack.Navigator>
+  );
+};
+export const MyCartStack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="MyCart"
+        component={Cart}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Categories"
+        component={Categories}
+      />
+      <Stack.Screen
+        name="Selected_Category"
+        component={Categories}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="lists"
+        component={List}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Product"
+        component={Product}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Profiles"
+        component={Profile}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Cart"
+        component={Cart}
+      />
+      
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Checkout"
+        component={Checkout}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="CheckoutModal"
+        component={CheckoutModal}
+      />
+      <Stack.Screen name="Favourites" component={Favourites} />
+      <Stack.Screen
+        options={{ headerShown: false }}
         name="Finalscreen"
         component={Finalscreen}
       />
@@ -85,182 +204,185 @@ const tabOptions = {
 };
 const App = () => {
   return (
-    <NavigationContainer style={{ backgroundColor: COLORS.black }}>
-      <Tab.Navigator
-        tabBarOptions={tabOptions}
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused }) => {
-            const tintColor = focused ? COLORS.white : COLORS.black1;
+    <CartProvider>
+      <NavigationContainer style={{ backgroundColor: COLORS.black }}>
+        <Tab.Navigator
+          tabBarOptions={tabOptions}
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ focused }) => {
+              const tintColor = focused ? COLORS.white : COLORS.black1;
 
-            switch (route.name) {
-              case "Dashboard":
-                return (
-                  <View
-                    style={
-                      focused
-                        ? {
-                            borderRedius: "50%",
-                            backgroundColor: COLORS.black1,
-                            width: "60%",
-                            height: "70%",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            borderRadius: 50,
-                          }
-                        : null
-                    }
-                  >
-                    <MaterialCommunityIcons
-                      name="home"
-                      color={tintColor}
-                      size={35}
+              switch (route.name) {
+                case "Dashboard":
+                  return (
+                    <View
                       style={
-                        {
-                          //tintColor: tintColor,
-                          // width: 25,
-                          // height: 25,
-                        }
+                        focused
+                          ? {
+                              borderRedius: "50%",
+                              backgroundColor: COLORS.black1,
+                              width: "60%",
+                              height: "70%",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: 50,
+                            }
+                          : null
                       }
-                    />
-                  </View>
-                );
-              case "Report":
-                return (
-                  <View
-                    style={
-                      focused
-                        ? {
-                            borderRedius: "50%",
-                            backgroundColor: COLORS.black1,
-                            width: "60%",
-                            height: "70%",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            borderRadius: 50,
+                    >
+                      <MaterialCommunityIcons
+                        name="home"
+                        color={tintColor}
+                        size={35}
+                        style={
+                          {
+                            //tintColor: tintColor,
+                            // width: 25,
+                            // height: 25,
                           }
-                        : null
-                    }
-                  >
-                    <MaterialCommunityIcons
-                      name="cart-outline"
-                      color={tintColor}
-                      size={35}
-                      style={{
-                        tintColor: tintColor,
-                      }}
-                    />
-                  </View>
-                );
+                        }
+                      />
+                    </View>
+                  );
+                case "Report":
+                  return (
+                    <View
+                      style={
+                        focused
+                          ? {
+                              borderRedius: "50%",
+                              backgroundColor: COLORS.black1,
+                              width: "60%",
+                              height: "70%",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: 50,
+                            }
+                          : null
+                      }
+                    >
+                      <MaterialCommunityIcons
+                        name="cart-outline"
+                        color={tintColor}
+                        size={35}
+                        style={{
+                         // tintColor: tintColor,
+                        }}
+                      />
+                    </View>
+                  );
 
-              case "Cart":
-                return (
-                  <View
-                    style={
-                      focused
-                        ? {
-                            borderRedius: "50%",
-                            backgroundColor: COLORS.black1,
-                            width: "60%",
-                            height: "70%",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            borderRadius: 50,
-                          }
-                        : null
-                    }
-                  >
-                    <MaterialCommunityIcons
-                      name="cart-arrow-right"
-                      color={tintColor}
-                      size={35}
-                      style={{
-                        tintColor: tintColor,
-                      }}
-                    />
-                  </View>
-                );
-              case "Profile":
-                return (
-                  <View
-                    style={
-                      focused
-                        ? {
-                            borderRedius: "50%",
-                            backgroundColor: COLORS.black1,
-                            width: "60%",
-                            height: "70%",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            borderRadius: 50,
-                          }
-                        : null
-                    }
-                  >
-                    <MaterialCommunityIcons
-                      name="face"
-                      color={tintColor}
-                      size={35}
-                      style={{
-                        tintColor: tintColor,
-                      }}
-                    />
-                  </View>
-                );
-            }
-          },
-        })}
-      >
-        <Tab.Screen
-          // options={{
-          //   tabBarLabel: "Home",
-          //   tabBarIcon: ({ color, size }) => (
-          //     <MaterialCommunityIcons name="home" color={color} size={30} />
-          //   ),
-          // }}
-          name="Dashboard"
-          component={DashboardStack}
-        />
+                case "Cart":
+                  return (
+                    <View
+                      style={
+                        focused
+                          ? {
+                              borderRedius: "50%",
+                              backgroundColor: COLORS.black1,
+                              width: "60%",
+                              height: "70%",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: 50,
+                            }
+                          : null
+                      }
+                    >
+                      <MaterialCommunityIcons
+                        name="cart-arrow-right"
+                        color={tintColor}
+                        size={35}
+                        style={{
+                        //  tintColor: tintColor,
+                        }}
+                      />
+                    </View>
+                  );
+                case "Profile":
+                  return (
+                    <View
+                      style={
+                        focused
+                          ? {
+                              borderRedius: "50%",
+                              backgroundColor: COLORS.black1,
+                              width: "60%",
+                              height: "70%",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              borderRadius: 50,
+                            }
+                          : null
+                      }
+                    >
+                      <MaterialCommunityIcons
+                        name="face"
+                        color={tintColor}
+                        size={35}
+                        style={{
+                          //tintColor: tintColor,
+                        }}
+                      />
+                    </View>
+                  );
+              }
+            },
+          })}
+        >
+          <Tab.Screen
+            // options={{
+            //   tabBarLabel: "Home",
+            //   tabBarIcon: ({ color, size }) => (
+            //     <MaterialCommunityIcons name="home" color={color} size={30} />
+            //   ),
+            // }}
+            name="Dashboard"
+            component={DashboardStack}
+          />
 
-        <Tab.Screen
-          // options={{
-          //   tabBarLabel: "Repeat",
-          //   tabBarIcon: ({ color, size }) => (
-          //     <MaterialCommunityIcons
-          //       name="cart-outline"
-          //       color={color}
-          //       size={30}
-          //     />
-          //   ),
-          // }}
-          name="Report"
-          component={Cart}
-        />
-        <Tab.Screen
-          // options={{
-          //   tabBarLabel: "Show All",
-          //   tabBarIcon: ({ color, size }) => (
-          //     <MaterialCommunityIcons
-          //       name="cart-arrow-right"
-          //       color={color}
-          //       size={30}
-          //     />
-          //   ),
-          // }}
-          name="Cart"
-          component={Allproduct}
-        />
-        <Tab.Screen
-          // options={{
-          //   tabBarLabel: "Profile",
-          //   tabBarIcon: ({ color, size }) => (
-          //     <MaterialCommunityIcons name="face" color={color} size={30} />
-          //   ),
-          // }}
-          name="Profile"
-          component={Profile}
-        />
-      </Tab.Navigator>
-    </NavigationContainer>
+          <Tab.Screen
+            // options={{
+            //   tabBarLabel: "Repeat",
+            //   tabBarIcon: ({ color, size }) => (
+            //     <MaterialCommunityIcons
+            //       name="cart-outline"
+            //       color={color}
+            //       size={30}
+            //     />
+            //   ),
+            // }}
+            name="Report"
+            component={MyCartStack}
+          />
+          <Tab.Screen
+            // options={{
+            //   tabBarLabel: "Show All",
+            //   tabBarIcon: ({ color, size }) => (
+            //     <MaterialCommunityIcons
+            //       name="cart-arrow-right"
+            //       color={color}
+            //       size={30}
+            //     />
+            //   ),
+            // }}
+            name="Cart"
+            component={AllProductStack}
+          />
+          <Tab.Screen
+            // options={{
+            //   tabBarLabel: "Profile",
+            //   tabBarIcon: ({ color, size }) => (
+            //     <MaterialCommunityIcons name="face" color={color} size={30} />
+            //   ),
+            // }}
+            name="Profile"
+            component={Profile}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
+      </CartProvider>
+    
   );
 };
 

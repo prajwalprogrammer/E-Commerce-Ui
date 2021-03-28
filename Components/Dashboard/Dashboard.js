@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   View,
@@ -9,6 +9,7 @@ import {
   Image,
   Button,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 
 import Carousel from "react-native-snap-carousel";
@@ -26,7 +27,7 @@ const imageuri =
 const data = [
   {
     key: 1,
-    category_name: "Songs",
+    category_name: "Glass Bongs",
     datum: [
       {
         key: 1,
@@ -186,13 +187,30 @@ const daily_data = [
 ];
 
 import { LinearGradient } from "expo-linear-gradient";
-import {FONTS,SIZES,COLORS} from '../../Assets/theme'
-import { TouchableHighlight, TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { FONTS, SIZES, COLORS } from "../../Assets/theme";
+import {
+  TouchableHighlight,
+  TouchableWithoutFeedback,
+} from "react-native-gesture-handler";
+import { Read, ShowData, DailyDeal } from "./AxiosUrl";
 const Dashboard = ({ navigation }) => {
   const isCarousel = React.useRef(null);
-
+  const [DATA, setDATA] = React.useState([]);
   const [value, onChangeText] = React.useState("Search");
-
+  const [Visible, setVisible] = useState(null);
+  const [DAILY, setDAILY] = useState([]);
+  React.useEffect(() => {
+    setVisible(true);
+    const fetchAPI = async () => {
+      setDATA(await Read());
+      console.log(DATA);
+      setDAILY(await DailyDeal());
+    };
+    fetchAPI();
+    if (DATA) {
+      setVisible(false);
+    }
+  }, []);
   function getRandomColor() {
     var letters = "0123456789ABCDEF";
     var color = "#";
@@ -206,8 +224,12 @@ const Dashboard = ({ navigation }) => {
     <ScrollView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#4d4b50" />
       <LinearGradient
-        colors={[ "#4d4b50","#020001"]}
-        style={{ borderBottomRightRadius: 35, borderBottomLeftRadius: 35 ,elevation:0.8}}
+        colors={["#4d4b50", "#020001"]}
+        style={{
+          borderBottomRightRadius: 35,
+          borderBottomLeftRadius: 35,
+          elevation: 0.8,
+        }}
         start={{ x: 0.9, y: 0.4 }}
       >
         <View style={{}}>
@@ -322,7 +344,7 @@ const Dashboard = ({ navigation }) => {
         inactiveSlideShift={0}
         useScrollView={true}  /> */}
           {/* <Daily /> */}
-          <DAily1 />
+          {DAILY ? <DAily1 DAilyItem={DAILY} navigation={navigation} /> : null}
         </View>
       </LinearGradient>
 
@@ -339,116 +361,150 @@ const Dashboard = ({ navigation }) => {
         >
           Popular Categories:
         </Text>
+        {Visible ? (
+          <ActivityIndicator
+            size="large"
+            color="#ffffff"
+            animating={true}
+            style={{ justifyContent: "center", alignSelf: "center" }}
+          />
+        ) : null}
         <Grid>
           <Col>
-            {data.slice(0, 4).map((item) => (
-              <TouchableOpacity
-                style={{
-                  zIndex: 1,
-                  marginTop: 20,
-                  marginLeft: "5%",
-                  marginRight: "10%",
-                  width: "85%",
-                  alignItems: "center",
-                  borderRadius: 10,
-                  padding: 15,
-                  // backgroundColor: getRandomColor(),
-                  borderWidth: 1,
-                  borderColor:"gray"
-                }}
-                onPress={() =>
-                  navigation.navigate("Categories", {
-                    category_name: item.category_name,
-                    datum: item.datum,
-                  })
-                }
-                key={item.key}
-              >
-                <Text style={styles.texts}>{item.category_name}</Text>
-              </TouchableOpacity>
-            ))}
+            {DATA
+              ? DATA.slice(0, 4).map((item) => {
+                  return (
+                    <TouchableWithoutFeedback
+                      style={{
+                        zIndex: 1,
+                        marginTop: 20,
+                        marginLeft: "5%",
+                        marginRight: "10%",
+                        width: "85%",
+                        alignItems: "center",
+                        borderRadius: 10,
+                        padding: 15,
+                        // backgroundColor: getRandomColor(),
+                        borderWidth: 1,
+                        borderColor: "gray",
+                      }}
+                      onPress={() =>
+                        navigation.navigate("lists", {
+                          category_id: item.id,
+                        })
+                      }
+                      // onPress={() =>
+                      //   navigation.navigate("Categories", {
+                      //     category_name: item.category_name,
+                      //     datum: item.datum,
+                      //   })
+                      // }
+                      // key={item.key}
+                      key={item.id}
+                    >
+                      {/* <Text style={styles.texts}>{item.category_name}</Text> */}
+                      <Text style={styles.texts}>{item.name}</Text>
+                    </TouchableWithoutFeedback>
+                  );
+                })
+              : null}
           </Col>
           <Col>
-            {data.slice(5, 9).map((item) => (
-              <TouchableOpacity
-                style={{
-                  zIndex: 1,
-                  marginTop: 20,
-                  marginLeft: "5%",
-                  marginRight: "10%",
-                  width: "85%",
-                  alignItems: "center",
-                  borderRadius: 10,
-                  padding: 15,
-                 // backgroundColor: getRandomColor(),
-                 borderWidth: 1,
-                 borderColor:"gray"
-
-                }}
-                onPress={() =>
-                  navigation.navigate("Categories", {
-                    category_name: item.category_name,
-                    datum: item.datum,
-                  })
-                }
-                key={item.key}
-              >
-                <Text style={styles.texts}>{item.category_name}</Text>
-              </TouchableOpacity>
-            ))}
+            {DATA
+              ? DATA.slice(4, 8).map((item) => {
+                  return (
+                    <TouchableWithoutFeedback
+                      style={{
+                        zIndex: 1,
+                        marginTop: 20,
+                        marginLeft: "5%",
+                        marginRight: "10%",
+                        width: "85%",
+                        alignItems: "center",
+                        borderRadius: 10,
+                        padding: 15,
+                        // backgroundColor: getRandomColor(),
+                        borderWidth: 1,
+                        borderColor: "gray",
+                      }}
+                      // onPress={() =>
+                      //   navigation.navigate("Categories", {
+                      //     category_name: item.category_name,
+                      //     datum: item.datum,
+                      //   })
+                      // }
+                      onPress={() =>
+                        navigation.navigate("lists", {
+                          category_id: item.id,
+                        })
+                      }
+                      key={item.id}
+                    >
+                      <Text style={styles.texts}>{item.name}</Text>
+                    </TouchableWithoutFeedback>
+                  );
+                })
+              : null}
           </Col>
         </Grid>
       </View>
       <Text>{"\n"}</Text>
-      <LinearGradient colors={[COLORS.black1,COLORS.black]} style={{ ...styles.choose,
-          borderRadius: 20,}}>
-      <View
-        style={{
-         
-         // backgroundColor: "#6a5acd",
-        }}
+      <LinearGradient
+        colors={[COLORS.black1, COLORS.black]}
+        style={{ ...styles.choose, borderRadius: 20 }}
       >
-        <Grid style={styles.change}>
-          <Col>
-            <View style={{ margin: 5, padding: 15 }}>
-              <Text
-                style={{ fontSize: 20, fontWeight: "bold", color: COLORS.font }}
-              >
-                Choose from Starter,{"\n"}
-                Growth or Rockstar Packages.
-              </Text>
-              <TouchableOpacity
-                style={{
-                  marginLeft: 25,
-                  marginVertical: 3,
-                  alignSelf: "flex-start",
-                }}
-              >
-                <Text>
-                  <MaterialCommunityIcons
-                    name="arrow-right-thick"
-                    color={COLORS.font}
-                    size={35}
-                  />
+        <View
+          style={
+            {
+              // backgroundColor: "#6a5acd",
+            }
+          }
+        >
+          <Grid style={styles.change}>
+            <Col>
+              <View style={{ margin: 5, padding: 15 }}>
+                <Text
+                  style={{
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    color: COLORS.font,
+                  }}
+                >
+                  Choose from Starter,{"\n"}
+                  Growth or Rockstar Packages.
                 </Text>
-              </TouchableOpacity>
-            </View>
-          </Col>
-          <Col>
-            <Image
-              source={{ uri: imageuri }}
-              style={{
-                width: 170,
-                height: 190,
-                borderRadius: 50,
-                justifyContent: "flex-end",
-                marginTop: 5,
-                alignItems: "center",
-              }}
-            />
-          </Col>
-        </Grid>
-      </View>
+                <TouchableOpacity
+                  style={{
+                    marginLeft: 25,
+                    marginVertical: 3,
+                    alignSelf: "flex-start",
+                  }}
+                >
+                  <Text>
+                    <MaterialCommunityIcons
+                      name="arrow-right-thick"
+                      color={COLORS.font}
+                      size={35}
+                    />
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </Col>
+            <Col>
+              <Image
+                source={{ uri: imageuri }}
+                style={{
+                  width: 170,
+                  height: 190,
+                  borderRadius: 50,
+                  justifyContent: "flex-end",
+                  marginTop: 5,
+                  alignItems: "center",
+                }}
+              />
+            </Col>
+          </Grid>
+        </View>
       </LinearGradient>
     </ScrollView>
   );

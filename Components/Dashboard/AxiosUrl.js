@@ -1,0 +1,59 @@
+import axios from "axios";
+export const Read = async () => {
+  try {
+    const { data } = await axios.get(
+      `https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/category/read`
+    );
+    console.log("data" + JSON.stringify(data[0]));
+    return data;
+  } catch (error) {
+    console.log(data);
+  }
+};
+export const ShowData = async (Cid, C) => {
+  //alert(Cid + C)
+  const obj = { query: Cid, value: C };
+  //console.log(JSON.stringify(obj))
+  try {
+    const { data } = await axios.post(
+      `https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/product/search/`,
+      obj
+      // {
+      //   "query": Cid,
+      //   "value": "category_id",
+      // }
+    );
+    console.log("show" + JSON.stringify(data[0].image[0]));
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const DailyDeal = async () => {
+  try {
+    const { data } = await axios.post(
+      `https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/product/search/`,
+      {
+        query: "CAT0009",
+        value: "category_id",
+      }
+    );
+    console.log("Daily" + data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const GetMyCart = async (Pids) => {
+  var DATA = [];
+  try {
+    const { data } = await axios.get(
+      `https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/product/read/${Pids}`
+    );
+
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};

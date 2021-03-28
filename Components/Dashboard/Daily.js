@@ -45,108 +45,144 @@ export const daily_data = [
 ];
 import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
-export const renderItem = ({ item, index }) => {
-  return (
-    <LinearGradient
-      colors={[COLORS.black, COLORS.black1]}
-      style={{
-        borderRadius: 10,
-        elevation: 55,
-        width: "98%",
-        margin: 3,
-        height: 280,
-      }}
-    >
-      <View
-        style={
-          {
-            // backgroundColor: "#BDBDBD",
-          }
-        }
-        key={item.key}
-      >
-        <TouchableOpacity
-          style={{
-            padding: 2,
-            width: 80,
-            zIndex: 1,
-            backgroundColor: "#5D5D5D",
-            position: "absolute",
-            top: 5,
-            left: 0,
-            justifyContent: "center",
-            alignItems: "center",
-            borderRadius: 10,
-            marginHorizontal: 10,
-          }}
-        >
-          <Text style={{ color: COLORS.font }}>15% off</Text>
-        </TouchableOpacity>
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { CartContext } from "../GlobalContext/CartProvider";
+export const RenderItem = (props) => {
+  console.log(props.data.id);
+  const { CheckTheProduct, user, AddToCart } = React.useContext(CartContext);
+  console.log("User" + JSON.stringify(user));
 
-        <Image
-          source={{ uri: item.imageuri }}
-          style={{ ...styles.image, alignSelf: "center" }}
-        />
+  var N1 = JSON.stringify(user).includes(props.data.id);
+  // alert(N1)
+  // alert("fgg"+JSON.stringify(N1))
+  return (
+    <TouchableWithoutFeedback
+      onPress={() =>
+        props.navigation.navigate("Product", {
+          name: props.data.name,
+          description: props.data.description,
+          uri1: props.data.image,
+          Quantity: props.data.quantity,
+          price: props.data.price,
+          Cid: props.data.category_id,
+          Pid: props.data.id,
+          Discount: props.data.discount,
+        })
+      }
+    >
+      <LinearGradient
+        colors={[COLORS.black, COLORS.black1]}
+        style={{
+          borderRadius: 10,
+          elevation: 55,
+          width: "98%",
+          margin: 3,
+          height: 280,
+        }}
+      >
         <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            marginHorizontal: 10,
-            marginVertical: 5,
-            marginTop: -19,
-          }}
+          style={
+            {
+              // backgroundColor: "#BDBDBD",
+            }
+          }
+          key={props.data.id}
         >
           <TouchableOpacity
-            style={{ ...styles.tab, alignSelf: "center" }}
-            onPress={() => {}}
+            style={{
+              padding: 2,
+              width: 80,
+              zIndex: 1,
+              backgroundColor: "#5D5D5D",
+              position: "absolute",
+              top: 5,
+              left: 0,
+              justifyContent: "center",
+              alignItems: "center",
+              borderRadius: 10,
+              marginHorizontal: 10,
+            }}
           >
-            <Text style={styles.texts}>Add to Cart</Text>
-          </TouchableOpacity>
-          <Icon
-            name="heart"
-            size={30}
-            color="#FF0707"
-            style={{ justifyContent: "center", alignSelf: "center" }}
-          />
-        </View>
-        {/* <Grid>
-        <Col size={70}>
-          <TouchableOpacity style={{...styles.tab,alignSelf:'center'}} onPress={() => {}}>
-            <Text style={styles.texts}>Add to Cart</Text>
-          </TouchableOpacity>
-        </Col>
-        <Col size={20} style={{ marginTop: -5, marginLeft: "15%" }}>
-          <Icon name="heart" size={25} color="#FF0707" />
-        </Col>
-      </Grid> */}
-        <View style={{ justifyContent: "center", alignSelf: "center" }}>
-          <Text style={{ ...styles.body, fontWeight: "bold" }}>
-            {item.description}
-          </Text>
-        </View>
-        <Grid>
-          <Col size={100}>
-            <TouchableOpacity>
-              <Text style={styles.header}>${item.price}</Text>
-            </TouchableOpacity>
-          </Col>
-          <Col size={70}>
-            <Text
-              style={{
-                fontSize: 20,
-                opacity: 0.5,
-                textDecorationLine: "line-through",
-                textDecorationStyle: "solid",
-                color:COLORS.font,
-                marginTop:10
-              }}
-            >
-              $150
+            <Text style={{ color: COLORS.font }}>
+              {props.data.discount}% off
             </Text>
-          </Col>
-        </Grid>
-      </View>
-    </LinearGradient>
+          </TouchableOpacity>
+
+          <Image
+            source={{ uri: props.data.image[0] }}
+            style={{ ...styles.image, alignSelf: "center" }}
+          />
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              marginHorizontal: 10,
+              marginVertical: 5,
+              marginTop: -19,
+            }}
+          >
+            <TouchableWithoutFeedback
+              style={{ ...styles.tab, alignSelf: "center" }}
+              onPress={() => AddToCart(props.data.id)}
+            >
+              {N1 ? (
+                <Text style={styles.texts}>Go to Cart</Text>
+              ) : (
+                <Text style={styles.texts}>Add To Cart</Text>
+              )}
+            </TouchableWithoutFeedback>
+            <Icon
+              name="heart"
+              size={30}
+              color="#FF0707"
+              style={{ justifyContent: "center", alignSelf: "center" }}
+            />
+          </View>
+          {/* <Grid>
+                      <Col size={70}>
+                        <TouchableOpacity style={{...styles.tab,alignSelf:'center'}} onPress={() => {}}>
+                          <Text style={styles.texts}>Add to Cart</Text>
+                        </TouchableOpacity>
+                      </Col>
+                      <Col size={20} style={{ marginTop: -5, marginLeft: "15%" }}>
+                        <Icon name="heart" size={25} color="#FF0707" />
+                      </Col>
+                        </Grid> */}
+          <View style={{ justifyContent: "center", alignSelf: "center" }}>
+            <Text style={{ ...styles.body, fontWeight: "bold" }}>
+              {props.data.name}
+            </Text>
+          </View>
+          <Grid>
+            <Col size={100}>
+              <>
+                <Text style={styles.header}>
+                  $
+                  {Math.floor(
+                    props.data.price -
+                      (props.data.price * props.data.discount) / 100
+                  )}
+                </Text>
+              </>
+            </Col>
+            <Col size={70}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  opacity: 0.5,
+                  textDecorationLine: "line-through",
+                  textDecorationStyle: "solid",
+                  color: COLORS.font,
+                  marginTop: 10,
+                }}
+              >
+                ${props.data.price}
+              </Text>
+            </Col>
+          </Grid>
+        </View>
+      </LinearGradient>
+    </TouchableWithoutFeedback>
   );
 };
 const Profile = () => {
@@ -277,8 +313,8 @@ const styles = StyleSheet.create({
     color: COLORS.font,
     fontSize: 25,
     fontWeight: "bold",
-    paddingLeft: '50%',
-    alignSelf:'center'
+    paddingLeft: "50%",
+    alignSelf: "center",
   },
   body: {
     color: COLORS.font,
@@ -287,4 +323,4 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
 });
-export default Profile;
+export default RenderItem;

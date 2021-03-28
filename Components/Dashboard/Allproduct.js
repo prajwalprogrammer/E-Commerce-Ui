@@ -7,6 +7,7 @@ import {
   Image,
   ScrollView,
   Dimensions,
+  ActivityIndicator
 } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/AntDesign";
@@ -78,10 +79,24 @@ const category_data = [
 
 import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
+import { Read } from "./AxiosUrl";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 const Allproduct = ({ navigation, route }) => {
+  const [Visible, setVisible] = useState(null)
+  const [DATA, setDATA] = React.useState([])
+  React.useEffect(() => {
+    setVisible(true)
+    const fetchAPI = async () => {
+      setDATA(await Read());
+      console.log(DATA);
+    };
+    fetchAPI();
+    if(DATA){
+      setVisible(false)}
+  }, []);
   return (
     <Container>
-      <Header style={{ backgroundColor: "#202020", elevation: 12, height: 80 }}>
+      <Header style={{ backgroundColor: "#202020", elevation: 12, height: 80 }} androidStatusBarColor="#202020" >
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
             {/* <Icon name="arrow-back" style={{ color: "#6a5acd" }} /> */}
@@ -102,7 +117,7 @@ const Allproduct = ({ navigation, route }) => {
           <Button transparent>{/* <Icon name='menu' /> */}</Button>
         </Right>
       </Header>
-      <ScrollView style={{}}>
+      
         <LinearGradient
           colors={["#000000", "#474747"]}
           style={{
@@ -110,10 +125,16 @@ const Allproduct = ({ navigation, route }) => {
             // borderBottomLeftRadius: 35,
             paddingBottom: "10%",
             elevation: 0.8,
+            position: "relative",
+            left: 0,
+            right: 0,
+            top: 0,
+            height: SIZES.height,
           }}
           start={{ x: 0.9, y: 0.25 }}
         >
-          {category_data.map((item) => (
+          <ScrollView style={{}}>
+          {/* {category_data.map((item) => (
             <LinearGradient
               colors={["#383838", "#282828", "#202020"]}
               style={styles.tab}
@@ -201,9 +222,94 @@ const Allproduct = ({ navigation, route }) => {
                 </Grid>
               </TouchableOpacity>
             </LinearGradient>
-          ))}
-        </LinearGradient>
+          ))} */}
+          {Visible?
+        <ActivityIndicator
+          size="large"
+          color="#ffffff"
+          animating={true}
+          style={{justifyContent:'center',alignSelf:'center'}}
+        />:null}
+         <Grid>
+          <Col>
+            {DATA
+              ? DATA.slice(0, 4).map((item) => {
+                  return (
+                    <TouchableWithoutFeedback
+                      style={{
+                        zIndex: 1,
+                        marginTop: 20,
+                        marginLeft: "5%",
+                        marginRight: "10%",
+                        width: "85%",
+                        alignItems: "center",
+                        borderRadius: 10,
+                        padding: 15,
+                        // backgroundColor: getRandomColor(),
+                        borderWidth: 1,
+                        borderColor: "gray",
+                      }}
+                      onPress={() =>
+                        navigation.navigate("lists", {
+                          category_id: item.id,
+                        })
+                      }
+                      // onPress={() =>
+                      //   navigation.navigate("Categories", {
+                      //     category_name: item.category_name,
+                      //     datum: item.datum,
+                      //   })
+                      // }
+                      // key={item.key}
+                      key={item.id}
+                    >
+                      {/* <Text style={styles.texts}>{item.category_name}</Text> */}
+                      <Text style={styles.texts}>{item.name}</Text>
+                    </TouchableWithoutFeedback>
+                  );
+                })
+              : null}
+          </Col>
+          <Col>
+            {DATA
+              ? DATA.slice(4, 8).map((item) => {
+                  return (
+                    <TouchableOpacity
+                      style={{
+                        zIndex: 1,
+                        marginTop: 20,
+                        marginLeft: "5%",
+                        marginRight: "10%",
+                        width: "85%",
+                        alignItems: "center",
+                        borderRadius: 10,
+                        padding: 15,
+                        // backgroundColor: getRandomColor(),
+                        borderWidth: 1,
+                        borderColor: "gray",
+                      }}
+                      // onPress={() =>
+                      //   navigation.navigate("Categories", {
+                      //     category_name: item.category_name,
+                      //     datum: item.datum,
+                      //   })
+                      // }
+                      onPress={() =>
+                        navigation.navigate("lists", {
+                          category_id: item.id,
+                        })
+                      }
+                      key={item.id}
+                    >
+                      <Text style={styles.texts}>{item.name}</Text>
+                    </TouchableOpacity>
+                  );
+                })
+              : null}
+          </Col>
+        </Grid>
       </ScrollView>
+      </LinearGradient>
     </Container>
   );
 };

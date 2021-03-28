@@ -61,17 +61,44 @@ const category_data = [
 import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-community/async-storage";
+import { GetMyCart } from "../../Components/Dashboard/AxiosUrl";
+import { CartContext } from "../../Components/GlobalContext/CartProvider";
+import CartList from "./CartList";
+
 const Cart = ({ navigation }) => {
+  const { user } = React.useContext(CartContext);
+  const [CArt, setCArt] = React.useState([]);
+  var Ids;
+  React.useEffect(() => {
+    const Fetch = async () => {
+      //alert("hii")
+      const myArray2 = await AsyncStorage.getItem("MyCart");
+      //Ids = removeDuplicates(JSON.parse(myArray2))
+      //Ids.split(",")
+      function removeDuplicates(array) {
+        return array.filter((a, b) => array.indexOf(a) === b);
+      }
+      setCArt(removeDuplicates(JSON.parse(myArray2)));
+      console.log(CArt[0]);
+      //Ids.map(async(item)=>{setCArt([...CArt,await GetMyCart(item)])})
+      // setCArt([...CArt,await GetMyCart(Ids)])
+      //    console.log(CArt)
+      // alert(JSON.parse(myArray2))
+    };
+    Fetch();
+  }, [user]);
   return (
     <Container>
       <Header
         style={{
           backgroundColor: "#202020",
           elevation: 12,
-          height:80
-         // borderBottomColor: "white",
+          height: 80,
+          // borderBottomColor: "white",
           // borderBottomWidth: 0.5,
         }}
+        androidStatusBarColor="#202020"
       >
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
@@ -80,7 +107,7 @@ const Cart = ({ navigation }) => {
         </Left>
         <Body>
           <Title
-            style={{fontSize: 20, fontWeight: "bold",color: COLORS.font }}
+            style={{ fontSize: 20, fontWeight: "bold", color: COLORS.font }}
           >
             Cart
           </Title>
@@ -108,7 +135,11 @@ const Cart = ({ navigation }) => {
         <TouchableOpacity style={styles.clus}>
           <Text style={{ color: "white" }}>CLUS Pvt Ltd.</Text>
         </TouchableOpacity> */}
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback
+            onPress={() => {
+              navigation.navigate("Dashboard");
+            }}
+          >
             <LinearGradient
               colors={["#000000", "#474747"]}
               style={{
@@ -139,24 +170,29 @@ const Cart = ({ navigation }) => {
             </LinearGradient>
           </TouchableWithoutFeedback>
 
-          <View>
-            {category_data.map((item) => (
+          {/* <View> */}
+          {/* <ScrollView> */}
+          {CArt ? CArt.map((item) => <CartList Pid={item} />) : null}
+          {/* </ScrollView> */}
+          {/* {CArt?
+            CArt.map((item) => (
               <LinearGradient
                 colors={["#474747", "#474747", "#202020"]}
                 style={styles.tab}
                 start={{ x: 1.3, y: 1.3 }}
+                key={item.id}
               >
                 <Grid
-                  onPress={() =>
-                    navigation.navigate("Product", {
-                      name: item.product_name,
-                      description: item.description,
-                      uri1: item.uri1,
-                      know_more: item.know_more,
-                      price: item.price,
-                    })
-                  }
-                  key={item.key}
+                  // onPress={() =>
+                  //   navigation.navigate("Product", {
+                  //     name: item.product_name,
+                  //     description: item.description,
+                  //     uri1: item.uri1,
+                  //     know_more: item.know_more,
+                  //     price: item.price,
+                  //   })
+                  // }
+                  key={item.id}
                 >
                   <Row>
                     <Col size={30}>
@@ -165,7 +201,7 @@ const Cart = ({ navigation }) => {
                     <Col
                       size={50}
                       style={{
-                        backgroundColor:"#202020",
+                        backgroundColor: "#202020",
                         borderRadius: 15,
                         paddingVertical: 4,
                         alignSelf: "center",
@@ -176,10 +212,18 @@ const Cart = ({ navigation }) => {
                     >
                       <Row style={{ alignSelf: "center", marginLeft: 10 }}>
                         <Col size={110} style={{ alignSelf: "center" }}>
-                          <Text style={{ fontSize: 20, fontWeight: "bold",color:COLORS.font }}>
-                            Title
+                          <Text
+                            style={{
+                              fontSize: 15,
+                              fontWeight: "bold",
+                              color: COLORS.font,
+                            }}
+                          >
+                            {item.name}
                           </Text>
-                          <Text style={{color:COLORS.font}}>Item Code : BN1</Text>
+                          <Text style={{ color: COLORS.font }}>
+                            Item Code : BN1
+                          </Text>
                         </Col>
                         <Col size={40}>
                           <Text style={{ color: "red" }}>Delete</Text>
@@ -187,30 +231,33 @@ const Cart = ({ navigation }) => {
                       </Row>
                       <Row>
                         <Col size={20}>
-                          <Text style={{color:COLORS.font}}>$ 100 x</Text>
+                          <Text style={{ color: COLORS.font }}>$ 100 x</Text>
                         </Col>
                         <Col size={50}>
                           <Text>
                             <TouchableOpacity
                               style={{
-                                backgroundColor:COLORS.black1,
+                                backgroundColor: COLORS.black1,
                                 margin: 2,
                                 padding: 2,
-                                
                               }}
                             >
-                              <Text style={{color:COLORS.font}}>Quantity : 10</Text>
+                              <Text style={{ color: COLORS.font }}>
+                                Quantity : 10
+                              </Text>
                             </TouchableOpacity>
                             <TouchableOpacity>
-                              <Text style={{color:COLORS.font}}>= $1000</Text>
+                              <Text style={{ color: COLORS.font }}>
+                                = $1000
+                              </Text>
                             </TouchableOpacity>
                           </Text>
                         </Col>
                       </Row>
                     </Col>
-                  </Row>
+                  </Row> */}
 
-                  {/* <Col>
+          {/* <Col>
       <Text onPress={() => navigation.navigate('Favourites')}>
       <Image 
       source={   require('../../Assets/Redheart.png')}                                               
@@ -218,11 +265,11 @@ const Cart = ({ navigation }) => {
             }}
             /> </Text>
           </Col> */}
-                </Grid>
+          {/* </Grid>
               </LinearGradient>
-            ))}
-            <Text>{"\n"}</Text>
-          </View>
+            )):null} */}
+          {/* <Text>{"\n"}</Text> */}
+          {/* </View> */}
           <View
             style={{
               backgroundColor: "#303030",
@@ -230,21 +277,21 @@ const Cart = ({ navigation }) => {
               borderTopRightRadius: 30,
               height: "100%",
               marginVertical: 10,
-              elevation:20,
-              borderTopColor:"red"
+              elevation: 20,
+              borderTopColor: "red",
             }}
           >
-            <TouchableOpacity
+            <TouchableWithoutFeedback
               style={styles.checkout}
-              onPress={() => navigation.navigate("Checkout")}
+              onPress={() => navigation.navigate("CheckoutModal")}
             >
               <Text style={{ color: "white", fontSize: 16 }}>
                 Checkout $4000
               </Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.cancel}>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback style={styles.cancel} onPress={() => navigation.navigate("Dashboard")}>
               <Text style={{ color: "white", fontSize: 16 }}>Cancel</Text>
-            </TouchableOpacity>
+            </TouchableWithoutFeedback>
           </View>
           {/* <TouchableOpacity style={styles.checkout} onPress={() => navigation.navigate('Checkout')}>
             <Text style={{color:'white',fontSize:16}}>Checkout $4000</Text>
@@ -340,7 +387,7 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginRight: "5%",
     width: "93%",
-     borderRadius: 15,
+    borderRadius: 15,
     padding: 15,
     borderColor: "gray",
     borderWidth: 0.2,
@@ -349,7 +396,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 13,
     paddingVertical: 13,
     elevation: 99,
-    
   },
 });
 
