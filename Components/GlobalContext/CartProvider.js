@@ -24,7 +24,8 @@ const CartProvider = ({ children }) => {
             var MyCart = await AsyncStorage.getItem("MyCart");
             //;
             //alert(JSON.parse(MyCart))
-            if (MyCart != null) {
+            alert(MyCart)
+            if (MyCart == null) {
               var MyCart1 = JSON.parse(MyCart);
             }
             MyCart1.push(ProductId);

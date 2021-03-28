@@ -76,6 +76,7 @@ const Cart = ({ navigation }) => {
       const myArray2 = await AsyncStorage.getItem("MyCart");
       //Ids = removeDuplicates(JSON.parse(myArray2))
       //Ids.split(",")
+      alert(myArray2)
       function removeDuplicates(array) {
         return array.filter((a, b) => array.indexOf(a) === b);
       }
