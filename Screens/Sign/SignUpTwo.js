@@ -7,6 +7,8 @@ import {
   TextInput,
   Text,
 } from "react-native";
+import moment from 'moment'
+
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Input/Button";
 import * as Animatable from "react-native-animatable";
@@ -44,23 +46,22 @@ export const SignUpTwo = ({ navigation, route }) => {
       email,
       phone,
       TaxId,
-      setTaxExpire
-    ).then((res) => 
-    {
-      if(res === "ERROR!"){
-        alert("Unable To SignUp,Try Again")
+      date
+    ).then((res) => {
+      if (res === "ERROR!") {
+        alert("Unable To SignUp,Try Again");
+      } else if (res === "SUCESS!") {
+        //alert("Sucessfull");
+        navigation.navigate("FinalPage")
+      } else {
+        alert("Something Went Wrong!");
       }
-      else if(res==="SUCESS!"){
-        alert("Sucessfull")
-      }
-      else{
-        alert("Something Went Wrong!")
-      }
-    }
-    );
+    });
   };
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
+    //alert(moment(selectedDate).format('lll'))
+    //alert(selectedDate)
+    const currentDate = moment(selectedDate).format('lll') || date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
   };
@@ -144,14 +145,13 @@ export const SignUpTwo = ({ navigation, route }) => {
               value={TaxId}
               onChangeText={(text) => setTaxId(text)}
             />
-            <View flexDirection="row" style={{}}>
-              <Input
+            {/* <Input
                 placeholder="Sales Tax Expire Date"
                 marginTop={30}
                 value={TaxExpire}
                 onChangeText={(text) => setTaxExpire(text)}
-              />
-              <View
+              /> */}
+            {/* <View
                 // style={{
                 //   marginLeft: -21,
                 //   position: "absolute",
@@ -159,12 +159,33 @@ export const SignUpTwo = ({ navigation, route }) => {
                 //   alignSelf: "flex-end",
                 //   right: 44,
                 // }}
+              > */}
+            <TouchableWithoutFeedback
+              onPress={() => setShow(!show)}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+                marginTop: 27,
+                backgroundColor: COLORS.primary,
+                width:'80%',
+                marginHorizontal:34,
+                borderRadius:12,
+                paddingVertical:5
+              }}
+            >
+              <FontAwesome name="clock-o" size={35} color={COLORS.font} />
+              <Text
+                style={{
+                  color: COLORS.font,
+                  fontSize: 20,
+                  marginHorizontal: 12,
+                }}
               >
-                <TouchableWithoutFeedback onPress={() => setShow(!show)}>
-                  <FontAwesome name="clock-o" size={35} color={COLORS.font} />
-                </TouchableWithoutFeedback>
-              </View>
-            </View>
+                Sales Tax Expire Date
+              </Text>
+            </TouchableWithoutFeedback>
+            {/* </View> */}
             {/* <Button title="Show Date" onPress={()=>setShow(!show)} /> */}
             {show && (
               <DateTimePicker

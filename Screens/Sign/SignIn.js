@@ -21,7 +21,7 @@ export default function SignIn({ navigation }) {
   const SignIn1 = async () => {
     await SignIn123(username, password).then(async(res) => {
       if (res === password) {
-        alert("Sucess");
+       // alert("Sucess");
         await AsyncStorage.setItem("UserID", `${username}`);
 
         await AsyncStorage.setItem("userToken", "abc");

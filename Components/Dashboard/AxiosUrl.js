@@ -112,3 +112,40 @@ export const GetUserDetails=async(username)=>{
     console.log(error)
   }
 }
+
+//Update
+export const UpdateUser = async (useName,password,name,address,email,phone,TaxId,setTaxExpire) => {
+  //alert("gyy")
+  const obj = {
+    id: useName,
+    isActive: false,
+    Password:password,
+    AccountName: name,
+    AccountSince: moment(new Date()).format('lll'),//Current Date
+    Contact: [
+      {
+        Address: address,
+        EmailId: email,
+        PhoneNumber:phone,
+      },
+    ],
+    OrderList: null,
+    STD: {
+      Sales_Id: TaxId,
+      Sales_Tax_Link:
+        "https://digitalasset.intuit.com/IMAGE/A06yW2VcG/w-9_tax_form.jpg",
+      Sales_expire_Date: setTaxExpire,
+    },
+  };
+  console.log(JSON.stringify(obj))
+  try {
+    const { data } =await axios.post(
+      "https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/account/create",obj
+    );
+    console.log("daas"+data)
+    return data;
+  } catch (error) {
+    console.log("ghk"+error);
+  }
+};
+

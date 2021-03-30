@@ -263,7 +263,7 @@ const Dashboard = ({ navigation }) => {
                           color: "white",
                         }}
                       >
-                      {UserProfile?UserProfile.AccountName:null}
+                      Howdy,{"\n"}{UserProfile?UserProfile.AccountName:null}
                       </Text>
                     </View>
                   </Row>
