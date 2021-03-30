@@ -1,4 +1,6 @@
 import React from "react";
+import * as Animatable from "react-native-animatable";
+
 import {
   View,
   ImageBackground,
@@ -7,6 +9,7 @@ import {
   Text,
   Image,
 } from "react-native";
+import { COLORS } from "../../Assets/theme";
 
 const { height, width } = Dimensions.get("window");
 
@@ -15,13 +18,13 @@ export default function SignUpFinal() {
     <View
       style={{
         flex: 1,
-        backgroundColor: "rgba(21, 21, 21, 0.79)",
+        backgroundColor: COLORS.black,
         padding: 5,
       }}
     >
       <StatusBar
         barStyle="light-content"
-        backgroundColor="rgba(21, 21, 21, 0.79)"
+        backgroundColor={COLORS.black}
       />
       {/* /*<ImageBackground
         source={require("../../Assets/picture.png")}
@@ -32,12 +35,18 @@ export default function SignUpFinal() {
           marginTop: height * 0.16,
         }}
       /> */}
-      <View
+      <Animatable.View animation="bounceIn"
         style={{
-          backgroundColor: "transparent",
+          backgroundColor: "#ffff",
           position: "absolute",
-          top: height * 0.26,
-          left: width * 0.07,
+          top: height/3,
+
+          left: width * 0.1,
+          alignItems:"center",
+          justifyContent:"center",
+          borderRadius:15,
+          height: 250,
+          width: 300
         }}
       >
         {/* /*<Image
@@ -58,12 +67,12 @@ export default function SignUpFinal() {
             marginTop: 13,
           }}
         />*/}
-        <Text style={{ fontSize: 18, fontWeight: "500", marginTop: 15 }}>
+        <Text style={{ fontSize: 25, fontWeight: "500", marginTop: 8 }}>
           Dear Customer,
         </Text>
         <Text
           style={{
-            fontSize: 17,
+            fontSize: 19,
             color: "green",
             fontWeight: "300",
             marginTop: 10,
@@ -72,10 +81,10 @@ export default function SignUpFinal() {
           We will review your {"\n"}information and get{"\n"}back to you at
           {"\n"}our earliest
         </Text>
-        <Text style={{ fontSize: 14, marginTop: 10 }}>
+        <Text style={{ fontSize: 19, marginTop: 10 }}>
           Thanks For Signing Up!
         </Text>
-      </View>
+      </Animatable.View>
     </View>
   );
 }

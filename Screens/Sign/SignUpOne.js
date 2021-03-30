@@ -3,35 +3,60 @@ import { View, Dimensions, StatusBar, Image, Text } from "react-native";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Input/Button";
 import BcryptReactNative from "bcrypt-react-native";
+import { COLORS } from "../../Assets/theme";
+import { LinearGradient } from "expo-linear-gradient";
 const { height, width } = Dimensions.get("window");
+import * as Animatable from "react-native-animatable";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 
 export default function SignUpOne({ navigation }) {
-  const [username, setUsername] = useState("AC-");
+  const [username, setUsername] = useState(`AC-${Math.floor(Math.random()*100000)}`);
   const [password, setPassword] = useState("");
   const [cpassword, setCpassword] = useState("");
   const saltRounds = 10;
   //const myPlaintextPassword = password;
   // const someOtherPlaintextPassword = cpassword;
   const CheckAuth = async () => {
-    navigation.navigate("SignUpTwo", { useName: username, password: password });
+    if((password != "") && (password === cpassword))
+    {
+      navigation.navigate("SignUpTwo", { useName: username, password: password });
+    }
+    else{
+      alert("Please Enter Correct Password")
+    }
+    
   };
   return (
-    <View style={{ flex: 1, backgroundColor: "rgba(21, 21, 21, 0.79)" }}>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor="rgba(21, 21, 21, 0.79)"
-      />
+    <LinearGradient
+      colors={[COLORS.black, "#202020", "#474747"]}
+      style={{ flex: 1 }}
+      start={{ x: 1.5, y: 0.5 }}
+    >
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.black1} />
       <View
-        style={{
-          height: height * 0.79,
-          width: width * 0.88,
-          borderRadius: 10,
-          backgroundColor: "rgba(255, 255, 255, 0.83)",
-          alignSelf: "center",
-          marginTop: 54,
-        }}
+        style={{ flex: 0.5, alignSelf: "center", justifyContent: "flex-end" }}
       >
-        {/* /* <Image
+        <Text style={{ fontSize: 40, fontWeight: "bold", color: COLORS.font }}>
+          Sign Up
+        </Text>
+      </View>
+      <LinearGradient
+        colors={["#333333", "#202020", "#191919", COLORS.black]}
+        style={{
+          height: height * 0.7,
+          width: width * 0.88,
+
+          alignSelf: "center",
+          borderRadius: 10,
+          marginTop: height * 0.077,
+          borderColor: COLORS.black,
+          borderWidth: 1,
+          //flex:7
+        }}
+        /// start={{ x: 1.5, y: 0.5 }}
+      >
+        <Animatable.View animation="fadeInUpBig">
+          {/* /* <Image
           source={require("../../Assets/mwc-title.png")}
           style={{ height: 38, width: 134, alignSelf: "center", marginTop: 34 }}
         />
@@ -44,42 +69,90 @@ export default function SignUpOne({ navigation }) {
             marginTop: 13,
           }}
         /> */}
-        <Input
-          placeholder="Username"
-          value={username}
-          marginTop={53.64}
-          onChangeText={(text) => setUsername(text)}
-        />
-        <Input
-          placeholder="Password"
-          value={password}
-          marginTop={15}
-          onChangeText={(text) => setPassword(text)}
-        />
-        <Input
-          placeholder="Confirm Password"
-          value={cpassword}
-          marginTop={13}
-          onChangeText={(text) => setCpassword(text)}
-        />
-        <Button title="Go ->" marginTop={48} onPress={() => CheckAuth()} />
-        <Text
-          style={{
-            textAlign: "center",
-            fontWeight: "700",
-            fontSize: 18,
-            marginTop: 24,
-          }}
-        >
-          Already have an account |{" "}
           <Text
-            style={{ color: "red" }}
-            onPress={() => navigation.navigate("SignIn")}
+            style={{
+              color: COLORS.font,
+              fontSize: 18,
+              fontWeight: "bold",
+              alignSelf: "flex-start",
+              marginLeft: 20,
+              marginTop: 60,
+            }}
           >
-            Login
+            Enter Username
           </Text>
-        </Text>
-      </View>
-    </View>
+          <Input
+            placeholder="Username"
+            value={username}
+            marginTop={10}
+            onChangeText={(text) => setUsername(text)}
+            editable={false}
+
+          />
+          <Input
+            placeholder="Password"
+            value={password}
+            marginTop={34}
+            onChangeText={(text) => setPassword(text)}
+            Pass={true}
+
+          />
+          <Input
+            placeholder="Confirm Password"
+            value={cpassword}
+            marginTop={34}
+            onChangeText={(text) => setCpassword(text)}
+            Pass={true}
+
+          />
+          {/* <Button title="Go ->" marginTop={48} onPress={() => CheckAuth()} /> */}
+          <TouchableWithoutFeedback
+            style={{
+              zIndex: 1,
+              marginTop: 50,
+              marginLeft: "5%",
+              marginRight: "10%",
+              width: "65%",
+              alignItems: "center",
+              alignSelf: "center",
+              borderRadius: 10,
+              padding: 15,
+              // backgroundColor: getRandomColor(),
+              borderWidth: 1,
+              borderColor: COLORS.font,
+            }}
+            onPress={() => CheckAuth()}
+          >
+            {/* <Text style={styles.texts}>{item.category_name}</Text> */}
+            <Text
+              style={{
+                fontSize: 25,
+                fontWeight: "bold",
+                color: COLORS.font,
+              }}
+            >
+            {"Go ->"}
+            </Text>
+          </TouchableWithoutFeedback>
+          <Text
+            style={{
+              textAlign: "center",
+              fontWeight: "700",
+              fontSize: 18,
+              marginTop: 24,
+              color: COLORS.font,
+            }}
+          >
+            Already have an account |
+            <Text
+              style={{ color: "red" }}
+              onPress={() => navigation.navigate("SignIn")}
+            >
+              Login
+            </Text>
+          </Text>
+        </Animatable.View>
+      </LinearGradient>
+    </LinearGradient>
   );
 }

@@ -13,26 +13,27 @@ import Product from "./Components/Dashboard/Product";
 import Allproduct from "./Components/Dashboard/Allproduct";
 import Cart from "./Screens/Cart/Cart";
 import Checkout from "./Screens/Checkout/Checkout";
-import CheckoutModal from './Screens/Checkout/CheckoutModal'
+import CheckoutModal from "./Screens/Checkout/CheckoutModal";
 import Favourites from "./Screens/Favourites/Favourites";
 import Finalscreen from "./Screens/Finalscreen/Finalscreen";
-
+import { ActivityIndicator, StatusBar } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Icon from "react-native-vector-icons/AntDesign";
-import { View } from "react-native";
+import { View, StyleSheet } from "react-native";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 import { COLORS, FONTS, SIZES } from "./Assets/theme";
-import  CartProvider  from "./Components/GlobalContext/CartProvider";
+import CartProvider from "./Components/GlobalContext/CartProvider";
 import RenderItem from "./Components/Dashboard/Daily";
 import SignIn from "./Screens/Sign/SignIn";
-import SignUpOne from './Screens/Sign/SignUpOne'
+import SignUpOne from "./Screens/Sign/SignUpOne";
 import SignUpTwo from "./Screens/Sign/SignUpTwo";
 import SignUpFinal from "./Screens/Sign/SignUpFinal";
+import AsyncStorage from "@react-native-community/async-storage";
 export const DashboardStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen
+      {/* <Stack.Screen
         options={{ headerShown: false }}
         name="SignIn"
         component={SignIn}
@@ -51,8 +52,8 @@ export const DashboardStack = () => {
         options={{ headerShown: false }}
         name="FinalPage"
         component={SignUpFinal}
-      />
-      
+      /> */}
+
       <Stack.Screen
         options={{ headerShown: false }}
         name="Dashboard"
@@ -198,7 +199,7 @@ export const MyCartStack = () => {
         name="Cart"
         component={Cart}
       />
-      
+
       <Stack.Screen
         options={{ headerShown: false }}
         name="Checkout"
@@ -227,10 +228,10 @@ const tabOptions = {
     // borderTopRightRadius: 35, borderTopLeftRadius: 35
   },
 };
-const App = () => {
+const AppSTack = () => {
   return (
     <CartProvider>
-      <NavigationContainer style={{ backgroundColor: COLORS.black }}>
+      {/* <NavigationContainer style={{ backgroundColor: COLORS.black }}> */}
         <Tab.Navigator
           tabBarOptions={tabOptions}
           screenOptions={({ route }) => ({
@@ -290,9 +291,11 @@ const App = () => {
                         name="cart-outline"
                         color={tintColor}
                         size={35}
-                        style={{
-                         // tintColor: tintColor,
-                        }}
+                        style={
+                          {
+                            // tintColor: tintColor,
+                          }
+                        }
                       />
                     </View>
                   );
@@ -318,9 +321,11 @@ const App = () => {
                         name="cart-arrow-right"
                         color={tintColor}
                         size={35}
-                        style={{
-                        //  tintColor: tintColor,
-                        }}
+                        style={
+                          {
+                            //  tintColor: tintColor,
+                          }
+                        }
                       />
                     </View>
                   );
@@ -345,9 +350,11 @@ const App = () => {
                         name="face"
                         color={tintColor}
                         size={35}
-                        style={{
-                          //tintColor: tintColor,
-                        }}
+                        style={
+                          {
+                            //tintColor: tintColor,
+                          }
+                        }
                       />
                     </View>
                   );
@@ -405,10 +412,99 @@ const App = () => {
             component={Profile}
           />
         </Tab.Navigator>
-      </NavigationContainer>
-      </CartProvider>
-    
+      {/* </NavigationContainer> */}
+    </CartProvider>
   );
 };
 
+const AuthSTack = () => {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="SignIn"
+        component={SignIn}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="SignUpOne"
+        component={SignUpOne}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="SignUpTwo"
+        component={SignUpTwo}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="FinalPage"
+        component={SignUpFinal}
+      />
+    </Stack.Navigator>
+  );
+};
+
+const AuthLoadingScreen = ({navigation}) => {
+  React.useEffect(() => {
+   const bootstrapAsync = async () => {
+      const userToken = await AsyncStorage.getItem("userToken");
+  
+      // This will switch to the App screen or Auth screen and this loading
+      // screen will be unmounted and thrown away.
+      navigation.navigate(userToken ? "App" : "Auth");
+    };
+    bootstrapAsync()
+  }, []);
+
+  // Fetch the token from storage then navigate to our appropriate place
+  
+
+  // Render any loading content that you like here
+
+  return (
+    <View style={styles.container}>
+      <ActivityIndicator />
+      <StatusBar barStyle="default" />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+});
+
+const AppStack = AppSTack;
+const AuthStack = AuthSTack;
+// export const App = createAppContainer(
+//   createSwitchNavigator(
+//     {
+//       AuthLoading: AuthLoadingScreen,
+//       App: AppStack,
+//       Auth: AuthStack,
+//     },
+//     {
+//       initialRouteName: 'AuthLoading',
+//     }
+//   )
+// );
+const AllAppNavigation = createStackNavigator();
+
+const App = () => (
+  <NavigationContainer>
+    <AllAppNavigation.Navigator
+      initialRouteName="AuthLoad"
+      screenOptions={{
+        header: () => null,
+      }}
+    >
+      <AllAppNavigation.Screen name="AuthLoad" children={AuthLoadingScreen} />
+      <AllAppNavigation.Screen name="Auth" children={AuthStack} />
+      <AllAppNavigation.Screen name="App" children={AppStack} />
+    </AllAppNavigation.Navigator>
+  </NavigationContainer>
+);
 export default App;

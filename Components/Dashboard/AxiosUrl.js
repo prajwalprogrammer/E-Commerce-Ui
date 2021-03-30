@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from 'moment'
 export const Read = async () => {
   try {
     const { data } = await axios.get(
@@ -62,8 +63,9 @@ export const SignUp = async (useName,password,name,address,email,phone,TaxId,set
   const obj = {
     id: useName,
     isActive: false,
+    Password:password,
     AccountName: name,
-    AccountSince: "Mar 17, 2021 4:28 PM",
+    AccountSince: moment(new Date()).format('lll'),//Current Date
     Contact: [
       {
         Address: address,
@@ -85,6 +87,7 @@ export const SignUp = async (useName,password,name,address,email,phone,TaxId,set
       "https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/account/create",obj
     );
     console.log("daas"+data)
+    return data;
   } catch (error) {
     console.log("ghk"+error);
   }
@@ -96,6 +99,15 @@ export const SignIn123=async(username,password)=>{
     const {data}= await axios.get(`https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/account/read/${username}`);
     console.log(data.Password)
     return data.Password
+  } catch (error) {
+    console.log(error)
+  }
+}
+export const GetUserDetails=async(username)=>{
+  try {
+    const {data}= await axios.get(`https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/account/read/${username}`);
+    console.log(data)
+    return data
   } catch (error) {
     console.log(error)
   }

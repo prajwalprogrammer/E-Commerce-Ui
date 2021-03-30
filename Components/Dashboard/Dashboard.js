@@ -192,16 +192,21 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import { Read, ShowData, DailyDeal } from "./AxiosUrl";
+import { Read, ShowData, DailyDeal,GetUserDetails } from "./AxiosUrl";
+import AsyncStorage from "@react-native-community/async-storage";
 const Dashboard = ({ navigation }) => {
   const isCarousel = React.useRef(null);
   const [DATA, setDATA] = React.useState([]);
   const [value, onChangeText] = React.useState("Search");
   const [Visible, setVisible] = useState(null);
   const [DAILY, setDAILY] = useState([]);
+  const [UserProfile, setUserProfile] = useState()
   React.useEffect(() => {
+    
     setVisible(true);
     const fetchAPI = async () => {
+    //  alert(await AsyncStorage.getItem("UserID"))
+      setUserProfile(await GetUserDetails(await AsyncStorage.getItem("UserID")))
       setDATA(await Read());
       console.log(DATA);
       setDAILY(await DailyDeal());
@@ -258,7 +263,7 @@ const Dashboard = ({ navigation }) => {
                           color: "white",
                         }}
                       >
-                        Howdy!Gautham
+                      {UserProfile?UserProfile.AccountName:null}
                       </Text>
                     </View>
                   </Row>
