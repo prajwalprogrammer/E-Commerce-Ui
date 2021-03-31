@@ -78,7 +78,7 @@ const CartList = (props) => {
                     >
                       {CArt.name}
                     </Text>
-                    <Text style={{ color: COLORS.font }}>Item Code : BN1</Text>
+                    <Text style={{ color: COLORS.font }}>Item Code :{CArt.id}</Text>
                   </Col>
                   <Col size={40}>
                     <TouchableWithoutFeedback
@@ -90,7 +90,7 @@ const CartList = (props) => {
                 </Row>
                 <Row>
                   <Col size={20}>
-                    <Text style={{ color: COLORS.font }}>$ 100 x</Text>
+                    <Text style={{ color: COLORS.font }}>$ {CArt.price} x</Text>
                   </Col>
                   <Col size={50}>
                     <Text>

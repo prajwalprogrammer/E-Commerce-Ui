@@ -114,14 +114,14 @@ export const GetUserDetails=async(username)=>{
 }
 
 //Update
-export const UpdateUser = async (useName,password,name,address,email,phone,TaxId,setTaxExpire) => {
+export const UpdateUser = async (useName,Status,name,Since,address,email,phone,TaxId,setTaxExpire,password,Image) => {
   //alert("gyy")
   const obj = {
     id: useName,
-    isActive: false,
+    isActive: Status,
     Password:password,
     AccountName: name,
-    AccountSince: moment(new Date()).format('lll'),//Current Date
+    AccountSince: Since,//Current Date
     Contact: [
       {
         Address: address,
@@ -134,13 +134,14 @@ export const UpdateUser = async (useName,password,name,address,email,phone,TaxId
       Sales_Id: TaxId,
       Sales_Tax_Link:
         "https://digitalasset.intuit.com/IMAGE/A06yW2VcG/w-9_tax_form.jpg",
-      Sales_expire_Date: setTaxExpire,
+      Sales_expire_Date:moment(setTaxExpire).format('lll') ,
     },
+    Image:Image
   };
   console.log(JSON.stringify(obj))
   try {
-    const { data } =await axios.post(
-      "https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/account/create",obj
+    const { data } =await axios.put(
+      `https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/account/update/${useName}`,obj
     );
     console.log("daas"+data)
     return data;

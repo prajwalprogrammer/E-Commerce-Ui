@@ -27,6 +27,7 @@ export default function Input({ placeholder, value, onChangeText, marginTop,edit
       placeholderTextColor={COLORS.gray}
       value={value}
       onChangeText={onChangeText}
+    
     />
   );
 }

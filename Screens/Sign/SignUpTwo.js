@@ -7,7 +7,7 @@ import {
   TextInput,
   Text,
 } from "react-native";
-import moment from 'moment'
+import moment from "moment";
 
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Input/Button";
@@ -24,6 +24,7 @@ import {
   ScrollView,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
+import AsyncStorage from "@react-native-community/async-storage";
 export const SignUpTwo = ({ navigation, route }) => {
   //alert(route.params.useName)
   const [date, setDate] = useState(new Date());
@@ -47,12 +48,14 @@ export const SignUpTwo = ({ navigation, route }) => {
       phone,
       TaxId,
       date
-    ).then((res) => {
+    ).then(async (res) => {
       if (res === "ERROR!") {
         alert("Unable To SignUp,Try Again");
       } else if (res === "SUCESS!") {
         //alert("Sucessfull");
-        navigation.navigate("FinalPage")
+        await AsyncStorage.setItem("UserID", `${username}`);
+
+        navigation.navigate("FinalPage");
       } else {
         alert("Something Went Wrong!");
       }
@@ -61,7 +64,7 @@ export const SignUpTwo = ({ navigation, route }) => {
   const onChange = (event, selectedDate) => {
     //alert(moment(selectedDate).format('lll'))
     //alert(selectedDate)
-    const currentDate = moment(selectedDate).format('lll') || date;
+    const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
   };
@@ -145,12 +148,13 @@ export const SignUpTwo = ({ navigation, route }) => {
               value={TaxId}
               onChangeText={(text) => setTaxId(text)}
             />
-            {/* <Input
-                placeholder="Sales Tax Expire Date"
-                marginTop={30}
-                value={TaxExpire}
-                onChangeText={(text) => setTaxExpire(text)}
-              /> */}
+            <Input
+              placeholder="Sales Tax Expire Date"
+              marginTop={30}
+              value={moment(date).format("lll")}
+              onChangeText={(text) => setTaxExpire(text)}
+              editable={false}
+            />
             {/* <View
                 // style={{
                 //   marginLeft: -21,
@@ -160,31 +164,32 @@ export const SignUpTwo = ({ navigation, route }) => {
                 //   right: 44,
                 // }}
               > */}
-            <TouchableWithoutFeedback
+            {/* <TouchableWithoutFeedback  style={{}} style={{
+                  alignItems: "flex-end",
+                  justifyContent: "flex-end",
+                  marginTop: 27,
+                  //backgroundColor: COLORS.primary,
+                  width: "80%",
+                  marginHorizontal: 44,
+                  borderRadius: 12,
+                  paddingVertical: 5,
+                  right: 2,
+                  // position: "relative",
+                  bottom: 66,
+                }}> */}
+            <FontAwesome
               onPress={() => setShow(!show)}
+              name="clock-o"
+              size={30}
+              color={COLORS.font}
               style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-                marginTop: 27,
-                backgroundColor: COLORS.primary,
-                width:'80%',
-                marginHorizontal:34,
-                borderRadius:12,
-                paddingVertical:5
+                right: 30,
+                bottom: 40,
+                justifyContent: "flex-start",
+                alignSelf: "flex-end",
               }}
-            >
-              <FontAwesome name="clock-o" size={35} color={COLORS.font} />
-              <Text
-                style={{
-                  color: COLORS.font,
-                  fontSize: 20,
-                  marginHorizontal: 12,
-                }}
-              >
-                Sales Tax Expire Date
-              </Text>
-            </TouchableWithoutFeedback>
+            />
+            {/* </TouchableWithoutFeedback> */}
             {/* </View> */}
             {/* <Button title="Show Date" onPress={()=>setShow(!show)} /> */}
             {show && (

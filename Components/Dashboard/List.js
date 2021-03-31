@@ -125,7 +125,7 @@ const List = ({ navigation, route }) => {
                       // key={item.key}
                       key={item.id}
                     >
-                      <TouchableOpacity
+                      {/* <TouchableOpacity
                         style={{
                           //padding: 4,
                           width: 80,
@@ -138,7 +138,7 @@ const List = ({ navigation, route }) => {
                         }}
                       >
                         <Icon name="heart" size={25} color="#FF0707" />
-                      </TouchableOpacity>
+                      </TouchableOpacity> */}
 
                       <Grid>
                         <Col size={30}>

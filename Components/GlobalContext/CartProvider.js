@@ -3,43 +3,78 @@ import { Text, View } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 
 export const CartContext = createContext();
-const SaveData=async()=>{
-  var SaveData1=await AsyncStorage.getItem("MyCart")
-  
-  return SaveData1
-}
+const SaveData = async () => {
+  var SaveData1 = await AsyncStorage.getItem("MyCart");
+
+  return SaveData1;
+};
 const CartProvider = ({ children }) => {
   var MyCart1 = [];
-  const [user, setUser] = useState(()=>SaveData());
- 
+
+  const [user, setUser] = useState(() => SaveData());
+  const [Profile, setProfile] = useState();
+  const [Prajwal, setPrajwal] = useState(null);
   return (
     <CartContext.Provider
       value={{
+        Profile,
+        setProfile,
         user,
         setUser,
+        Prajwal,
+        setPrajwal,
         AddToCart: async (ProductId) => {
-          // alert(ProductId);
+          //alert(ProductId);
+          var array = [await AsyncStorage.getItem("countries")];
 
           try {
-            var MyCart = await AsyncStorage.getItem("MyCart");
+            //var MyCart = await AsyncStorage.getItem("MyCart");
             //;
             //alert(JSON.parse(MyCart))
-            alert(MyCart)
-            if (MyCart == null) {
-              var MyCart1 = JSON.parse(MyCart);
+            //  alert(MyCart)
+            //await AsyncStorage.removeItem("countries");
+            if (Prajwal === null) {
+              var countries = await AsyncStorage.getItem("countries");
+
+              if (countries === null) {
+                await AsyncStorage.setItem("countries", ProductId);
+              } else {
+                await array.push(ProductId);
+                await AsyncStorage.setItem("countries", array.toString());
+              }
+              await setPrajwal(await AsyncStorage.getItem("countries"));
+              // await AsyncStorage.setItem("Don", Prajwal);
+            } else {
+              var countries = await AsyncStorage.getItem("countries");
+              console.warn(array);
+              if (countries === null) {
+                await AsyncStorage.setItem("countries", ProductId);
+              } else {
+                await array.push(ProductId);
+                await AsyncStorage.setItem("countries", array.toString());
+              }
+              // var countries = AsyncStorage.getItem("countries");
+              // AsyncStorage.setItem("countries", (countries += ProductId));
+              await setPrajwal(await AsyncStorage.getItem("countries"));
+              //await AsyncStorage.setItem("Don", Prajwal);
             }
-            MyCart1.push(ProductId);
-            setUser([...user, ProductId]);
+            //MyCart1.push(ProductId);
+            //setUser([...user, ProductId]);
+          } catch (error) {
+            console.log(error);
+          }
+          try {
+            await AsyncStorage.getItem("countries").then((Val) => alert(Val));
           } catch (error) {
             console.log(error);
           }
 
-          try {
-            await AsyncStorage.setItem("MyCart", JSON.stringify(MyCart1));
-            //alert(JSON.parse(MyCart));
-          } catch (error) {
-            console.log(error);
-          }
+          // try {
+          //   await AsyncStorage.setItem("MyCart", JSON.stringify(MyCart1));
+          //   //alert(JSON.parse(MyCart));
+          // } catch (error) {
+          //   console.log(error);
+          // }
 
           // try {
           //   const myArray1 = await AsyncStorage.getItem("MyCart");
@@ -74,45 +109,53 @@ const CartProvider = ({ children }) => {
         },
         DeleteFromCart: async (ProductId) => {
           //alert(ProductId)
+          const array123 = await AsyncStorage.getItem("countries");
+          var A1 = array123.split(",");
+          //alert(A1[0])
+          const index = A1.indexOf(ProductId);
           try {
-            const MyArray = await AsyncStorage.getItem("MyCart");
+            await A1.splice(index, 1);
+            await AsyncStorage.setItem("countries", A1.toString());
+            // await setPrajwal(await AsyncStorage.getItem("countries"));
+            await setPrajwal(A1);
+
+          } catch (error) {
+            console.log(error);
+          }
+          // try {
+          //   function removeDuplicates(array) {
+          //     return array.filter((a, b) => array.indexOf(a) === b);
+          //   }
+          //   var RemovedIDs = removeDuplicates(JSON.parse(MyArray));
+          //   const index = RemovedIDs.indexOf(ProductId);
+          //   if (index > -1) {
+          //     RemovedIDs.splice(index, 1);
+          //     setUser(JSON.stringify(RemovedIDs));
+          //   }
+          // } catch (error) {
+          //   console.log(error);
+          // }
+          // try {
+          //   await AsyncStorage.setItem("MyCart", JSON.stringify(RemovedIDs));
+          // } catch (error) {
+          //   console.log(error);
+          // }
+        },
+        CheckTheProduct: async (ProductId) => {
+          //alert(ProductId)
+          try {
+            const MyArray3 = await AsyncStorage.getItem("MyCart");
             function removeDuplicates(array) {
               return array.filter((a, b) => array.indexOf(a) === b);
             }
-            var RemovedIDs = removeDuplicates(JSON.parse(MyArray));
-            const index = RemovedIDs.indexOf(ProductId);
-            if (index > -1) {
-              RemovedIDs.splice(index, 1);
-              setUser(JSON.stringify(RemovedIDs));
-
-            }
-            
-          } catch (error) {
-            console.log(error);
-          }
-          try {
-            await AsyncStorage.setItem("MyCart", JSON.stringify(RemovedIDs));
-
-          } catch (error) {
-            console.log(error);
-          }
-        },
-      CheckTheProduct:async(ProductId)=>{
-        //alert(ProductId)
-        try {
-          const MyArray3 = await AsyncStorage.getItem("MyCart");
-          function removeDuplicates(array) {
-            return array.filter((a, b) => array.indexOf(a) === b);
-          }
             var RemovedIDs = removeDuplicates(JSON.parse(MyArray3));
-           var N= RemovedIDs.includes(ProductId)
-          //alert(N)
-        } catch (error) {
-          console.log(error)
-        }
-        return N;
-
-      }
+            var N = RemovedIDs.includes(ProductId);
+            //alert(N)
+          } catch (error) {
+            console.log(error);
+          }
+          return N;
+        },
       }}
     >
       {children}

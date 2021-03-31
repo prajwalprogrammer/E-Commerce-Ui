@@ -13,18 +13,30 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import CheckBox from "@react-native-community/checkbox";
 import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
+import moment from "moment";
+import { CartContext } from "../../Components/GlobalContext/CartProvider";
 
 const Checkout = (props) => {
-  const [date, setDate] = useState(new Date(1598051730000));
+  const { Profile } = React.useContext(CartContext);
+  const [date, setDate] = useState();
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const [toggleCheckBox1, setToggleCheckBox1] = useState(false);
-  const [toggleCheckBox2, setToggleCheckBox2] = useState(true);
-
+  const [toggleCheckBox1, setToggleCheckBox1] = useState(true);
+  const [toggleCheckBox2, setToggleCheckBox2] = useState(false);
+  const [Time, setTime] = useState();
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
-    setDate(currentDate);
+    if (mode === "date") {
+      if (currentDate > new Date()) {
+        setDate(currentDate);
+      } else {
+        alert("Wrong Date Selected");
+      }
+    }
+    if (mode === "time") {
+      setTime(currentDate);
+    }
   };
 
   const showMode = (currentMode) => {
@@ -42,13 +54,13 @@ const Checkout = (props) => {
   return (
     <ScrollView style={{}}>
       <LinearGradient
-        colors={[COLORS.black,COLORS.black, COLORS.black1]}
+        colors={[COLORS.black, COLORS.black, COLORS.black1]}
         style={{
           ...styles.innercontainer,
           backgroundColor: "#000000",
           borderRadius: 30,
-          borderColor:'#000000',
-          borderWidth:3
+          borderColor: "#000000",
+          borderWidth: 3,
         }}
       >
         <View>
@@ -76,7 +88,7 @@ const Checkout = (props) => {
                         setToggleCheckBox2(false);
                       }}
                       tintColors="#ffffff"
-                      style={{borderColor:"#ffffff"}}
+                      style={{ borderColor: "#ffffff" }}
                     />
                   </Col>
                   <Col size={30}>
@@ -103,7 +115,6 @@ const Checkout = (props) => {
                       setToggleCheckBox1(false);
                     }}
                     tintColors="#ffffff"
-
                   />
                 </Col>
                 <Col size={30}>
@@ -130,7 +141,7 @@ const Checkout = (props) => {
                     }}
                   >
                     <Text style={{ color: COLORS.font }}>
-                      3131 South West 89 Street, okhlahoma 73159
+                      {Profile.Contact[0].Address}
                     </Text>
                   </View>
 
@@ -150,42 +161,49 @@ const Checkout = (props) => {
                 </View>
               </Row>
             ) : (
-              <View>
+              <View style={{ justifyContent: "center", right: 22 }}>
                 <Text>{"\n"}</Text>
 
                 <View>
                   <TouchableOpacity
                     style={{
                       backgroundColor: "#759CFF",
-                      width: 110,
+                      width: "50%",
                       marginLeft: 100,
                       padding: 10,
                       borderRadius: 10,
                       marginBottom: 10,
+                      alignItems: "center",
                     }}
                     onPress={showDatepicker}
                   >
-                    <Text>Choose Date</Text>
+                    <Text style={{ fontSize: 17, fontWeight: "bold" }}>
+                      {date ? moment(date).format("ll") : "Choose Date"}
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <View>
                   <TouchableOpacity
                     style={{
                       backgroundColor: "#759CFF",
-                      width: 110,
+                      width: "50%",
                       marginLeft: 100,
                       padding: 10,
                       borderRadius: 10,
+                      marginBottom: 10,
+                      alignItems: "center",
                     }}
                     onPress={showTimepicker}
                   >
-                    <Text>Choose Time</Text>
+                    <Text style={{ fontSize: 17, fontWeight: "bold" }}>
+                      {Time ? moment(Time).format("LT") : "Choose Time"}
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 {show && (
                   <DateTimePicker
                     testID="dateTimePicker"
-                    value={date}
+                    value={new Date()}
                     mode={mode}
                     is24Hour={true}
                     display="default"
@@ -202,6 +220,7 @@ const Checkout = (props) => {
           onPress={() =>
             props.Nav.navigate("Finalscreen", {
               isdelivery: toggleCheckBox2 ? true : false,
+              Date: moment(date).format("ll"),
             })
           }
           // style={{
@@ -215,13 +234,8 @@ const Checkout = (props) => {
           //   borderRadius: 10,
           // }}
         >
-          <LinearGradient
-          colors={["#7C9387","#2C5140"]}
-          style={styles.signIn}
-          >
-          <Text style={{ ...styles.TextSign, color: "white" }}>
-          Confirm
-          </Text>
+          <LinearGradient colors={["#7C9387", "#2C5140"]} style={styles.signIn}>
+            <Text style={{ ...styles.TextSign, color: "white" }}>Confirm</Text>
           </LinearGradient>
           {/* <Text style={{ fontSize: 16,alignSelf:'center' }}>Confirm</Text> */}
         </TouchableOpacity>
@@ -250,7 +264,7 @@ const styles = StyleSheet.create({
   TextSign: {
     fontSize: 25,
     fontWeight: "bold",
-    alignSelf:'center'
+    alignSelf: "center",
   },
 });
 

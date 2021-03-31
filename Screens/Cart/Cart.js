@@ -67,115 +67,136 @@ import { CartContext } from "../../Components/GlobalContext/CartProvider";
 import CartList from "./CartList";
 
 const Cart = ({ navigation }) => {
-  const { user } = React.useContext(CartContext);
+  const { user, Prajwal } = React.useContext(CartContext);
   const [CArt, setCArt] = React.useState([]);
   var Ids;
+  navigation.addListener("focus", async () => {
+    //do your thing here
+    const myArray2 = await AsyncStorage.getItem("countries");
+    if (myArray2) {
+      setCArt(Prajwal.toString().split(","));
+    }
+    //alert(Cart[0])
+    //alert("Hiii")
+  });
   React.useEffect(() => {
     const Fetch = async () => {
-      //alert("hii")
-      const myArray2 = await AsyncStorage.getItem("MyCart");
-      //Ids = removeDuplicates(JSON.parse(myArray2))
-      //Ids.split(",")
-      alert(myArray2)
-      function removeDuplicates(array) {
-        return array.filter((a, b) => array.indexOf(a) === b);
+      alert("re");
+      const myArray2 = await AsyncStorage.getItem("countries");
+      if (myArray2) {
+        setCArt(Prajwal.toString().split(","));
       }
-      setCArt(removeDuplicates(JSON.parse(myArray2)));
-      console.log(CArt[0]);
-      //Ids.map(async(item)=>{setCArt([...CArt,await GetMyCart(item)])})
-      // setCArt([...CArt,await GetMyCart(Ids)])
-      //    console.log(CArt)
-      // alert(JSON.parse(myArray2))
+      //     //alert("hii")
+      //     const myArray2 = await AsyncStorage.getItem("countries");
+      //     //Ids = removeDuplicates(JSON.parse(myArray2))
+      //     //Ids.split(",")
+      //     alert(myArray2)
+      //     function removeDuplicates(array) {
+      //       return array.filter((a, b) => array.indexOf(a) === b);
+      //     }
+      //     setCArt(removeDuplicates(JSON.parse(myArray2)));
+      //     console.log(CArt[0]);
+      //     //Ids.map(async(item)=>{setCArt([...CArt,await GetMyCart(item)])})
+      //     // setCArt([...CArt,await GetMyCart(Ids)])
+      //     //    console.log(CArt)
+      //     // alert(JSON.parse(myArray2))
     };
     Fetch();
-  }, [user]);
+  }, [Prajwal]);
+  const DeleteCart = (id) => {
+    const index = A1.indexOf(id);
+
+    CArt.splice(index);
+  };
   return (
-    <Container>
-      <Header
-        style={{
-          backgroundColor: "#202020",
-          elevation: 12,
-          height: 80,
-          // borderBottomColor: "white",
-          // borderBottomWidth: 0.5,
-        }}
-        androidStatusBarColor="#202020"
-      >
-        <Left>
-          <Button transparent onPress={() => navigation.goBack()}>
-            <Icon name="arrow-back" style={{ color: COLORS.font }} />
-          </Button>
-        </Left>
-        <Body>
-          <Title
-            style={{ fontSize: 20, fontWeight: "bold", color: COLORS.font }}
-          >
-            Cart
-          </Title>
-          <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
-            CLUS Pvt Ltd.
-          </Subtitle>
-        </Body>
-        <Right>
-          <Button transparent>{/* <Icon name='menu' /> */}</Button>
-        </Right>
-      </Header>
-      <ScrollView style={{}}>
+    <>
+      <Container>
+        <Header
+          style={{
+            backgroundColor: "#202020",
+            elevation: 12,
+            height: 60,
+            // borderBottomColor: "white",
+            // borderBottomWidth: 0.5,
+          }}
+          androidStatusBarColor="#202020"
+        >
+          <Left>
+            <Button transparent onPress={() => navigation.goBack()}>
+              <Icon name="arrow-back" style={{ color: COLORS.font }} />
+            </Button>
+          </Left>
+          <Body>
+            <Title
+              style={{ fontSize: 20, fontWeight: "bold", color: COLORS.font }}
+            >
+              Cart
+            </Title>
+            <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
+              CLUS Pvt Ltd.
+            </Subtitle>
+          </Body>
+          <Right>
+            <Button transparent>{/* <Icon name='menu' /> */}</Button>
+          </Right>
+        </Header>
         <LinearGradient
           colors={["#000000", "#474747"]}
           style={{
-            borderBottomRightRadius: 35,
-            borderBottomLeftRadius: 35,
+            height: "100%",
+            // borderBottomRightRadius: 35,
+            // borderBottomLeftRadius: 35,
             elevation: 0.8,
           }}
           start={{ x: 0.9, y: 0.25 }}
         >
-          {/* <TouchableOpacity style={styles.cartheader}>
+          <ScrollView style={{}}>
+            {/* <TouchableOpacity style={styles.cartheader}>
           <Text style={{ fontSize: 20 }}>Cart</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.clus}>
           <Text style={{ color: "white" }}>CLUS Pvt Ltd.</Text>
         </TouchableOpacity> */}
-          <TouchableWithoutFeedback
-            onPress={() => {
-              navigation.navigate("Dashboard");
-            }}
-          >
-            <LinearGradient
-              colors={["#000000", "#474747"]}
-              style={{
-                ...styles.additems,
-                alignSelf: "center",
-                width: "80%",
-                height: 50,
-                justifyContent: "center",
-                elevation: 0.8,
+            <TouchableWithoutFeedback
+              onPress={() => {
+                navigation.navigate("Allproduct");
               }}
-              start={{ x: 1.3, y: 0.25 }}
             >
-              <Text
+              <LinearGradient
+                colors={["#000000", "#474747"]}
                 style={{
-                  fontSize: 21,
-                  fontWeight: "bold",
+                  ...styles.additems,
                   alignSelf: "center",
-                  color: COLORS.font,
+                  width: "80%",
+                  height: 50,
+                  justifyContent: "center",
+                  elevation: 0.8,
                 }}
+                start={{ x: 1.3, y: 0.25 }}
               >
-                <MaterialCommunityIcons
-                  name="cart-outline"
-                  color={COLORS.font}
-                  size={30}
-                />{" "}
-                ADD NEW ITEMS{" "}
-              </Text>
-            </LinearGradient>
-          </TouchableWithoutFeedback>
+                <Text
+                  style={{
+                    fontSize: 21,
+                    fontWeight: "bold",
+                    alignSelf: "center",
+                    color: COLORS.font,
+                  }}
+                >
+                  <MaterialCommunityIcons
+                    name="cart-outline"
+                    color={COLORS.font}
+                    size={30}
+                  />{" "}
+                  ADD NEW ITEMS{" "}
+                </Text>
+              </LinearGradient>
+            </TouchableWithoutFeedback>
 
-          {/* <View> */}
-          {/* <ScrollView> */}
-          {CArt ? CArt.map((item) => <CartList Pid={item} />) : null}
-          {/* </ScrollView> */}
-          {/* {CArt?
+            {/* <View> */}
+            {/* <ScrollView> */}
+            {CArt ? CArt.map((item) => <CartList Pid={item} />) : null}
+            {/* </ScrollView> */}
+            {/* {CArt?
             CArt.map((item) => (
               <LinearGradient
                 colors={["#474747", "#474747", "#202020"]}
@@ -258,7 +279,7 @@ const Cart = ({ navigation }) => {
                     </Col>
                   </Row> */}
 
-          {/* <Col>
+            {/* <Col>
       <Text onPress={() => navigation.navigate('Favourites')}>
       <Image 
       source={   require('../../Assets/Redheart.png')}                                               
@@ -266,43 +287,48 @@ const Cart = ({ navigation }) => {
             }}
             /> </Text>
           </Col> */}
-          {/* </Grid>
+            {/* </Grid>
               </LinearGradient>
             )):null} */}
-          {/* <Text>{"\n"}</Text> */}
-          {/* </View> */}
-          <View
-            style={{
-              backgroundColor: "#303030",
-              borderTopLeftRadius: 30,
-              borderTopRightRadius: 30,
-              height: "100%",
-              marginVertical: 10,
-              elevation: 20,
-              borderTopColor: "red",
-            }}
-          >
-            <TouchableWithoutFeedback
-              style={styles.checkout}
-              onPress={() => navigation.navigate("CheckoutModal")}
-            >
-              <Text style={{ color: "white", fontSize: 16 }}>
-                Checkout $4000
-              </Text>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback style={styles.cancel} onPress={() => navigation.navigate("Dashboard")}>
-              <Text style={{ color: "white", fontSize: 16 }}>Cancel</Text>
-            </TouchableWithoutFeedback>
-          </View>
-          {/* <TouchableOpacity style={styles.checkout} onPress={() => navigation.navigate('Checkout')}>
+            {/* <Text>{"\n"}</Text> */}
+            {/* </View> */}
+          </ScrollView>
+        </LinearGradient>
+      </Container>
+
+      <View
+        style={{
+          justifyContent: "flex-end",
+          backgroundColor: "#303030",
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
+          // height: "100%",
+          // top:10,
+          // marginVertical: 10,
+          elevation: 20,
+          borderTopColor: "red",
+        }}
+      >
+        <TouchableWithoutFeedback
+          style={styles.checkout}
+          onPress={() => navigation.navigate("CheckoutModal")}
+        >
+          <Text style={{ color: "white", fontSize: 16 }}>Checkout $4000</Text>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback
+          style={styles.cancel}
+          onPress={() => navigation.navigate("Dashboard")}
+        >
+          <Text style={{ color: "white", fontSize: 16 }}>Cancel</Text>
+        </TouchableWithoutFeedback>
+      </View>
+      {/* <TouchableOpacity style={styles.checkout} onPress={() => navigation.navigate('Checkout')}>
             <Text style={{color:'white',fontSize:16}}>Checkout $4000</Text>
             </TouchableOpacity> 
             <TouchableOpacity style={styles.cancel}>
             <Text style={{color:'white',fontSize:16}}>Cancel</Text>
             </TouchableOpacity> */}
-        </LinearGradient>
-      </ScrollView>
-    </Container>
+    </>
   );
 };
 

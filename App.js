@@ -171,6 +171,11 @@ export const MyCartStack = () => {
       />
       <Stack.Screen
         options={{ headerShown: false }}
+        name="Allproduct"
+        component={Allproduct}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
         name="Categories"
         component={Categories}
       />

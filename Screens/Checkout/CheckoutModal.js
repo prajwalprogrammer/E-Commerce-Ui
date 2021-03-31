@@ -50,13 +50,14 @@ const CheckoutModal = ({ navigation }) => {
         swipeDirection={["up", "left", "right", "down"]}
         style={styles.view1}
       > */}
-        <View style={styles.header}>
-          <Text style={styles.Text}>Order Confirmation</Text>
-        </View>
-        <LinearGradient
-        colors={[COLORS.black1, COLORS.black]} style={styles.footer} >
+      <View style={styles.header}>
+        <Text style={styles.Text}>Order Confirmation</Text>
+      </View>
+      <LinearGradient
+        colors={[COLORS.black1, COLORS.black]}
+        style={styles.footer}
+      >
         <Animatable.View animation="fadeInUpBig">
-        
           <Checkout Nav={navigation} />
           {/* <Text style={styles.TextFooter}>Remark</Text>
 
@@ -99,9 +100,9 @@ const CheckoutModal = ({ navigation }) => {
           Close Modal
           </Text>
         */}
-</Animatable.View>
-</LinearGradient>
-        {/* <Text
+        </Animatable.View>
+      </LinearGradient>
+      {/* <Text
           style={styles.closeText}
           onPress={() => {
             displayModal(!state1);
@@ -126,13 +127,13 @@ const styles = StyleSheet.create({
     paddingTop: "10%",
   },
   view1: {
-   // paddingBottom: "-30%",
+    // paddingBottom: "-30%",
   },
   footer: {
     flex: 3,
-   // backgroundColor: "#000000",
+    // backgroundColor: "#000000",
     borderTopLeftRadius: 30,
-   // borderBottomLeftRadius: 30,
+    // borderBottomLeftRadius: 30,
     //borderBottomRightRadius: 30,
 
     borderTopRightRadius: 30,

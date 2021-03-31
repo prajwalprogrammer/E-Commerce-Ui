@@ -192,21 +192,25 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import { Read, ShowData, DailyDeal,GetUserDetails } from "./AxiosUrl";
+import { Read, ShowData, DailyDeal, GetUserDetails } from "./AxiosUrl";
 import AsyncStorage from "@react-native-community/async-storage";
+import { CartContext } from "../GlobalContext/CartProvider";
 const Dashboard = ({ navigation }) => {
+  const { Profile, setProfile, Prajwal, setPrajwal } = React.useContext(
+    CartContext
+  );
   const isCarousel = React.useRef(null);
   const [DATA, setDATA] = React.useState([]);
   const [value, onChangeText] = React.useState("Search");
   const [Visible, setVisible] = useState(null);
   const [DAILY, setDAILY] = useState([]);
-  const [UserProfile, setUserProfile] = useState()
+  const [UserProfile, setUserProfile] = useState();
   React.useEffect(() => {
-    
     setVisible(true);
     const fetchAPI = async () => {
-    //  alert(await AsyncStorage.getItem("UserID"))
-      setUserProfile(await GetUserDetails(await AsyncStorage.getItem("UserID")))
+      //  alert(await AsyncStorage.getItem("UserID"))
+      setPrajwal(await AsyncStorage.getItem("countries"))
+      setProfile(await GetUserDetails(await AsyncStorage.getItem("UserID")));
       setDATA(await Read());
       console.log(DATA);
       setDAILY(await DailyDeal());
@@ -245,17 +249,21 @@ const Dashboard = ({ navigation }) => {
                   <Row style={{ flexDirection: "row" }}>
                     <View style={{ flexDirection: "row" }}>
                       <TouchableOpacity
-                        onPress={() => navigation.navigate("Profiles")}
+                        onPress={() => navigation.navigate("Profile")}
                       >
-                        <Image
-                          source={require("../../Assets/download.png")}
+                        {/* <Image
+                          source={
+                            (Profile.Image === null)
+                              ? require("../../Assets/download.png")
+                              : { uri: Profile.Image }
+                          }
                           style={{
                             width: 35,
                             height: 35,
                             margin: 5,
                             borderRadius: 100,
                           }}
-                        />
+                        /> */}
                       </TouchableOpacity>
                       <Text
                         style={{
@@ -263,7 +271,8 @@ const Dashboard = ({ navigation }) => {
                           color: "white",
                         }}
                       >
-                      Howdy,{"\n"}{UserProfile?UserProfile.AccountName:null}
+                        Howdy,{"\n"}
+                        {Profile ? Profile.AccountName : null}
                       </Text>
                     </View>
                   </Row>
@@ -271,30 +280,6 @@ const Dashboard = ({ navigation }) => {
                 <Col></Col>
                 <Col></Col>
                 <Col></Col>
-
-                <Col>
-                  <Row>
-                    <Text>
-                      <Col>
-                        <TouchableOpacity style={{ marginRight: 1 }}>
-                          <Text
-                            onPress={() => navigation.navigate("Favourites")}
-                          >
-                            <Icon name="heart" size={25} color="#FF0707" />
-                          </Text>
-                        </TouchableOpacity>
-                      </Col>
-                      <Col>
-                        <Text
-                          onPress={() => navigation.navigate("Cart")}
-                          style={{ marginLeft: 10 }}
-                        >
-                          <Icon name="shoppingcart" size={25} color="#FFF" />
-                        </Text>
-                      </Col>
-                    </Text>
-                  </Row>
-                </Col>
               </Row>
             </Grid>
           </View>

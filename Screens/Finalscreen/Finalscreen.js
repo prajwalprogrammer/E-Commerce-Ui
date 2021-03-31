@@ -8,8 +8,10 @@ import {
   ScrollView,
 } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
+import { CartContext } from "../../Components/GlobalContext/CartProvider";
 
 const FinalScreen = ({ route }) => {
+  const {Profile} = React.useContext(CartContext)
   const [isdelivery] = useState(route.params.isdelivery);
   useEffect(() => {
     console.log(isdelivery);
@@ -36,13 +38,13 @@ const FinalScreen = ({ route }) => {
       <View
         style={{
           position: "absolute",
-          top: 280,
+          top: 260,
           left: 40,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <Text>Order Confirmation #1234</Text>
+        <Text>Order Confirmation{"\n"} {Profile?Profile.AccountName:null}</Text>
       </View>
       <View
         style={{
@@ -57,8 +59,8 @@ const FinalScreen = ({ route }) => {
         <Text>
           Thank you for your business.
           {isdelivery
-            ? "Your order will be delivered to (%account.address%)."
-            : "Your order will be ready for pick by ({%date.current()% + 36000})"}{" "}
+            ? `Your order will be delivered to ${Profile.Contact[0].Address}`
+            : `Your order will be ready for pick by ${route.params.Date}`}
         </Text>
       </View>
       <View

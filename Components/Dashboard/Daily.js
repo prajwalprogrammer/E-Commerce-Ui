@@ -47,13 +47,23 @@ import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { CartContext } from "../GlobalContext/CartProvider";
+import AsyncStorage from "@react-native-community/async-storage";
 export const RenderItem = (props) => {
   console.log(props.data.id);
-  const { CheckTheProduct, user, AddToCart } = React.useContext(CartContext);
-  console.log("User" + user);
-  var N1 = JSON.stringify(user).includes(props.data.id);
-   //alert(N1)
+  const { user, AddToCart, Prajwal } = React.useContext(CartContext);
+  console.log("User" + Prajwal);
+  var N1;
+
+  //alert(N1)
   // alert("fgg"+JSON.stringify(N1))
+  React.useEffect(() => {
+    async () => {
+      N1 = await AsyncStorage.getItem("countries")
+        .split(",")
+        .includes(props.data.id);
+    };
+    //N1 = Prajwal.split(",").includes(props.data.id);
+  }, [Prajwal]);
   return (
     <TouchableWithoutFeedback
       onPress={() =>
@@ -130,12 +140,6 @@ export const RenderItem = (props) => {
                 <Text style={styles.texts}>Add To Cart</Text>
               )}
             </TouchableWithoutFeedback>
-            <Icon
-              name="heart"
-              size={30}
-              color="#FF0707"
-              style={{ justifyContent: "center", alignSelf: "center" }}
-            />
           </View>
           {/* <Grid>
                       <Col size={70}>
