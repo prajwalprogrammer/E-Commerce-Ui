@@ -196,7 +196,7 @@ import { Read, ShowData, DailyDeal, GetUserDetails } from "./AxiosUrl";
 import AsyncStorage from "@react-native-community/async-storage";
 import { CartContext } from "../GlobalContext/CartProvider";
 const Dashboard = ({ navigation }) => {
-  const { Profile, setProfile, Prajwal, setPrajwal } = React.useContext(
+  const { Profile, setProfile, Prajwal, setPrajwal, setQ } = React.useContext(
     CartContext
   );
   const isCarousel = React.useRef(null);
@@ -209,7 +209,9 @@ const Dashboard = ({ navigation }) => {
     setVisible(true);
     const fetchAPI = async () => {
       //  alert(await AsyncStorage.getItem("UserID"))
-      setPrajwal(await AsyncStorage.getItem("countries"))
+      setPrajwal(await AsyncStorage.getItem("countries"));
+      setQ(await AsyncStorage.getItem("Quan"));
+
       setProfile(await GetUserDetails(await AsyncStorage.getItem("UserID")));
       setDATA(await Read());
       console.log(DATA);
@@ -251,11 +253,13 @@ const Dashboard = ({ navigation }) => {
                       <TouchableOpacity
                         onPress={() => navigation.navigate("Profile")}
                       >
-                        {/* <Image
+                        <Image
                           source={
-                            (Profile.Image === null)
-                              ? require("../../Assets/download.png")
-                              : { uri: Profile.Image }
+                            Profile
+                              ? Profile.Image === null
+                                ? require("../../Assets/download.png")
+                                : { uri: Profile.Image }
+                              : require("../../Assets/download.png")
                           }
                           style={{
                             width: 35,
@@ -263,7 +267,7 @@ const Dashboard = ({ navigation }) => {
                             margin: 5,
                             borderRadius: 100,
                           }}
-                        /> */}
+                        />
                       </TouchableOpacity>
                       <Text
                         style={{

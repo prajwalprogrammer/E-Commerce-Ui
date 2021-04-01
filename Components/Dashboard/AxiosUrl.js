@@ -74,6 +74,7 @@ export const SignUp = async (useName,password,name,address,email,phone,TaxId,set
       },
     ],
     OrderList: null,
+    Image:null,
     STD: {
       Sales_Id: TaxId,
       Sales_Tax_Link:

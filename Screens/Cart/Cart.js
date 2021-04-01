@@ -69,22 +69,29 @@ import CartList from "./CartList";
 const Cart = ({ navigation }) => {
   const { user, Prajwal } = React.useContext(CartContext);
   const [CArt, setCArt] = React.useState([]);
+  const [Quantity, setQuantity] = React.useState([]);
   var Ids;
   navigation.addListener("focus", async () => {
     //do your thing here
     const myArray2 = await AsyncStorage.getItem("countries");
+    const Quanti = await AsyncStorage.getItem("Quan");
+
     if (myArray2) {
-      setCArt(Prajwal.toString().split(","));
+      setCArt(myArray2.split(","));
+      setQuantity(Quanti.split(","));
     }
     //alert(Cart[0])
     //alert("Hiii")
   });
   React.useEffect(() => {
     const Fetch = async () => {
-      alert("re");
+      //alert("re");
       const myArray2 = await AsyncStorage.getItem("countries");
+      const Quanti = await AsyncStorage.getItem("Quan");
+
       if (myArray2) {
-        setCArt(Prajwal.toString().split(","));
+        setCArt(myArray2.split(","));
+        setQuantity(Quanti.split(","));
       }
       //     //alert("hii")
       //     const myArray2 = await AsyncStorage.getItem("countries");
@@ -110,7 +117,7 @@ const Cart = ({ navigation }) => {
   };
   return (
     <>
-      <Container>
+      <Container style={{backgroundColor:'black'}}>
         <Header
           style={{
             backgroundColor: "#202020",
@@ -143,14 +150,15 @@ const Cart = ({ navigation }) => {
         <LinearGradient
           colors={["#000000", "#474747"]}
           style={{
-            height: "100%",
+            height: "93%",
             // borderBottomRightRadius: 35,
             // borderBottomLeftRadius: 35,
             elevation: 0.8,
+            marginBottom:10
           }}
           start={{ x: 0.9, y: 0.25 }}
         >
-          <ScrollView style={{}}>
+          <ScrollView contentContainerStyle={{marginBottom:30}}>
             {/* <TouchableOpacity style={styles.cartheader}>
           <Text style={{ fontSize: 20 }}>Cart</Text>
         </TouchableOpacity>
@@ -194,7 +202,12 @@ const Cart = ({ navigation }) => {
 
             {/* <View> */}
             {/* <ScrollView> */}
-            {CArt ? CArt.map((item) => <CartList Pid={item} />) : null}
+            
+            {CArt
+              ? CArt.map((item, index) => (
+                  <CartList Pid={item} key1={Quantity[index]} />
+                ))
+              : null}
             {/* </ScrollView> */}
             {/* {CArt?
             CArt.map((item) => (
@@ -302,7 +315,7 @@ const Cart = ({ navigation }) => {
           backgroundColor: "#303030",
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
-          // height: "100%",
+           height: "15%",
           // top:10,
           // marginVertical: 10,
           elevation: 20,

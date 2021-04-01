@@ -22,6 +22,7 @@ const CartList = (props) => {
     const Fetch = async () => {
       //   props.Pid.map(async(item)=>{    setCArt([...CArt,await GetMyCart(item)])
       //   })
+    //  alert(props.key1)
       setCArt(await GetMyCart(props.Pid));
       // // setCArt([...CArt,await GetMyCart(props.Pid)])
     };
@@ -82,7 +83,7 @@ const CartList = (props) => {
                   </Col>
                   <Col size={40}>
                     <TouchableWithoutFeedback
-                      onPress={() => DeleteFromCart(CArt.id)}
+                      // onPress={() => DeleteFromCart(CArt.id)}
                     >
                       <Text style={{ color: "red" }}>Delete</Text>
                     </TouchableWithoutFeedback>

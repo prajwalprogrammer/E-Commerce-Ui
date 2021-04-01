@@ -48,7 +48,7 @@ const Profile = ({ navigation }) => {
         setSalesEx(res.STD.Sales_expire_Date);
         setSalesId(res.STD.Sales_Id);
         setAccountStatus(res.isActive);
-       // setImage(res.Image);
+        setImage(res.Image);
       });
       if (Platform.OS !== "web") {
         const {

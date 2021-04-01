@@ -105,8 +105,11 @@ const Product = ({ navigation, route }) => {
           <Col>
             <TouchableWithoutFeedback
               style={styles.tab1}
-              onPress={() =>
-                {N1?navigation.navigate("Cart"):AddToCart(route.params.Pid)}}
+              onPress={() => {
+                N1
+                  ? navigation.navigate("Cart")
+                  : AddToCart(route.params.Pid, value);
+              }}
             >
               {/* <Text style={styles.texts}>Add to Cart</Text> */}
               {N1 ? (
@@ -124,7 +127,7 @@ const Product = ({ navigation, route }) => {
                 type="up-down"
                 minValue={1}
                 maxValue={route.params.Quantity}
-                onChange={(value) => console.log(value)}
+                onChange={(value) => setvalue(value)}
               />
             </View>
           </Col>

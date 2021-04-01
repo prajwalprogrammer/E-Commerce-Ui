@@ -10,7 +10,7 @@ const SaveData = async () => {
 };
 const CartProvider = ({ children }) => {
   var MyCart1 = [];
-
+  const [Q, setQ] = useState(null);
   const [user, setUser] = useState(() => SaveData());
   const [Profile, setProfile] = useState();
   const [Prajwal, setPrajwal] = useState(null);
@@ -23,39 +23,56 @@ const CartProvider = ({ children }) => {
         setUser,
         Prajwal,
         setPrajwal,
-        AddToCart: async (ProductId) => {
-          //alert(ProductId);
+        setQ,
+        Q,
+        AddToCart: async (ProductId, Quantity = 1) => {
+          // alert(Quantity);
           var array = [await AsyncStorage.getItem("countries")];
+
+          var Qua = [await AsyncStorage.getItem("Quan")];
 
           try {
             //var MyCart = await AsyncStorage.getItem("MyCart");
             //;
             //alert(JSON.parse(MyCart))
             //  alert(MyCart)
-            //await AsyncStorage.removeItem("countries");
-            if (Prajwal === null) {
-              var countries = await AsyncStorage.getItem("countries");
+            // await AsyncStorage.removeItem("countries");
+            // await AsyncStorage.removeItem("Quan");
 
-              if (countries === null) {
-                await AsyncStorage.setItem("countries", ProductId);
-              } else {
-                await array.push(ProductId);
-                await AsyncStorage.setItem("countries", array.toString());
-              }
-              await setPrajwal(await AsyncStorage.getItem("countries"));
+            if (Prajwal === null) {
+            var countries = await AsyncStorage.getItem("countries");
+
+            if (countries === null) {
+              await AsyncStorage.setItem("countries", ProductId);
+              await AsyncStorage.setItem("Quan", Quantity.toString());
+            } else {
+              await array.push(ProductId);
+              await Qua.push(Quantity);
+              await AsyncStorage.setItem("countries", array.toString());
+              await AsyncStorage.setItem("Quan", Qua.toString());
+            }
+            await setQ(await AsyncStorage.getItem("Quan"));
+            await setPrajwal(await AsyncStorage.getItem("countries"));
+
               // await AsyncStorage.setItem("Don", Prajwal);
             } else {
-              var countries = await AsyncStorage.getItem("countries");
-              console.warn(array);
-              if (countries === null) {
-                await AsyncStorage.setItem("countries", ProductId);
-              } else {
-                await array.push(ProductId);
-                await AsyncStorage.setItem("countries", array.toString());
-              }
+            var countries = await AsyncStorage.getItem("countries");
+            if (countries === null) {
+              await AsyncStorage.setItem("countries", ProductId);
+              await AsyncStorage.setItem("Quan", Quantity.toString());
+            } else {
+              await array.push(ProductId);
+              await Qua.push(Quantity);
+              console.warn(Qua);
+
+              await AsyncStorage.setItem("countries", array.toString());
+              await AsyncStorage.setItem("Quan", Qua.toString());
+            }
               // var countries = AsyncStorage.getItem("countries");
               // AsyncStorage.setItem("countries", (countries += ProductId));
+              await setQ(await AsyncStorage.getItem("Quan"));
               await setPrajwal(await AsyncStorage.getItem("countries"));
+
               //await AsyncStorage.setItem("Don", Prajwal);
             }
             //MyCart1.push(ProductId);
@@ -64,7 +81,8 @@ const CartProvider = ({ children }) => {
             console.log(error);
           }
           try {
-            await AsyncStorage.getItem("countries").then((Val) => alert(Val));
+            await AsyncStorage.getItem("countries").then((Val) => {});
+            await AsyncStorage.getItem("Quan").then((Val) => {});
           } catch (error) {
             console.log(error);
           }
@@ -117,8 +135,7 @@ const CartProvider = ({ children }) => {
             await A1.splice(index, 1);
             await AsyncStorage.setItem("countries", A1.toString());
             // await setPrajwal(await AsyncStorage.getItem("countries"));
-            await setPrajwal(A1);
-
+            await setPrajwal(A1.toString());
           } catch (error) {
             console.log(error);
           }

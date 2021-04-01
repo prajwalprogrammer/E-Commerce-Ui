@@ -56,12 +56,17 @@ export const RenderItem = (props) => {
 
   //alert(N1)
   // alert("fgg"+JSON.stringify(N1))
+  props.navigation.addListener("focus", async () => {
+    //do your thing here
+    var N2 = await AsyncStorage.getItem("countries");
+    N1 = N2.split(",").includes(props.data.id);
+  });
   React.useEffect(() => {
-    async () => {
-      N1 = await AsyncStorage.getItem("countries")
-        .split(",")
-        .includes(props.data.id);
+    const Fetch = async () => {
+      var N2 = await AsyncStorage.getItem("countries");
+      N1 = N2.split(",").includes(props.data.id);
     };
+    Fetch();
     //N1 = Prajwal.split(",").includes(props.data.id);
   }, [Prajwal]);
   return (
