@@ -67,7 +67,7 @@ import { CartContext } from "../../Components/GlobalContext/CartProvider";
 import CartList from "./CartList";
 
 const Cart = ({ navigation }) => {
-  const { user, Prajwal } = React.useContext(CartContext);
+  const { user, Prajwal, Total } = React.useContext(CartContext);
   const [CArt, setCArt] = React.useState([]);
   const [Quantity, setQuantity] = React.useState([]);
   var Ids;
@@ -115,9 +115,16 @@ const Cart = ({ navigation }) => {
 
     CArt.splice(index);
   };
+  const getArraySum = (a) => {
+    var total = 0;
+    for (var i in a) {
+      if (typeof a[i] === "number") total += a[i];
+    }
+    return total;
+  };
   return (
     <>
-      <Container style={{backgroundColor:'black'}}>
+      <Container style={{ backgroundColor: "black" }}>
         <Header
           style={{
             backgroundColor: "#202020",
@@ -154,11 +161,11 @@ const Cart = ({ navigation }) => {
             // borderBottomRightRadius: 35,
             // borderBottomLeftRadius: 35,
             elevation: 0.8,
-            marginBottom:10
+            marginBottom: 10,
           }}
           start={{ x: 0.9, y: 0.25 }}
         >
-          <ScrollView contentContainerStyle={{marginBottom:30}}>
+          <ScrollView contentContainerStyle={{ marginBottom: 30 }}>
             {/* <TouchableOpacity style={styles.cartheader}>
           <Text style={{ fontSize: 20 }}>Cart</Text>
         </TouchableOpacity>
@@ -202,7 +209,7 @@ const Cart = ({ navigation }) => {
 
             {/* <View> */}
             {/* <ScrollView> */}
-            
+
             {CArt
               ? CArt.map((item, index) => (
                   <CartList Pid={item} key1={Quantity[index]} />
@@ -315,7 +322,7 @@ const Cart = ({ navigation }) => {
           backgroundColor: "#303030",
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
-           height: "15%",
+          height: "15%",
           // top:10,
           // marginVertical: 10,
           elevation: 20,
@@ -326,7 +333,9 @@ const Cart = ({ navigation }) => {
           style={styles.checkout}
           onPress={() => navigation.navigate("CheckoutModal")}
         >
-          <Text style={{ color: "white", fontSize: 16 }}>Checkout $4000</Text>
+          <Text style={{ color: "white", fontSize: 16 }}>
+            Checkout ${Total.reduce((a,b) => a + b, 0)}
+          </Text>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback
           style={styles.cancel}

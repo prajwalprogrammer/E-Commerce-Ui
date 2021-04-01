@@ -14,9 +14,12 @@ const CartProvider = ({ children }) => {
   const [user, setUser] = useState(() => SaveData());
   const [Profile, setProfile] = useState();
   const [Prajwal, setPrajwal] = useState(null);
+  const [Total, setTotal] = useState([])
   return (
     <CartContext.Provider
       value={{
+        Total,
+        setTotal,
         Profile,
         setProfile,
         user,
@@ -82,7 +85,7 @@ const CartProvider = ({ children }) => {
           }
           try {
             await AsyncStorage.getItem("countries").then((Val) => {});
-            await AsyncStorage.getItem("Quan").then((Val) => {});
+            await AsyncStorage.getItem("Quan").then((Val) => {alert(Val)});
           } catch (error) {
             console.log(error);
           }

@@ -58,7 +58,7 @@ export const GetMyCart = async (Pids) => {
     console.log(error);
   }
 };
-export const SignUp = async (useName,password,name,address,email,phone,TaxId,setTaxExpire) => {
+export const SignUp = async (useName,password,name,address,email,phone,TaxId) => {
   //alert("gyy")
   const obj = {
     id: useName,
@@ -79,7 +79,7 @@ export const SignUp = async (useName,password,name,address,email,phone,TaxId,set
       Sales_Id: TaxId,
       Sales_Tax_Link:
         "https://digitalasset.intuit.com/IMAGE/A06yW2VcG/w-9_tax_form.jpg",
-      Sales_expire_Date: setTaxExpire,
+      Sales_expire_Date: null,
     },
   };
   console.log(JSON.stringify(obj))

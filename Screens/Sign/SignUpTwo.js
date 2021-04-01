@@ -46,8 +46,8 @@ export const SignUpTwo = ({ navigation, route }) => {
       address,
       email,
       phone,
-      TaxId,
-      date
+      TaxId
+      // date
     ).then(async (res) => {
       if (res === "ERROR!") {
         alert("Unable To SignUp,Try Again");
@@ -148,13 +148,13 @@ export const SignUpTwo = ({ navigation, route }) => {
               value={TaxId}
               onChangeText={(text) => setTaxId(text)}
             />
-            <Input
-              placeholder="Sales Tax Expire Date"
-              marginTop={30}
-              value={moment(date).format("lll")}
-              onChangeText={(text) => setTaxExpire(text)}
-              editable={false}
-            />
+      {/* <Input
+        placeholder="Sales Tax Expire Date"
+        marginTop={30}
+        value={moment(date).format("lll")}
+        onChangeText={(text) => setTaxExpire(text)}
+        editable={false}
+      /> */}
             {/* <View
                 // style={{
                 //   marginLeft: -21,
@@ -177,31 +177,31 @@ export const SignUpTwo = ({ navigation, route }) => {
                   // position: "relative",
                   bottom: 66,
                 }}> */}
-            <FontAwesome
-              onPress={() => setShow(!show)}
-              name="clock-o"
-              size={30}
-              color={COLORS.font}
-              style={{
-                right: 30,
-                bottom: 40,
-                justifyContent: "flex-start",
-                alignSelf: "flex-end",
-              }}
-            />
+      {/* <FontAwesome
+        onPress={() => setShow(!show)}
+        name="clock-o"
+        size={30}
+        color={COLORS.font}
+        style={{
+          right: 30,
+          bottom: 40,
+          justifyContent: "flex-start",
+          alignSelf: "flex-end",
+        }}
+      /> */}
             {/* </TouchableWithoutFeedback> */}
             {/* </View> */}
             {/* <Button title="Show Date" onPress={()=>setShow(!show)} /> */}
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={date}
-                mode={mode}
-                is24Hour={true}
-                display="default"
-                onChange={onChange}
-              />
-            )}
+      {/* {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      )} */}
             {/* <TextInput
           placeholder="Upload Sales Tax Id"
           style={{
