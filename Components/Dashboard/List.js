@@ -8,6 +8,7 @@ import {
   ScrollView,
   Dimensions,
   ActivityIndicator,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/AntDesign";
@@ -29,25 +30,44 @@ import {
 } from "native-base";
 import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
-import { ShowData } from "./AxiosUrl";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { GetMyCart, ShowData } from "./AxiosUrl";
 import { CartContext } from "../GlobalContext/CartProvider";
+import { GlobalContext } from "../Contaxt/GlobalState";
 
 const List = ({ navigation, route }) => {
   // const [list] = useState(route.params.category_data);
   const [DATA, setDATA] = useState([]);
   const [Visible, setVisible] = useState(null);
   const { CheckTheProduct, user, AddToCart } = React.useContext(CartContext);
+  const { transations,addTransaction } = React.useContext(GlobalContext);
   useEffect(() => {
     setVisible(true);
     const fetchAPI = async () => {
       setDATA(await ShowData(route.params.category_id, "category_id"));
     };
+
     fetchAPI();
     if (DATA) {
       setVisible(false);
     }
   }, []);
+  const onsubmit1 = async (id) => {
+    // e.preventDefault();
+    await GetMyCart(id).then((res) => {
+      console.log(res)
+      const newTransaction = {
+        Discount:res.discount,
+        id: res.id,
+        name: res.name,
+        price: res.price,
+        Quantity: 1,
+        Image: res.image,
+        Total: res.price * 1,
+        SubQuantity:res.quantity
+      };
+      addTransaction(newTransaction);
+    });
+  };
   return (
     <Container>
       <Header
@@ -61,14 +81,14 @@ const List = ({ navigation, route }) => {
           </Button>
         </Left>
         <Body>
-          <Title
-            style={{ fontSize: 20, fontWeight: "bold", color: COLORS.font }}
-          >
-            List
-          </Title>
-          <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
-            CLUS Pvt Ltd.
-          </Subtitle>
+       <Title
+         style={{ fontSize: 20, fontWeight: "bold", color: COLORS.font }}
+       >
+         List
+       </Title>
+       <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
+         CLUS Pvt Ltd.
+       </Subtitle>
         </Body>
         <Right>
           <Button transparent>{/* <Icon name='menu' /> */}</Button>
@@ -101,12 +121,13 @@ const List = ({ navigation, route }) => {
           ) : null}
           {DATA
             ? DATA.map((item) => {
-                var N1 = JSON.stringify(user).includes(item.id);
+                var N1 = transations.some((el) => el.id === item.id);
                 return (
                   <LinearGradient
                     colors={["#383838", "#282828", "#202020"]}
                     style={styles.tab}
                     start={{ x: 0.7, y: 1.3 }}
+                    key={item.id}
                   >
                     <TouchableWithoutFeedback
                       // style={styles.tab}
@@ -123,7 +144,6 @@ const List = ({ navigation, route }) => {
                         })
                       }
                       // key={item.key}
-                      key={item.id}
                     >
                       {/* <TouchableOpacity
                         style={{
@@ -187,26 +207,28 @@ const List = ({ navigation, route }) => {
                             paddingTop: 10,
                           }}
                         >
-                          <TouchableOpacity
-                            style={styles.tab1}
-                            onPress={() => {}}
-                          >
+                          <View style={styles.tab1}>
                             <Text style={styles.texts1}>
                               Quantity {item.quantity}
                             </Text>
-                          </TouchableOpacity>
-
-                          <TouchableOpacity
-                            style={styles.tab2}
-                            onPress={() => {N1?navigation.navigate("Cart"):AddToCart(item.id)}}
-                          >
-                            {/* <Text style={styles.texts2}>Add to Cart</Text> */}
-                            {N1 ? (
-                              <Text style={styles.texts2}>Go to Cart</Text>
-                            ) : (
-                              <Text style={styles.texts2}>Add To Cart</Text>
-                            )}
-                          </TouchableOpacity>
+                          </View>
+                          {N1 ? (
+                            <TouchableWithoutFeedback
+                              onPress={() => navigation.navigate("Report")}
+                            >
+                              <View style={styles.tab2}>
+                                <Text style={styles.texts2}>Go to Cart</Text>
+                              </View>
+                            </TouchableWithoutFeedback>
+                          ) : (
+                            <TouchableWithoutFeedback
+                              onPress={() => onsubmit1(item.id)}
+                            >
+                              <View style={styles.tab2}>
+                                <Text style={styles.texts2}>Add To Cart</Text>
+                              </View>
+                            </TouchableWithoutFeedback>
+                          )}
                         </Col>
                       </Grid>
                     </TouchableWithoutFeedback>

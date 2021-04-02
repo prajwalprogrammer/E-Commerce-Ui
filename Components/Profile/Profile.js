@@ -17,6 +17,23 @@ import { StatusBar } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { Button, Image, Platform } from "react-native";
 
+const TextField = ({ name }) => {
+  return (
+    <Text
+      style={{
+        color: COLORS.gray,
+        fontSize: 15,
+        //fontWeight: "bold",
+        alignSelf: "flex-start",
+        marginLeft: 20,
+        marginTop: 40,
+      }}
+    >
+      {name}
+    </Text>
+  );
+};
+
 const Profile = ({ navigation }) => {
   const [UserProfile, setUserProfile] = React.useState();
   const [Id, setId] = React.useState();
@@ -45,10 +62,9 @@ const Profile = ({ navigation }) => {
         setPhone(res.Contact[0].PhoneNumber);
         setEmail(res.Contact[0].EmailId);
         setAddress(res.Contact[0].Address);
-        setSalesEx(res.STD.Sales_expire_Date);
         setSalesId(res.STD.Sales_Id);
         setAccountStatus(res.isActive);
-        setImage(res.Image);
+        // setImage(res.Image);
       });
       if (Platform.OS !== "web") {
         const {
@@ -94,7 +110,6 @@ const Profile = ({ navigation }) => {
       Email,
       Phone,
       SalesId,
-      SalesEx,
       UserProfile.Password,
       image
     ).then((res) => alert(res));
@@ -175,18 +190,7 @@ const Profile = ({ navigation }) => {
             }}
             animation="fadeInUpBig"
           >
-            <Text
-              style={{
-                color: COLORS.gray,
-                fontSize: 15,
-                //fontWeight: "bold",
-                alignSelf: "flex-start",
-                marginLeft: 20,
-                marginTop: 40,
-              }}
-            >
-              Business name
-            </Text>
+            <TextField name="Business Name" />
             <Input
               placeholder="Username"
               //marginTop={}
@@ -194,37 +198,16 @@ const Profile = ({ navigation }) => {
               //value={UserProfile.Contact[0].PhoneNumber}
               onChangeText={(text) => setPhone(text)}
             />
-            <Text
-              style={{
-                color: COLORS.gray,
-                fontSize: 15,
-                //fontWeight: "bold",
-                alignSelf: "flex-start",
-                marginLeft: 20,
-                marginTop: 40,
-              }}
-            >
-              Phone Number
-            </Text>
+            <TextField name="Phone Number" />
             <Input
-              placeholder="Username"
+              placeholder="Phone Number"
               //marginTop={}
               value={Phone}
               //value={UserProfile.Contact[0].PhoneNumber}
               onChangeText={(text) => setPhone(text)}
+              Num="numeric"
             />
-            <Text
-              style={{
-                color: COLORS.gray,
-                fontSize: 15,
-                //fontWeight: "bold",
-                alignSelf: "flex-start",
-                marginLeft: 20,
-                marginTop: 20,
-              }}
-            >
-              Email id
-            </Text>
+            <TextField name="Email ID" />
             <Input
               placeholder="Email"
               //marginTop={10}
@@ -232,18 +215,7 @@ const Profile = ({ navigation }) => {
               //value={UserProfile.Contact[0].EmailId}
               onChangeText={(text) => setEmail(text)}
             />
-            <Text
-              style={{
-                color: COLORS.gray,
-                fontSize: 15,
-                //fontWeight: "bold",
-                alignSelf: "flex-start",
-                marginLeft: 20,
-                marginTop: 20,
-              }}
-            >
-              Address
-            </Text>
+            <TextField name="Address" />
             <Input
               placeholder="Address"
               //  marginTop={10}
@@ -251,18 +223,7 @@ const Profile = ({ navigation }) => {
               //value={UserProfile.Contact[0].Address}
               onChangeText={(text) => setAddress(text)}
             />
-            <Text
-              style={{
-                color: COLORS.gray,
-                fontSize: 15,
-                //fontWeight: "bold",
-                alignSelf: "flex-start",
-                marginLeft: 20,
-                marginTop: 20,
-              }}
-            >
-              Account Since
-            </Text>
+            <TextField name="Account Since" />
             <Input
               placeholder="AccountSince"
               // marginTop={10}
@@ -270,18 +231,7 @@ const Profile = ({ navigation }) => {
               // onChangeText={(text) => setUsername(text)}
               editable={false}
             />
-            <Text
-              style={{
-                color: COLORS.gray,
-                fontSize: 15,
-                //fontWeight: "bold",
-                alignSelf: "flex-start",
-                marginLeft: 20,
-                marginTop: 20,
-              }}
-            >
-              Account Status
-            </Text>
+            <TextField name="Account Status" />
             {/* <TouchableWithoutFeedback onPress={() => setAccountStatus(!AccountStatus) }> */}
             <>
               <Input
@@ -325,48 +275,8 @@ const Profile = ({ navigation }) => {
               //  marginTop={10}
               value={SalesId}
               onChangeText={(text) => setSalesId(text)}
+              Num="numeric"
             />
-            <Text
-              style={{
-                color: COLORS.gray,
-                fontSize: 15,
-                //fontWeight: "bold",
-                alignSelf: "flex-start",
-                marginLeft: 20,
-                marginTop: 20,
-              }}
-            >
-              Sales Tax Id Expiration Date
-            </Text>
-            <Input
-              placeholder="Sales Tax Id Expiration Date"
-              // marginTop={10}
-              value={moment(SalesEx).format("ll")}
-              onChangeText={(text) => setSalesEx(text)}
-              editable={false}
-            />
-            <FontAwesome
-              onPress={() => setShow(!show)}
-              name="clock-o"
-              size={30}
-              color={COLORS.font}
-              style={{
-                right: 40,
-                bottom: 40,
-                justifyContent: "flex-start",
-                alignSelf: "flex-end",
-              }}
-            />
-            {show && (
-              <DateTimePicker
-                testID="dateTimePicker"
-                value={new Date()}
-                mode={mode}
-                is24Hour={true}
-                display="default"
-                onChange={onChange}
-              />
-            )}
             <TouchableWithoutFeedback
               onPress={() => Updateuser()}
               style={{

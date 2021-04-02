@@ -4,10 +4,13 @@ import { COLORS } from "../../Assets/theme";
 
 const { height, width } = Dimensions.get("window");
 
-export default function Input({ placeholder, value, onChangeText, marginTop,editable=true,Pass=false }) {
+export default function Input({ placeholder, value, onChangeText, marginTop,editable=true,Pass=false ,type1="off",Num="default",Capital="none"}) {
   return (
     <TextInput
-      editable={editable}
+    keyboardType={Num}
+    autoCapitalize={Capital}
+    autoCompleteType={type1}
+    editable={editable}
       placeholder={placeholder}
       style={{
         fontSize: 18,
@@ -27,7 +30,7 @@ export default function Input({ placeholder, value, onChangeText, marginTop,edit
       placeholderTextColor={COLORS.gray}
       value={value}
       onChangeText={onChangeText}
-    
+      
     />
   );
 }

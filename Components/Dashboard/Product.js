@@ -6,6 +6,8 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
+  LogBox
 } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -15,13 +17,34 @@ import { LinearGradient } from "expo-linear-gradient";
 import { SliderBox } from "react-native-image-slider-box";
 import { CartContext } from "../GlobalContext/CartProvider";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { GetMyCart } from "./AxiosUrl";
+import { GlobalContext } from "../Contaxt/GlobalState";
 
 const Product = ({ navigation, route }) => {
   const [value, setvalue] = useState(1);
-  // useEffect(()=>{console.log(route.params.description)},[])
-  const { CheckTheProduct, user, AddToCart } = useContext(CartContext);
-  var N1 = JSON.stringify(user).includes(route.params.Pid);
+  LogBox.ignoreAllLogs();
 
+  // useEffect(()=>{console.log(route.params.description)},[])
+  const { addTransaction,transations } = useContext(GlobalContext);
+  const { CheckTheProduct, user, AddToCart } = useContext(CartContext);
+  var N1 = transations.some((el) => el.id === route.params.Pid);
+
+  const onsubmit = async () => {
+    // e.preventDefault();
+    await GetMyCart(route.params.Pid).then((res) => {
+      const newTransaction = {
+        Discount:res.discount,
+        id: res.id,
+        name: res.name,
+        price: res.price,
+        Quantity: value,
+        Image: res.image,
+        Total: res.price * 1,
+        SubQuantity:res.quantity
+      };
+      addTransaction(newTransaction);
+    });
+  };
   return (
     <LinearGradient
       colors={["#000000", "#474747"]}
@@ -106,9 +129,7 @@ const Product = ({ navigation, route }) => {
             <TouchableWithoutFeedback
               style={styles.tab1}
               onPress={() => {
-                N1
-                  ? navigation.navigate("Cart")
-                  : AddToCart(route.params.Pid, value);
+                N1 ? navigation.navigate("Report") : onsubmit();
               }}
             >
               {/* <Text style={styles.texts}>Add to Cart</Text> */}

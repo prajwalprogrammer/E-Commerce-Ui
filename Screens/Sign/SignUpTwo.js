@@ -135,20 +135,23 @@ export const SignUpTwo = ({ navigation, route }) => {
               marginTop={30}
               value={email}
               onChangeText={(text) => setEmail(text)}
+              Capital="none"
             />
             <Input
               placeholder="Phone Number"
               marginTop={30}
               value={phone}
               onChangeText={(text) => setPhone(text)}
+              Num="numeric"
             />
             <Input
               placeholder="Sales Tax Id"
               marginTop={30}
               value={TaxId}
               onChangeText={(text) => setTaxId(text)}
+              Num="numeric"
             />
-      {/* <Input
+            {/* <Input
         placeholder="Sales Tax Expire Date"
         marginTop={30}
         value={moment(date).format("lll")}
@@ -177,7 +180,7 @@ export const SignUpTwo = ({ navigation, route }) => {
                   // position: "relative",
                   bottom: 66,
                 }}> */}
-      {/* <FontAwesome
+            {/* <FontAwesome
         onPress={() => setShow(!show)}
         name="clock-o"
         size={30}
@@ -192,7 +195,7 @@ export const SignUpTwo = ({ navigation, route }) => {
             {/* </TouchableWithoutFeedback> */}
             {/* </View> */}
             {/* <Button title="Show Date" onPress={()=>setShow(!show)} /> */}
-      {/* {show && (
+            {/* {show && (
         <DateTimePicker
           testID="dateTimePicker"
           value={date}

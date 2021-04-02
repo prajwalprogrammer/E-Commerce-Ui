@@ -57,6 +57,14 @@ const category_data = [
     know_more: "Data",
     price: "200",
   },
+  {
+    key: 4,
+    product_name: "Why this koleveri",
+    description: "Song by Dhanush",
+    rating: "",
+    know_more: "Data",
+    price: "200",
+  },
 ];
 import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
@@ -65,14 +73,16 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { GetMyCart } from "../../Components/Dashboard/AxiosUrl";
 import { CartContext } from "../../Components/GlobalContext/CartProvider";
 import CartList from "./CartList";
+import { GlobalContext } from "../../Components/Contaxt/GlobalState";
+import { AntDesign } from "@expo/vector-icons";
 
 const Cart = ({ navigation }) => {
-  const { user, Prajwal, Total } = React.useContext(CartContext);
+  const { transations, deleteTransaction } = React.useContext(GlobalContext);
+  const { user, Prajwal, Total, Profile } = React.useContext(CartContext);
   const [CArt, setCArt] = React.useState([]);
   const [Quantity, setQuantity] = React.useState([]);
   var Ids;
   navigation.addListener("focus", async () => {
-    //do your thing here
     const myArray2 = await AsyncStorage.getItem("countries");
     const Quanti = await AsyncStorage.getItem("Quan");
 
@@ -80,12 +90,11 @@ const Cart = ({ navigation }) => {
       setCArt(myArray2.split(","));
       setQuantity(Quanti.split(","));
     }
-    //alert(Cart[0])
-    //alert("Hiii")
   });
+
   React.useEffect(() => {
     const Fetch = async () => {
-      //alert("re");
+      // console.log(Profile);
       const myArray2 = await AsyncStorage.getItem("countries");
       const Quanti = await AsyncStorage.getItem("Quan");
 
@@ -93,20 +102,6 @@ const Cart = ({ navigation }) => {
         setCArt(myArray2.split(","));
         setQuantity(Quanti.split(","));
       }
-      //     //alert("hii")
-      //     const myArray2 = await AsyncStorage.getItem("countries");
-      //     //Ids = removeDuplicates(JSON.parse(myArray2))
-      //     //Ids.split(",")
-      //     alert(myArray2)
-      //     function removeDuplicates(array) {
-      //       return array.filter((a, b) => array.indexOf(a) === b);
-      //     }
-      //     setCArt(removeDuplicates(JSON.parse(myArray2)));
-      //     console.log(CArt[0]);
-      //     //Ids.map(async(item)=>{setCArt([...CArt,await GetMyCart(item)])})
-      //     // setCArt([...CArt,await GetMyCart(Ids)])
-      //     //    console.log(CArt)
-      //     // alert(JSON.parse(myArray2))
     };
     Fetch();
   }, [Prajwal]);
@@ -115,11 +110,10 @@ const Cart = ({ navigation }) => {
 
     CArt.splice(index);
   };
-  const getArraySum = (a) => {
-    var total = 0;
-    for (var i in a) {
-      if (typeof a[i] === "number") total += a[i];
-    }
+  const getArraySum = () => {
+    const amounts = transations.map((transaction) => transaction.Total);
+
+    const total = amounts.reduce((acc, item) => (acc += item), 0).toFixed(2);
     return total;
   };
   return (
@@ -147,7 +141,7 @@ const Cart = ({ navigation }) => {
               Cart
             </Title>
             <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
-              CLUS Pvt Ltd.
+              {Profile ? Profile.AccountName : "CLUS Pvt Ltd."}
             </Subtitle>
           </Body>
           <Right>
@@ -157,21 +151,13 @@ const Cart = ({ navigation }) => {
         <LinearGradient
           colors={["#000000", "#474747"]}
           style={{
-            height: "93%",
-            // borderBottomRightRadius: 35,
-            // borderBottomLeftRadius: 35,
+            height: "100%",
             elevation: 0.8,
             marginBottom: 10,
           }}
           start={{ x: 0.9, y: 0.25 }}
         >
-          <ScrollView contentContainerStyle={{ marginBottom: 30 }}>
-            {/* <TouchableOpacity style={styles.cartheader}>
-          <Text style={{ fontSize: 20 }}>Cart</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.clus}>
-          <Text style={{ color: "white" }}>CLUS Pvt Ltd.</Text>
-        </TouchableOpacity> */}
+          <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
             <TouchableWithoutFeedback
               onPress={() => {
                 navigation.navigate("Allproduct");
@@ -207,111 +193,102 @@ const Cart = ({ navigation }) => {
               </LinearGradient>
             </TouchableWithoutFeedback>
 
-            {/* <View> */}
-            {/* <ScrollView> */}
-
-            {CArt
-              ? CArt.map((item, index) => (
-                  <CartList Pid={item} key1={Quantity[index]} />
-                ))
-              : null}
-            {/* </ScrollView> */}
-            {/* {CArt?
-            CArt.map((item) => (
-              <LinearGradient
-                colors={["#474747", "#474747", "#202020"]}
-                style={styles.tab}
-                start={{ x: 1.3, y: 1.3 }}
-                key={item.id}
-              >
-                <Grid
-                  // onPress={() =>
-                  //   navigation.navigate("Product", {
-                  //     name: item.product_name,
-                  //     description: item.description,
-                  //     uri1: item.uri1,
-                  //     know_more: item.know_more,
-                  //     price: item.price,
-                  //   })
-                  // }
-                  key={item.id}
-                >
-                  <Row>
-                    <Col size={30}>
-                      <Image source={{ uri: imageuri }} style={styles.image} />
-                    </Col>
-                    <Col
-                      size={50}
-                      style={{
-                        backgroundColor: "#202020",
-                        borderRadius: 15,
-                        paddingVertical: 4,
-                        alignSelf: "center",
-                        justifyContent: "center",
-                        elevation: 23,
-                        paddingLeft: 12,
-                      }}
+            {transations
+              ? transations.map((item) => {
+                  return (
+                    <LinearGradient
+                      colors={["#474747", "#474747", "#202020"]}
+                      style={styles.tab}
+                      start={{ x: 1.3, y: 1.3 }}
+                      key={item.id}
                     >
-                      <Row style={{ alignSelf: "center", marginLeft: 10 }}>
-                        <Col size={110} style={{ alignSelf: "center" }}>
-                          <Text
+                      <Grid key={item.id}>
+                        <Row>
+                          <Col size={30}>
+                            <Image
+                              source={{ uri: item.Image[0] }}
+                              style={styles.image}
+                            />
+                          </Col>
+                          <Col
+                            size={50}
                             style={{
-                              fontSize: 15,
-                              fontWeight: "bold",
-                              color: COLORS.font,
+                              backgroundColor: "#202020",
+                              borderRadius: 15,
+                              paddingVertical: 4,
+                              alignSelf: "center",
+                              justifyContent: "center",
+                              elevation: 23,
+                              paddingLeft: 12,
                             }}
                           >
-                            {item.name}
-                          </Text>
-                          <Text style={{ color: COLORS.font }}>
-                            Item Code : BN1
-                          </Text>
-                        </Col>
-                        <Col size={40}>
-                          <Text style={{ color: "red" }}>Delete</Text>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col size={20}>
-                          <Text style={{ color: COLORS.font }}>$ 100 x</Text>
-                        </Col>
-                        <Col size={50}>
-                          <Text>
-                            <TouchableOpacity
-                              style={{
-                                backgroundColor: COLORS.black1,
-                                margin: 2,
-                                padding: 2,
-                              }}
+                            <Row
+                              style={{ alignSelf: "center", marginLeft: 10 }}
                             >
-                              <Text style={{ color: COLORS.font }}>
-                                Quantity : 10
-                              </Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity>
-                              <Text style={{ color: COLORS.font }}>
-                                = $1000
-                              </Text>
-                            </TouchableOpacity>
-                          </Text>
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row> */}
-
-            {/* <Col>
-      <Text onPress={() => navigation.navigate('Favourites')}>
-      <Image 
-      source={   require('../../Assets/Redheart.png')}                                               
-      style={{ width: 50,  height: 50, marginBottom:100,marginLeft:50             
-            }}
-            /> </Text>
-          </Col> */}
-            {/* </Grid>
-              </LinearGradient>
-            )):null} */}
-            {/* <Text>{"\n"}</Text> */}
-            {/* </View> */}
+                              <Col size={125} style={{ alignSelf: "center" }}>
+                                <Text
+                                  style={{
+                                    fontSize: 15,
+                                    fontWeight: "bold",
+                                    color: COLORS.font,
+                                  }}
+                                >
+                                  {item.name}
+                                </Text>
+                                <Text style={{ color: COLORS.font }}>
+                                  {item.id}
+                                </Text>
+                              </Col>
+                              <Col size={35}>
+                                <TouchableWithoutFeedback
+                                  onPress={() => deleteTransaction(item.id)}
+                                >
+                                  <AntDesign
+                                    name="delete"
+                                    size={18}
+                                    color="red"
+                                    style={{ alignSelf: "center" }}
+                                  />
+                                </TouchableWithoutFeedback>
+                              </Col>
+                            </Row>
+                            <Row>
+                              <Col size={25}>
+                                <Text
+                                  style={{
+                                    color: COLORS.font,
+                                    alignSelf: "center",
+                                  }}
+                                >
+                                  $ {item.Discount}
+                                </Text>
+                              </Col>
+                              <Col size={5}>
+                                <Text style={{ color: COLORS.font }}>x</Text>
+                              </Col>
+                              <Col size={30}>
+                                <View style={{ flexDirection: "row" }}>
+                                  <View>
+                                    <Text style={{ color: COLORS.font }}>
+                                      {item.Quantity}
+                                    </Text>
+                                  </View>
+                                  <View>
+                                    <Text style={{ color: COLORS.font }}>
+                                      {" "}
+                                      = ${item.Total}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </Col>
+                            </Row>
+                          </Col>
+                        </Row>
+                      </Grid>
+                    </LinearGradient>
+                  );
+                })
+              : null}
           </ScrollView>
         </LinearGradient>
       </Container>
@@ -331,10 +308,12 @@ const Cart = ({ navigation }) => {
       >
         <TouchableWithoutFeedback
           style={styles.checkout}
-          onPress={() => navigation.navigate("CheckoutModal")}
+          onPress={() =>
+            navigation.navigate("CheckoutModal", { Amount: getArraySum() })
+          }
         >
           <Text style={{ color: "white", fontSize: 16 }}>
-            Checkout ${Total.reduce((a,b) => a + b, 0)}
+            Checkout ${getArraySum()}
           </Text>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback

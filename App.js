@@ -3,11 +3,10 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image } from "react-native";
+import { Image,Text } from "react-native";
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Report from "./Components/Report/Report";
 import Profile from "./Components/Profile/Profile";
-import Categories from "./Components/Dashboard/Categories";
 import List from "./Components/Dashboard/List";
 import Product from "./Components/Dashboard/Product";
 import Allproduct from "./Components/Dashboard/Allproduct";
@@ -30,6 +29,7 @@ import SignUpOne from "./Screens/Sign/SignUpOne";
 import SignUpTwo from "./Screens/Sign/SignUpTwo";
 import SignUpFinal from "./Screens/Sign/SignUpFinal";
 import AsyncStorage from "@react-native-community/async-storage";
+import {GlobalProvider} from "./Components/Contaxt/GlobalState";
 export const DashboardStack = () => {
   return (
     <Stack.Navigator>
@@ -53,22 +53,13 @@ export const DashboardStack = () => {
         name="FinalPage"
         component={SignUpFinal}
       /> */}
-
       <Stack.Screen
         options={{ headerShown: false }}
         name="Dashboard"
         component={Dashboard}
       />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="Categories"
-        component={Categories}
-      />
-      <Stack.Screen
-        name="Selected_Category"
-        component={Categories}
-        options={{ headerShown: false }}
-      />
+
+
       <Stack.Screen
         name="lists"
         component={List}
@@ -85,11 +76,6 @@ export const DashboardStack = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        options={{ headerShown: false }}
-        name="Cart"
-        component={Cart}
-      />
-      <Stack.Screen
         options={{ title: "MWC Dispensary Depot" }}
         name="RenderItem"
         component={RenderItem}
@@ -99,7 +85,6 @@ export const DashboardStack = () => {
         name="Checkout"
         component={Checkout}
       />
-      <Stack.Screen name="Favourites" component={Favourites} />
       <Stack.Screen
         options={{ headerShown: false }}
         name="Finalscreen"
@@ -117,16 +102,7 @@ export const AllProductStack = () => {
         name="Allproduct"
         component={Allproduct}
       />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="Categories"
-        component={Categories}
-      />
-      <Stack.Screen
-        name="Selected_Category"
-        component={Categories}
-        options={{ headerShown: false }}
-      />
+     
       <Stack.Screen
         name="lists"
         component={List}
@@ -173,16 +149,6 @@ export const MyCartStack = () => {
         options={{ headerShown: false }}
         name="Allproduct"
         component={Allproduct}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="Categories"
-        component={Categories}
-      />
-      <Stack.Screen
-        name="Selected_Category"
-        component={Categories}
-        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="lists"
@@ -235,8 +201,9 @@ const tabOptions = {
 };
 const AppSTack = () => {
   return (
-    <CartProvider>
-      {/* <NavigationContainer style={{ backgroundColor: COLORS.black }}> */}
+    <GlobalProvider>
+      <CartProvider>
+        {/* <NavigationContainer style={{ backgroundColor: COLORS.black }}> */}
         <Tab.Navigator
           tabBarOptions={tabOptions}
           screenOptions={({ route }) => ({
@@ -252,8 +219,8 @@ const AppSTack = () => {
                           ? {
                               borderRedius: "50%",
                               backgroundColor: COLORS.black1,
-                              width: "60%",
-                              height: "70%",
+                              width: "50%",
+                              height: "50%",
                               alignItems: "center",
                               justifyContent: "center",
                               borderRadius: 50,
@@ -273,6 +240,7 @@ const AppSTack = () => {
                           }
                         }
                       />
+                      <Text style={{color:COLORS.gray,fontSize:10}}>  Home</Text>
                     </View>
                   );
                 case "Report":
@@ -302,6 +270,7 @@ const AppSTack = () => {
                           }
                         }
                       />
+                      <Text style={{color:COLORS.gray,fontSize:10}}>  Cart</Text>
                     </View>
                   );
 
@@ -332,6 +301,7 @@ const AppSTack = () => {
                           }
                         }
                       />
+                      <Text style={{color:COLORS.gray,fontSize:10}}>Show All</Text>
                     </View>
                   );
                 case "Profile":
@@ -361,6 +331,7 @@ const AppSTack = () => {
                           }
                         }
                       />
+                      <Text style={{color:COLORS.gray,fontSize:10}}>  Profile</Text>
                     </View>
                   );
               }
@@ -368,12 +339,12 @@ const AppSTack = () => {
           })}
         >
           <Tab.Screen
-            // options={{
-            //   tabBarLabel: "Home",
+             options={{
+               tabBarLabel: "Home",
             //   tabBarIcon: ({ color, size }) => (
             //     <MaterialCommunityIcons name="home" color={color} size={30} />
             //   ),
-            // }}
+             }}
             name="Dashboard"
             component={DashboardStack}
           />
@@ -393,8 +364,8 @@ const AppSTack = () => {
             component={MyCartStack}
           />
           <Tab.Screen
-            // options={{
-            //   tabBarLabel: "Show All",
+             options={{
+               tabBarLabel: "Show All",
             //   tabBarIcon: ({ color, size }) => (
             //     <MaterialCommunityIcons
             //       name="cart-arrow-right"
@@ -402,7 +373,7 @@ const AppSTack = () => {
             //       size={30}
             //     />
             //   ),
-            // }}
+             }}
             name="Cart"
             component={AllProductStack}
           />
@@ -417,8 +388,9 @@ const AppSTack = () => {
             component={Profile}
           />
         </Tab.Navigator>
-      {/* </NavigationContainer> */}
-    </CartProvider>
+        {/* </NavigationContainer> */}
+      </CartProvider>
+    </GlobalProvider>
   );
 };
 
@@ -449,20 +421,19 @@ const AuthSTack = () => {
   );
 };
 
-const AuthLoadingScreen = ({navigation}) => {
+const AuthLoadingScreen = ({ navigation }) => {
   React.useEffect(() => {
-   const bootstrapAsync = async () => {
+    const bootstrapAsync = async () => {
       const userToken = await AsyncStorage.getItem("userToken");
-  
+
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
       navigation.navigate(userToken ? "App" : "Auth");
     };
-    bootstrapAsync()
+    bootstrapAsync();
   }, []);
 
   // Fetch the token from storage then navigate to our appropriate place
-  
 
   // Render any loading content that you like here
 

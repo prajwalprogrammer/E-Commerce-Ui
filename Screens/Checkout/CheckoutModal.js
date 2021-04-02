@@ -9,16 +9,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import Checkout from "./Checkout";
 import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 
-const CheckoutModal = ({ navigation }) => {
+const CheckoutModal = ({ navigation ,route}) => {
   const [Amount, setAmount] = useState("");
   const [Price, setPrice] = useState(0);
   const [state1, setstate] = useState(true);
-  const newTransaction = {
-    // id:user.uid,
-    id: Math.floor(Math.random() * 10000000),
-    text: Amount,
-    amount: +Price,
-  };
   const displayModal = (show) => {
     setstate(show);
 
@@ -35,11 +29,6 @@ const CheckoutModal = ({ navigation }) => {
       (res) => addTransaction(newTransaction),
       console.log(transations)
     );
-    // const actual=ReadDb(user.uid);
-    // addTransaction(...actual,JSON.stringify(actual));
-    //     console.log("new: "+JSON.stringify(transations))
-
-    // console.log("object")
   };
   return (
     <View style={styles.container}>
@@ -58,7 +47,7 @@ const CheckoutModal = ({ navigation }) => {
         style={styles.footer}
       >
         <Animatable.View animation="fadeInUpBig">
-          <Checkout Nav={navigation} />
+          <Checkout Nav={navigation} amount={route.params.Amount} />
           {/* <Text style={styles.TextFooter}>Remark</Text>
 
           <View style={styles.Action}>

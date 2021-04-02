@@ -15,8 +15,11 @@ import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
 import { CartContext } from "../../Components/GlobalContext/CartProvider";
+import { GlobalContext } from "../../Components/Contaxt/GlobalState";
+import { AddOrder } from "../../Components/Dashboard/AxiosUrl";
 
 const Checkout = (props) => {
+  const { transations } = React.useContext(GlobalContext);
   const { Profile } = React.useContext(CartContext);
   const [date, setDate] = useState();
   const [mode, setMode] = useState("date");
@@ -39,6 +42,28 @@ const Checkout = (props) => {
     }
   };
 
+  const OrderPurchase = async () => {
+    // console.log(transations);
+    //  const amounts = transations.map(transaction =>{ transaction.Quantitytransations.id});
+   // alert(moment(date).format("lll"))
+    await AddOrder(
+      transations,
+      Profile.id,
+      Profile.AccountName,
+      date + Time,
+      props.amount,
+      toggleCheckBox2 ? "Delivery" : "Pick up",
+      Profile
+    ).then((res) => {
+      // console.log(res),
+      props.Nav.navigate("Finalscreen", {
+        isdelivery: toggleCheckBox2 ? true : false,
+        Date: moment(date).format("ll"),
+      });
+    });
+  };
+  //
+  
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
@@ -216,28 +241,10 @@ const Checkout = (props) => {
 
           <Text>{"\n"}</Text>
         </View>
-        <TouchableOpacity
-          onPress={() =>
-            props.Nav.navigate("Finalscreen", {
-              isdelivery: toggleCheckBox2 ? true : false,
-              Date: moment(date).format("ll"),
-            })
-          }
-          // style={{
-          //   alignSelf: "center",
-          //   backgroundColor: "#35B551",
-          //   justifyContent:'center',
-          //   width: 100,
-          //   margin: 10,
-          //   //marginLeft: 140,
-          //   padding: 10,
-          //   borderRadius: 10,
-          // }}
-        >
-          <LinearGradient colors={["#7C9387", "#2C5140"]} style={styles.signIn}>
+        <TouchableOpacity onPress={OrderPurchase}>
+          <LinearGradient colors={["#80edb2", "#5dd394"]} style={styles.signIn}>
             <Text style={{ ...styles.TextSign, color: "white" }}>Confirm</Text>
           </LinearGradient>
-          {/* <Text style={{ fontSize: 16,alignSelf:'center' }}>Confirm</Text> */}
         </TouchableOpacity>
       </LinearGradient>
     </ScrollView>
