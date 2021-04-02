@@ -32,6 +32,7 @@ const Product = ({ navigation, route }) => {
   const onsubmit = async () => {
     // e.preventDefault();
     await GetMyCart(route.params.Pid).then((res) => {
+      const Price = Math.round(res.price * (1-(res.discount/100) * value))
       const newTransaction = {
         Discount:res.discount,
         id: res.id,
@@ -39,7 +40,7 @@ const Product = ({ navigation, route }) => {
         price: res.price,
         Quantity: value,
         Image: res.image,
-        Total: res.price * 1,
+        Total: Price,
         SubQuantity:res.quantity
       };
       addTransaction(newTransaction);
