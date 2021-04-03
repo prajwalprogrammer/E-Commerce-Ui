@@ -22,9 +22,7 @@ export default class DAily1 extends React.Component {
   render() {
     console.log("DAilyItem" + JSON.stringify(this.props.DAilyItem[0]));
     return (
-      // <SafeAreaView
-      //   style={{ flex: 1, backgroundColor: "#6a5acd", paddingTop: 20,paddingHorizontal:10 }}
-      // >
+     
       <View
         style={{
           flex: 1,
@@ -45,7 +43,6 @@ export default class DAily1 extends React.Component {
           onSnapToItem={(index) => this.setState({ activeIndex: index })}
         />
       </View>
-      // </SafeAreaView>
     );
   }
 }

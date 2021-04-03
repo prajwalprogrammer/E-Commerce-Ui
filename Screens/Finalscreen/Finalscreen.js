@@ -6,21 +6,43 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  BackHandler,
 } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
+import { GlobalContext } from "../../Components/Contaxt/GlobalState";
 import { CartContext } from "../../Components/GlobalContext/CartProvider";
-
-const FinalScreen = ({ route }) => {
-  const {Profile} = React.useContext(CartContext)
+import { Button } from "native-base";
+const FinalScreen = ({ navigation, route }) => {
+  const { Profile } = React.useContext(CartContext);
+  const { UpdateTransaction } = React.useContext(GlobalContext);
   const [isdelivery] = useState(route.params.isdelivery);
   useEffect(() => {
-    console.log(isdelivery);
+    let newArray = [];
+    UpdateTransaction(newArray);
+    BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => navigation.navigate("Dashboard"),
+      true
+    );
+    return () =>
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        () => navigation.navigate("Dashboard"),
+        true
+      );
   }, []);
   return (
     <ScrollView style={{ backgroundColor: "#000000" }}>
       <Image
         source={require("../../Assets/Banner.png")}
-        style={{ width: 350, height: 370, marginTop: 130, marginLeft: 20,justifyContent:'center',alignSelf:'center' }}
+        style={{
+          width: 350,
+          height: 370,
+          marginTop: 130,
+          marginLeft: 20,
+          justifyContent: "center",
+          alignSelf: "center",
+        }}
       />
 
       {/* {isdelivery ?<> */}
@@ -44,7 +66,9 @@ const FinalScreen = ({ route }) => {
           alignItems: "center",
         }}
       >
-        <Text>Order Confirmation{"\n"} {Profile?Profile.AccountName:null}</Text>
+        <Text>
+          Order Confirmation{"\n"} {Profile ? Profile.AccountName : null}
+        </Text>
       </View>
       <View
         style={{
@@ -82,6 +106,10 @@ const FinalScreen = ({ route }) => {
         source={require("../../Assets/Tick.png")}
         style={{ width: 180, height: 180, marginLeft: 120 }}
       />
+      <Button light full rounded style={{width:"80%",alignSelf:'center'}} onPress={()=>navigation.navigate("Dashboard")}>
+        <Text  style={{fontWeight:'bold',fontSize:25}}> Go To Home </Text>
+      </Button>
+
       {/* </>:<></>} */}
     </ScrollView>
   );

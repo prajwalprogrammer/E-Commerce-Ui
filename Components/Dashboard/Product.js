@@ -45,6 +45,7 @@ const Product = ({ navigation, route }) => {
       ...newArray[elementsIndex],
       Quantity: VAl,
       Total: ORGPrice,
+      SubQuantity: route.params.Quantity - VAl,
     };
     // transations=newArray;
     UpdateTransaction(newArray);
@@ -53,8 +54,7 @@ const Product = ({ navigation, route }) => {
   const onsubmit = async () => {
     // e.preventDefault();
     await GetMyCart(route.params.Pid).then((res) => {
-      const Price = Math.round(res.price * (1 - res.discount / 100)) * value;
-      const Dis = Math.round(res.price * (1 - res.discount / 100));
+     
       const ORGPrice =
         Math.round(res.price - (res.price * res.discount) / 100) * value;
       const SinglePrice = Math.round(
@@ -83,9 +83,7 @@ const Product = ({ navigation, route }) => {
     <LinearGradient
       colors={["#000000", "#474747"]}
       style={{
-        // borderBottomRightRadius: 35,
-        // borderBottomLeftRadius: 35,
-        // paddingBottom: "10%",
+        
         elevation: 0.8,
         //  position: "relative",
         left: 0,
@@ -109,9 +107,7 @@ const Product = ({ navigation, route }) => {
           <SliderBox
             images={route.params.uri1}
             sliderBoxHeight={300}
-            // onCurrentImagePressed={(index) =>
-            //   console.warn(`image ${index} pressed`)
-            // }
+            
             dotColor="#DBA800"
             inactiveDotColor={COLORS.white}
             paginationBoxVerticalPadding={20}
@@ -219,18 +215,7 @@ const Product = ({ navigation, route }) => {
                 <Text style={styles.texts}>Add To Cart</Text>
               </TouchableWithoutFeedback>
             )}
-            {/* <TouchableWithoutFeedback
-              style={styles.tab1}
-              onPress={() => {
-                N1 ? navigation.navigate("Report") : onsubmit();
-              }}
-            >
-              {N1 ? (
-                <Text style={styles.texts}>Go to Cart</Text>
-              ) : (
-                <Text style={styles.texts}>Add To Cart</Text>
-              )}
-            </TouchableWithoutFeedback> */}
+            
           </Col>
           <Col>
             <View style={styles.tab2}>

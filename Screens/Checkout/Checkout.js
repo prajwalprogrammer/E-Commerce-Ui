@@ -21,12 +21,12 @@ import { AddOrder } from "../../Components/Dashboard/AxiosUrl";
 const Checkout = (props) => {
   const { transations } = React.useContext(GlobalContext);
   const { Profile } = React.useContext(CartContext);
-  const [date, setDate] = useState();
+  const [date, setDate] = useState(null);
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [toggleCheckBox1, setToggleCheckBox1] = useState(true);
   const [toggleCheckBox2, setToggleCheckBox2] = useState(false);
-  const [Time, setTime] = useState();
+  const [Time, setTime] = useState(null);
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
@@ -44,14 +44,13 @@ const Checkout = (props) => {
 
   const OrderPurchase = async () => {
     var FinalDate;
-    // transations.map((transaction) => {
-    //   console.log("Quantity" + transaction.SubQuantity);
-    // });
-     //  const amounts = transations.map(transaction =>{ transaction.Quantitytransations.id});
+    if(!toggleCheckBox2 && date===null && Time===null ){
+      alert("Select Date And Time")
+      return;
+    }
      toggleCheckBox2 ?FinalDate=moment(new Date()).format("lll"):
      FinalDate=moment(date).format("ll")+" "+ moment(Time).format("LT")
      
-    //  alert(moment(date).format("ll") + moment(Time).format("LT"))
     await AddOrder(
       transations,
       Profile.id,

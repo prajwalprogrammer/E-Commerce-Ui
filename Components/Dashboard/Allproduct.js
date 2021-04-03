@@ -106,7 +106,6 @@ const Allproduct = ({ navigation, route }) => {
                         alignItems: "center",
                         borderRadius: 10,
                         padding: 15,
-                        // backgroundColor: getRandomColor(),
                         borderWidth: 1,
                         borderColor: "gray",
                       }}

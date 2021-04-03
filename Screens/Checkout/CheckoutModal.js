@@ -32,13 +32,7 @@ const CheckoutModal = ({ navigation ,route}) => {
   };
   return (
     <View style={styles.container}>
-      {/* <Modal
-        testID={"modal"}
-        isVisible={state1}
-        onSwipeComplete={() => displayModal(!state1)}
-        swipeDirection={["up", "left", "right", "down"]}
-        style={styles.view1}
-      > */}
+      
       <View style={styles.header}>
         <Text style={styles.Text}>Order Confirmation</Text>
       </View>
@@ -48,57 +42,10 @@ const CheckoutModal = ({ navigation ,route}) => {
       >
         <Animatable.View animation="fadeInUpBig">
           <Checkout Nav={navigation} amount={route.params.Amount} />
-          {/* <Text style={styles.TextFooter}>Remark</Text>
-
-          <View style={styles.Action}>
-            
-          <TextInput
-              placeholder="Remark"
-              style={styles.TextInput}
-              onChangeText={(txt) => setAmount(txt)}
-              />
-              </View>
-              <Text style={{ ...styles.TextFooter, marginTop: 35 }}>Amount</Text>
-              <View style={styles.Action}>
-              
-              <TextInput
-              placeholder="Amount"
-              style={styles.TextInput}
-              onChangeText={(txt) => setPrice(txt)}
-              />
-              </View>
-
-          <View style={styles.Button1}>
-          <TouchableOpacity onPress={() => GoToTrial()}>
-          <LinearGradient
-          colors={["#5db8fe", "#39cff2"]}
-          style={styles.signIn}
-          >
-          <Text style={{ ...styles.TextSign, color: "white" }}>
-          Add Transaction
-          </Text>
-          </LinearGradient>
-          </TouchableOpacity>
-          </View>
-          <Text
-          style={styles.closeText}
-          onPress={() => {
-            displayModal(!state1);
-          }}
-          >
-          Close Modal
-          </Text>
-        */}
+          
         </Animatable.View>
       </LinearGradient>
-      {/* <Text
-          style={styles.closeText}
-          onPress={() => {
-            displayModal(!state1);
-          }}>
-          Close Modal
-        </Text> */}
-      {/* </Modal> */}
+    
     </View>
   );
 };
