@@ -39,7 +39,7 @@ const List = ({ navigation, route }) => {
   const [DATA, setDATA] = useState([]);
   const [Visible, setVisible] = useState(null);
   const { CheckTheProduct, user, AddToCart } = React.useContext(CartContext);
-  const { transations,addTransaction } = React.useContext(GlobalContext);
+  const { transations, addTransaction } = React.useContext(GlobalContext);
   useEffect(() => {
     setVisible(true);
     const fetchAPI = async () => {
@@ -54,17 +54,22 @@ const List = ({ navigation, route }) => {
   const onsubmit1 = async (id) => {
     // e.preventDefault();
     await GetMyCart(id).then((res) => {
-      console.log(res)
+      console.log(res);
+      const Price = Math.round(res.price * (1 - (res.discount / 100) * 1));
+      const ORGPrice = Math.round(res.price - (res.price * res.discount) / 100);
+      //alert(res.Discount)
       const newTransaction = {
-        Discount:res.discount,
+        Discount: res.discount,
         id: res.id,
         name: res.name,
-        price: res.price,
+        price: ORGPrice,
+        ProductPrice:res.price,
         Quantity: 1,
         Image: res.image,
-        Total: res.price * 1,
-        SubQuantity:res.quantity
+        Total: ORGPrice,
+        SubQuantity: res.quantity - 1,
       };
+      // alert(newTransaction.SubQuantity)
       addTransaction(newTransaction);
     });
   };
@@ -81,14 +86,14 @@ const List = ({ navigation, route }) => {
           </Button>
         </Left>
         <Body>
-       <Title
-         style={{ fontSize: 20, fontWeight: "bold", color: COLORS.font }}
-       >
-         List
-       </Title>
-       <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
-         CLUS Pvt Ltd.
-       </Subtitle>
+          <Title
+            style={{ fontSize: 20, fontWeight: "bold", color: COLORS.font }}
+          >
+            List
+          </Title>
+          <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
+            CLUS Pvt Ltd.
+          </Subtitle>
         </Body>
         <Right>
           <Button transparent>{/* <Icon name='menu' /> */}</Button>
@@ -173,7 +178,28 @@ const List = ({ navigation, route }) => {
                           <Text style={styles.texts}>Price : $ {item.price}</Text> */}
                             <Text style={styles.texts}>{item.name}</Text>
                             <Text style={styles.texts}>
-                              Price : $ {item.price}
+                              Price : $
+                              {Math.floor(
+                                item.price - (item.price * item.discount) / 100
+                              )}
+                              {"  "}
+                              {/* {item.price} */}
+                              {item.discount > 0 ? (
+                                <Text
+                                  style={{
+                                    fontSize: 12,
+                                    opacity: 0.5,
+                                    textDecorationLine: "line-through",
+                                    textDecorationStyle: "solid",
+                                    color: COLORS.font,
+                                    marginTop: 10,
+                                    fontWeight: "normal",
+                                    marginHorizontal: 12,
+                                  }}
+                                >
+                                  ${item.price}
+                                </Text>
+                              ) : null}
                             </Text>
                             <Text style={styles.texts}>
                               <MaterialIcons

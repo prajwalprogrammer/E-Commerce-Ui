@@ -8,12 +8,18 @@ import {
   Dimensions,
   Text,
   Image,
+  BackHandler
 } from "react-native";
 import { COLORS } from "../../Assets/theme";
 
 const { height, width } = Dimensions.get("window");
 
 export default function SignUpFinal() {
+  React.useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => BackHandler.exitApp(), true)
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', () =>BackHandler.exitApp(), true)
+  }, [])
   return (
     <View
       style={{

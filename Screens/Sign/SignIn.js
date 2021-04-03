@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { View, Dimensions, StatusBar, Image, Text } from "react-native";
+import React, { useState ,useEffect} from "react";
+import { View, Dimensions, StatusBar, Image, Text,BackHandler } from "react-native";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Input/Button";
 import { SignIn123 } from "../../Components/Dashboard/AxiosUrl";
@@ -18,17 +18,26 @@ const { height, width } = Dimensions.get("window");
 export default function SignIn({ navigation }) {
   const [username, setUsername] = useState("AC-");
   const [password, setPassword] = useState("");
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => BackHandler.exitApp(), true)
+    return () =>
+      BackHandler.removeEventListener('hardwareBackPress', () =>BackHandler.exitApp(), true)
+  }, [])
+
   const SignIn1 = async () => {
     await SignIn123(username, password).then(async(res) => {
-      if (res === password) {
+      if (res.Password === password && res.isActive) {
        // alert("Sucess");
         await AsyncStorage.setItem("UserID", `${username}`);
-
+        setUsername("AC-");setPassword("")
         await AsyncStorage.setItem("userToken", "abc");
         navigation.navigate("App");
       } else if (res === "undefined") {
         alert("Username does not exist");
-      } else {
+      }else if(res.Password === password && !res.isActive){
+        alert("Account is InActive")
+      }
+       else {
         alert("Wrong Username or Password");
       }
     });
@@ -93,6 +102,7 @@ export default function SignIn({ navigation }) {
             marginTop={10}
             value={username}
             onChangeText={(text) => setUsername(text)}
+            Num="numeric"
           />
 
           <Input

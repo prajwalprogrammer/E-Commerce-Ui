@@ -112,7 +112,14 @@ const Profile = ({ navigation }) => {
       SalesId,
       UserProfile.Password,
       image
-    ).then((res) => alert(res));
+    ).then((res) => {
+      alert(res);
+      setTimeout(() => {
+        if (!AccountStatus) {
+          Logout();
+        }
+      }, 2000);
+    });
   };
   const Logout = async () => {
     await AsyncStorage.clear().then(() => navigation.navigate("Auth"));

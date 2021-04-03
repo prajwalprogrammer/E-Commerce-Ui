@@ -43,14 +43,20 @@ const Checkout = (props) => {
   };
 
   const OrderPurchase = async () => {
-    // console.log(transations);
-    //  const amounts = transations.map(transaction =>{ transaction.Quantitytransations.id});
-   // alert(moment(date).format("lll"))
+    var FinalDate;
+    // transations.map((transaction) => {
+    //   console.log("Quantity" + transaction.SubQuantity);
+    // });
+     //  const amounts = transations.map(transaction =>{ transaction.Quantitytransations.id});
+     toggleCheckBox2 ?FinalDate=moment(new Date()).format("lll"):
+     FinalDate=moment(date).format("ll")+" "+ moment(Time).format("LT")
+     
+    //  alert(moment(date).format("ll") + moment(Time).format("LT"))
     await AddOrder(
       transations,
       Profile.id,
       Profile.AccountName,
-      date + Time,
+      FinalDate,
       props.amount,
       toggleCheckBox2 ? "Delivery" : "Pick up",
       Profile
@@ -63,7 +69,7 @@ const Checkout = (props) => {
     });
   };
   //
-  
+
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);

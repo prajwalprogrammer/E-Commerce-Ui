@@ -29,7 +29,9 @@ import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
 import { Read } from "./AxiosUrl";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { CartContext } from "../GlobalContext/CartProvider";
 const Allproduct = ({ navigation, route }) => {
+  const {Profile} = React.useContext(CartContext)
   const [Visible, setVisible] = useState(null)
   const [DATA, setDATA] = React.useState([])
   React.useEffect(() => {
@@ -58,7 +60,7 @@ const Allproduct = ({ navigation, route }) => {
             All Products
           </Title>
           <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
-            CLUS Pvt Ltd.
+          {Profile ? Profile.AccountName : "CLUS Pvt Ltd."}
           </Subtitle>
         </Body>
         <Right>

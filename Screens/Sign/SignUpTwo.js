@@ -53,7 +53,7 @@ export const SignUpTwo = ({ navigation, route }) => {
         alert("Unable To SignUp,Try Again");
       } else if (res === "SUCESS!") {
         //alert("Sucessfull");
-        await AsyncStorage.setItem("UserID", `${username}`);
+        await AsyncStorage.setItem("UserID", `${route.params.useName}`);
 
         navigation.navigate("FinalPage");
       } else {

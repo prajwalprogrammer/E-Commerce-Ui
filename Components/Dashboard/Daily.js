@@ -34,7 +34,6 @@ export const RenderItem = (props) => {
   var N1;
   var found = transations.some((el) => el.id === props.data.id);
 
-
   props.navigation.addListener("focus", async () => {
     //do your thing here
     var N2 = await AsyncStorage.getItem("countries");
@@ -55,15 +54,18 @@ export const RenderItem = (props) => {
   const onsubmit = async () => {
     // e.preventDefault();
     await GetMyCart(props.data.id).then((res) => {
-      const Price = Math.round(res.price * (1-(res.discount/100) * 1))
+      const Price = Math.round(res.price * (1 - (res.discount / 100) * 1));
+      const ORGPrice = Math.round(res.price - (res.price * res.discount) / 100);
       const newTransaction = {
-        Discount:Price,
+        Discount: res.discount,
         id: res.id,
         name: res.name,
-        price: res.price,
+        price: ORGPrice,
+        ProductPrice: res.price,
         Quantity: 1,
         Image: res.image,
-        Total: Price,
+        Total: ORGPrice,
+        SubQuantity: res.quantity - 1,
       };
       addTransaction(newTransaction);
     });
@@ -151,32 +153,21 @@ export const RenderItem = (props) => {
               </TouchableWithoutFeedback>
             )}
           </View>
-          {/* <Grid>
-                      <Col size={70}>
-                        <TouchableOpacity style={{...styles.tab,alignSelf:'center'}} onPress={() => {}}>
-                          <Text style={styles.texts}>Add to Cart</Text>
-                        </TouchableOpacity>
-                      </Col>
-                      <Col size={20} style={{ marginTop: -5, marginLeft: "15%" }}>
-                        <Icon name="heart" size={25} color="#FF0707" />
-                      </Col>
-                        </Grid> */}
           <View style={{ justifyContent: "center", alignSelf: "center" }}>
             <Text style={{ ...styles.body, fontWeight: "bold" }}>
-              {props.data.name}
+              {props.data.name.slice(0, 20)}
+              {props.data.name.length >= 20 && "..."}
             </Text>
           </View>
           <Grid>
-            <Col size={100}>
-              <>
-                <Text style={styles.header}>
-                  $
-                  {Math.floor(
-                    props.data.price -
-                      (props.data.price * props.data.discount) / 100
-                  )}
-                </Text>
-              </>
+            <Col size={170}>
+              <Text style={styles.header}>
+                $
+                {Math.round(
+                  props.data.price -
+                    (props.data.price * props.data.discount) / 100
+                )}
+              </Text>
             </Col>
             <Col size={70}>
               <Text
@@ -187,6 +178,7 @@ export const RenderItem = (props) => {
                   textDecorationStyle: "solid",
                   color: COLORS.font,
                   marginTop: 10,
+                  alignSelf: "flex-start",
                 }}
               >
                 ${props.data.price}
@@ -212,80 +204,7 @@ const Profile = () => {
         marginHorizontal: 10,
       }}
       contentContainerStyle={{ paddingHorizontal: 20 }}
-    >
-      {/* <View style={{ flex: 1, flexDirection: "row", justifyContent: "center" ,}}>
-        <Carousel
-          layout={"default"}
-          //ref={isCarousel}
-          data={daily_data}
-          sliderWidth={300}
-          itemWidth={300}
-          renderItem={renderItem}
-          onSnapToItem={(index) => setActive(index)}
-        />
-      </View> */}
-      {daily_data.map((item) => (
-        <View
-          style={{
-            borderRadius: 10,
-            backgroundColor: "white",
-            width: 150,
-            margin: 5,
-            height: 250,
-          }}
-          key={item.key}
-        >
-          <TouchableOpacity
-            style={{
-              padding: 2,
-              width: 80,
-              zIndex: 1,
-              backgroundColor: "#7389FF",
-              position: "absolute",
-              top: 5,
-              left: 0,
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ color: "white" }}>15% off</Text>
-          </TouchableOpacity>
-          <Image source={{ uri: item.imageuri }} style={styles.image} />
-          <Grid>
-            <Col size={70}>
-              <TouchableOpacity style={styles.tab} onPress={() => {}}>
-                <Text style={styles.texts}>Add to Cart</Text>
-              </TouchableOpacity>
-            </Col>
-            <Col size={20} style={{ marginTop: -5, marginLeft: "15%" }}>
-              <Icon name="heart" size={25} color="#FF0707" />
-            </Col>
-          </Grid>
-          <View style={{ marginTop: -10 }}>
-            <Text style={styles.body}>{item.description}</Text>
-          </View>
-          <Grid>
-            <Col size={100}>
-              <TouchableOpacity>
-                <Text style={styles.header}>${item.price}</Text>
-              </TouchableOpacity>
-            </Col>
-            <Col size={70}>
-              <Text
-                style={{
-                  fontSize: 20,
-                  opacity: 0.5,
-                  textDecorationLine: "line-through",
-                  textDecorationStyle: "solid",
-                }}
-              >
-                $150
-              </Text>
-            </Col>
-          </Grid>
-        </View>
-      ))}
-    </ScrollView>
+    ></ScrollView>
   );
 };
 

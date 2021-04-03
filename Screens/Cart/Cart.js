@@ -68,16 +68,22 @@ const category_data = [
 ];
 import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
+import NumericInput from "react-native-numeric-input";
+
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-community/async-storage";
-import { GetMyCart } from "../../Components/Dashboard/AxiosUrl";
+import { GetMyCart, GetProduct } from "../../Components/Dashboard/AxiosUrl";
 import { CartContext } from "../../Components/GlobalContext/CartProvider";
 import CartList from "./CartList";
 import { GlobalContext } from "../../Components/Contaxt/GlobalState";
 import { AntDesign } from "@expo/vector-icons";
 
 const Cart = ({ navigation }) => {
-  const { transations, deleteTransaction } = React.useContext(GlobalContext);
+  const {
+    transations,
+    deleteTransaction,
+    UpdateTransaction,
+  } = React.useContext(GlobalContext);
   const { user, Prajwal, Total, Profile } = React.useContext(CartContext);
   const [CArt, setCArt] = React.useState([]);
   const [Quantity, setQuantity] = React.useState([]);
@@ -105,11 +111,23 @@ const Cart = ({ navigation }) => {
     };
     Fetch();
   }, [Prajwal]);
-  const DeleteCart = (id) => {
-    const index = A1.indexOf(id);
-
-    CArt.splice(index);
+  const OpenProduct = async (ID, Quantity) => {
+    await GetProduct(ID, navigation, Quantity);
   };
+
+  const SetQua = (VAl, Id, Price, Discount) => {
+    const ORGPrice = Math.round(Price - (Price * Discount) / 100) * VAl;
+    const elementsIndex = transations.findIndex((element) => element.id == Id);
+    let newArray = [...transations];
+    newArray[elementsIndex] = {
+      ...newArray[elementsIndex],
+      Quantity: VAl,
+      Total: ORGPrice,
+    };
+    // transations=newArray;
+    UpdateTransaction(newArray);
+  };
+
   const getArraySum = () => {
     const amounts = transations.map((transaction) => transaction.Total);
 
@@ -157,7 +175,7 @@ const Cart = ({ navigation }) => {
           }}
           start={{ x: 0.9, y: 0.25 }}
         >
-          <ScrollView contentContainerStyle={{ paddingBottom: 30 }}>
+          <ScrollView contentContainerStyle={{ paddingBottom: "20%" }}>
             <TouchableWithoutFeedback
               onPress={() => {
                 navigation.navigate("Allproduct");
@@ -196,96 +214,120 @@ const Cart = ({ navigation }) => {
             {transations
               ? transations.map((item) => {
                   return (
-                    <LinearGradient
-                      colors={["#474747", "#474747", "#202020"]}
-                      style={styles.tab}
-                      start={{ x: 1.3, y: 1.3 }}
+                    <TouchableWithoutFeedback
                       key={item.id}
+                      onPress={() => OpenProduct(item.id, item.Quantity)}
                     >
-                      <Grid key={item.id}>
-                        <Row>
-                          <Col size={30}>
-                            <Image
-                              source={{ uri: item.Image[0] }}
-                              style={styles.image}
-                            />
-                          </Col>
-                          <Col
-                            size={50}
-                            style={{
-                              backgroundColor: "#202020",
-                              borderRadius: 15,
-                              paddingVertical: 4,
-                              alignSelf: "center",
-                              justifyContent: "center",
-                              elevation: 23,
-                              paddingLeft: 12,
-                            }}
-                          >
-                            <Row
-                              style={{ alignSelf: "center", marginLeft: 10 }}
+                      <LinearGradient
+                        colors={["#474747", "#474747", "#202020"]}
+                        style={styles.tab}
+                        start={{ x: 1.3, y: 1.3 }}
+                        key={item.id}
+                      >
+                        <Grid key={item.id}>
+                          <Row>
+                            <Col size={30}>
+                              <Image
+                                source={{ uri: item.Image[0] }}
+                                style={styles.image}
+                              />
+                            </Col>
+                            <Col
+                              size={50}
+                              style={{
+                                backgroundColor: "#202020",
+                                borderRadius: 15,
+                                paddingVertical: 4,
+                                alignSelf: "center",
+                                justifyContent: "center",
+                                elevation: 23,
+                                paddingLeft: 12,
+                              }}
                             >
-                              <Col size={125} style={{ alignSelf: "center" }}>
-                                <Text
-                                  style={{
-                                    fontSize: 15,
-                                    fontWeight: "bold",
-                                    color: COLORS.font,
-                                  }}
-                                >
-                                  {item.name}
-                                </Text>
-                                <Text style={{ color: COLORS.font }}>
-                                  {item.id}
-                                </Text>
-                              </Col>
-                              <Col size={35}>
-                                <TouchableWithoutFeedback
-                                  onPress={() => deleteTransaction(item.id)}
-                                >
-                                  <AntDesign
-                                    name="delete"
-                                    size={18}
-                                    color="red"
-                                    style={{ alignSelf: "center" }}
-                                  />
-                                </TouchableWithoutFeedback>
-                              </Col>
-                            </Row>
-                            <Row>
-                              <Col size={25}>
-                                <Text
-                                  style={{
-                                    color: COLORS.font,
-                                    alignSelf: "center",
-                                  }}
-                                >
-                                  $ {item.Discount}
-                                </Text>
-                              </Col>
-                              <Col size={5}>
-                                <Text style={{ color: COLORS.font }}>x</Text>
-                              </Col>
-                              <Col size={30}>
-                                <View style={{ flexDirection: "row" }}>
-                                  <View>
-                                    <Text style={{ color: COLORS.font }}>
-                                      {item.Quantity}
-                                    </Text>
+                              <Row
+                                style={{ alignSelf: "center", marginLeft: 10 }}
+                              >
+                                <Col size={125} style={{ alignSelf: "center" }}>
+                                  <Text
+                                    style={{
+                                      fontSize: 15,
+                                      fontWeight: "bold",
+                                      color: COLORS.font,
+                                    }}
+                                  >
+                                    {item.name}
+                                  </Text>
+                                  <Text style={{ color: COLORS.font }}>
+                                    {item.id}
+                                  </Text>
+                                </Col>
+                                <Col size={35}>
+                                  <TouchableWithoutFeedback
+                                    onPress={() => deleteTransaction(item.id)}
+                                  >
+                                    <AntDesign
+                                      name="delete"
+                                      size={18}
+                                      color="red"
+                                      style={{ alignSelf: "center" }}
+                                    />
+                                  </TouchableWithoutFeedback>
+                                </Col>
+                              </Row>
+                              <Row>
+                                <Col size={25}>
+                                  <Text
+                                    style={{
+                                      color: COLORS.font,
+                                      alignSelf: "center",
+                                    }}
+                                  >
+                                    $ {item.price}
+                                  </Text>
+                                </Col>
+                                <Col size={5}>
+                                  <Text style={{ color: COLORS.font }}>x</Text>
+                                </Col>
+                                <Col size={30}>
+                                  <View style={{ flexDirection: "row" }}>
+                                    <TouchableWithoutFeedback>
+                                      {/* <Text style={{ color: COLORS.font }}>
+                                        {item.Quantity}
+                                      </Text> */}
+                                      <NumericInput
+                                        textColor="white"
+                                        rounded
+                                        // type="up-down"
+                                        minValue={1}
+                                        //maxValue={route.params.Quantity}
+                                        onChange={(value) =>
+                                          SetQua(
+                                            value,
+                                            item.id,
+                                            item.ProductPrice,
+                                            item.Discount
+                                          )
+                                        }
+                                        value={item.Quantity}
+                                        totalWidth={70}
+                                      />
+                                    </TouchableWithoutFeedback>
                                   </View>
-                                  <View>
-                                    <Text style={{ color: COLORS.font }}>
-                                      {" "}
-                                      = ${item.Total}
-                                    </Text>
-                                  </View>
+                                </Col>
+                              </Row>
+                              <Row>
+                                <View>
+                                  <Text style={{ color: COLORS.font ,fontSize:17,fontWeight:'bold'}}>
+                                    {" "}
+                                    = ${item.Total}
+                                  </Text>
                                 </View>
-                              </Col>
-                            </Row>
-                          </Col>
-                        </Row>
-                      </Grid>
-                    </LinearGradient>
+                              </Row>
+                            </Col>
+                          </Row>
+                        </Grid>
+                      </LinearGradient>
+                    </TouchableWithoutFeedback>
                   );
                 })
               : null}

@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
-  LogBox
+  LogBox,
 } from "react-native";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -19,31 +19,64 @@ import { CartContext } from "../GlobalContext/CartProvider";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { GetMyCart } from "./AxiosUrl";
 import { GlobalContext } from "../Contaxt/GlobalState";
+import AwesomeAlert from "react-native-awesome-alerts";
 
 const Product = ({ navigation, route }) => {
   const [value, setvalue] = useState(1);
+ 
   LogBox.ignoreAllLogs();
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   // useEffect(()=>{console.log(route.params.description)},[])
-  const { addTransaction,transations } = useContext(GlobalContext);
+  const { addTransaction, transations, UpdateTransaction } = useContext(
+    GlobalContext
+  );
   const { CheckTheProduct, user, AddToCart } = useContext(CartContext);
-  var N1 = transations.some((el) => el.id === route.params.Pid);
-
+   var N1 = transations.some((el) => el.id === route.params.Pid);
+  const SetQua = (VAl) => {
+    const ORGPrice =
+      Math.round(
+        route.params.price - (route.params.price * route.params.Discount) / 100
+      ) * VAl;
+    const elementsIndex = transations.findIndex(
+      (element) => element.id == route.params.Pid
+    );
+    let newArray = [...transations];
+    newArray[elementsIndex] = {
+      ...newArray[elementsIndex],
+      Quantity: VAl,
+      Total: ORGPrice,
+    };
+    // transations=newArray;
+    UpdateTransaction(newArray);
+    N1=transations.some((el) => el.id === route.params.Pid);
+  };
   const onsubmit = async () => {
     // e.preventDefault();
     await GetMyCart(route.params.Pid).then((res) => {
-      const Price = Math.round(res.price * (1-(res.discount/100) * value))
+      const Price = Math.round(res.price * (1 - res.discount / 100)) * value;
+      const Dis = Math.round(res.price * (1 - res.discount / 100));
+      const ORGPrice =
+        Math.round(res.price - (res.price * res.discount) / 100) * value;
+      const SinglePrice = Math.round(
+        res.price - (res.price * res.discount) / 100
+      );
+      // alert(Dis)
       const newTransaction = {
-        Discount:res.discount,
+        Discount: res.discount,
         id: res.id,
         name: res.name,
-        price: res.price,
+        price: SinglePrice,
+        ProductPrice: res.price,
         Quantity: value,
         Image: res.image,
-        Total: Price,
-        SubQuantity:res.quantity
+        Total: ORGPrice,
+        SubQuantity: res.quantity - value,
       };
       addTransaction(newTransaction);
+      setIsModalVisible(true);
+      setTimeout(function () {
+        setIsModalVisible(!isModalVisible);
+      }, 1000);
     });
   };
   return (
@@ -58,6 +91,7 @@ const Product = ({ navigation, route }) => {
         left: 0,
         right: 0,
         top: 0,
+        bottom: 0,
         //height: SIZES.height,
       }}
       start={{ x: 0.9, y: 0.25 }}
@@ -89,6 +123,29 @@ const Product = ({ navigation, route }) => {
               borderRadius: 10,
             }}
           />
+          <AwesomeAlert
+            show={isModalVisible}
+            showProgress={false}
+            title="Success!!!"
+            titleStyle={{ fontSize: 30, fontWeight: "bold", color: "black" }}
+            message={"Item Added To Cart"}
+            messageStyle={{ fontSize: 20, color: "gray" }}
+            closeOnTouchOutside={true}
+            closeOnHardwareBackPress={true}
+            showCancelButton={true}
+            showConfirmButton={true}
+            cancelButtonStyle={{}}
+            cancelText="Continue Shopping"
+            cancelButtonColor="red"
+            confirmText="Proceed to Checkout"
+            confirmButtonColor="#05375a"
+            onCancelPressed={() => {
+              setIsModalVisible(!isModalVisible), navigation.navigate("Cart");
+            }}
+            onConfirmPressed={() => {
+              setIsModalVisible(!isModalVisible), navigation.navigate("Report");
+            }}
+          />
         </View>
         <View style={{ margin: 20 }}>
           <Text
@@ -99,12 +156,32 @@ const Product = ({ navigation, route }) => {
               fontWeight: "bold",
             }}
           >
-            {" "}
             {route.params.name}
           </Text>
           <Text style={{ fontSize: 20, color: "white" }}>
             {" "}
-            $ {route.params.price}
+            $
+            {Math.floor(
+              route.params.price -
+                (route.params.price * route.params.Discount) / 100
+            )}{" "}
+            {/* $ {route.params.price} */}
+            {route.params.Discount > 0 ? (
+              <Text
+                style={{
+                  fontSize: 12,
+                  opacity: 0.5,
+                  textDecorationLine: "line-through",
+                  textDecorationStyle: "solid",
+                  color: COLORS.font,
+                  marginTop: 10,
+                  fontWeight: "normal",
+                  marginHorizontal: 12,
+                }}
+              >
+                ${route.params.price}
+              </Text>
+            ) : null}
           </Text>
           <Text style={styles.texts}>
             <MaterialIcons name="star-rate" color="#DBA800" size={25} />
@@ -127,30 +204,57 @@ const Product = ({ navigation, route }) => {
         </View>
         <Grid>
           <Col>
-            <TouchableWithoutFeedback
+            {N1 ? (
+              <TouchableWithoutFeedback
+                style={styles.tab1}
+                onPress={() => navigation.navigate("Report")}
+              >
+                <Text style={styles.texts}>Go to Cart</Text>
+              </TouchableWithoutFeedback>
+            ) : (
+              <TouchableWithoutFeedback
+                style={styles.tab1}
+                onPress={() => onsubmit()}
+              >
+                <Text style={styles.texts}>Add To Cart</Text>
+              </TouchableWithoutFeedback>
+            )}
+            {/* <TouchableWithoutFeedback
               style={styles.tab1}
               onPress={() => {
                 N1 ? navigation.navigate("Report") : onsubmit();
               }}
             >
-              {/* <Text style={styles.texts}>Add to Cart</Text> */}
               {N1 ? (
                 <Text style={styles.texts}>Go to Cart</Text>
               ) : (
                 <Text style={styles.texts}>Add To Cart</Text>
               )}
-            </TouchableWithoutFeedback>
+            </TouchableWithoutFeedback> */}
           </Col>
           <Col>
             <View style={styles.tab2}>
-              <NumericInput
-                textColor="white"
-                rounded
-                type="up-down"
-                minValue={1}
-                maxValue={route.params.Quantity}
-                onChange={(value) => setvalue(value)}
-              />
+              {N1 ? (
+                <NumericInput
+                  textColor="white"
+                  rounded
+                 // type="up-down"
+                  minValue={1}
+                  maxValue={route.params.Quantity}
+                  onChange={(value) => SetQua(value)}
+                  value={route.params.NewQuan}
+                />
+              ) : (
+                <NumericInput
+                  textColor="white"
+                  rounded
+                 // type="up-down"
+                  minValue={1}
+                  maxValue={route.params.Quantity}
+                  onChange={(value) => setvalue(value)}
+                  value={1}
+                />
+              )}
             </View>
           </Col>
         </Grid>

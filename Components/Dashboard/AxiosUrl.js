@@ -6,7 +6,10 @@ const instances = axios.create({
 });
 export const Read = async () => {
   try {
-    const { data } = await instances.get(`/api/category/read`);
+    const { data } = await instances.post(`/api/category/search`,{
+      query:true,
+      value:'isActive'
+    });
     console.log("data" + JSON.stringify(data[0]));
     return data;
   } catch (error) {
@@ -34,17 +37,36 @@ export const ShowData = async (Cid, C) => {
 };
 export const DailyDeal = async () => {
   try {
-    const { data } = await instances.post(`/api/product/search/`, {
-      query: "CAT0009",
-      value: "category_id",
-    });
-
-    console.log("Daily" + data);
-    return data;
+    const { data } = await instances.get(`/api/product/read`)
+    const DailyItemList = [];
+    data.filter(item=>item.discount>0 && DailyItemList.push(item))
+    return DailyItemList;
   } catch (error) {
     console.log(error);
   }
 };
+
+export const GetProduct = async (Pids,Nav,Quan) => {
+  var DATA = [];
+  try {
+    const { data } = await instances.get(`/api/product/read/${Pids}`);
+    console.log(data)
+    Nav.navigate("Product", {
+      name: data.name,
+      description: data.description,
+      uri1: data.image,
+      Quantity: data.quantity,
+      price: data.price,
+      Cid: data.category_id,
+      Pid: data.id,
+      Discount: data.discount,
+      NewQuan:Quan
+    })
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const GetMyCart = async (Pids) => {
   var DATA = [];
   try {
@@ -99,8 +121,8 @@ export const SignUp = async (
 export const SignIn123 = async (username, password) => {
   try {
     const { data } = await instances.get(`/api/account/read/${username}`);
-    console.log(data.Password);
-    return data.Password;
+    console.log(data);
+    return data;
   } catch (error) {
     console.log(error);
   }
@@ -127,15 +149,15 @@ export const AddOrder = async (
   UserInfo
 ) => {
   const OrderListData = [];
-  OrderData.map((item)=>{
+  OrderData.map((item) => {
     OrderListData.push({
-      Discount:item.Discount,
-      Price_Unit:item.price,
-      ProductId:item.id,
-      ProductName:item.name,
-      Quantity:item.Quantity,
-    })
-  })
+      Discount: item.Discount,
+      Price_Unit: item.ProductPrice,
+      ProductId: item.id,
+      ProductName: item.name,
+      Quantity: item.Quantity,
+    });
+  });
 
   const OrderId = Math.floor(Math.random() * 100000);
   var DATA = {
@@ -158,9 +180,11 @@ export const AddOrder = async (
   try {
     const { data } = await instances.post(`/api/orders/create`, DATA);
     if (data) {
-      await UpdateUserOrder(UserInfo, AccountOrderListData, OrderListData).then((res) =>
-        console.log("object" + res)
-      );
+      await UpdateUserOrder(
+        UserInfo,
+        AccountOrderListData,
+        OrderData
+      ).then((res) => console.log("object" + res));
     }
     return data;
   } catch (error) {
@@ -168,49 +192,46 @@ export const AddOrder = async (
   }
 };
 
-export const ProductQuantityUpdate = async (id, quantity) =>{
-  const obj={
-    quantity:quantity
-  }
-  alert("quan"+quantity) 
-  console.log("hoo"+obj)
-  const {data}=await instances.put(`/api/product/update/${id}`,obj)
-  console.log(data)
-}
+export const ProductQuantityUpdate = async (id, quantity) => {
+  const obj = {
+    quantity: quantity,
+  };
+  //alert("quan"+quantity)
+  console.log("hoo" + obj);
+  const { data } = await instances.put(`/api/product/update/${id}`, obj);
+  console.log(data);
+};
 
-export const UpdateUserOrder = async (Profile, Order,OrderListData) => {
-  var obj ={}
-  if(Profile.OrderList){
+export const UpdateUserOrder = async (Profile, Order, OrderListData) => {
+  console.log("OrderListData" + OrderListData);
+  var obj = {};
+  if (Profile.OrderList) {
     obj = {
-      OrderList: [Order,...Profile.OrderList],
+      OrderList: [Order, ...Profile.OrderList],
     };
-  }else{
+  } else {
     obj = {
       OrderList: [Order],
     };
   }
-  try {
-    OrderListData.map(item=>{
-      alert(item.ProductId + item.Quantity);
-      ProductQuantityUpdate(item.ProductId,item.SubQuantity)
-    })
-  } catch (error) {
-    console.log(error);
-  }
-  
+
   try {
     const { data } = await instances.put(
       `/api/account/update/${Profile.id}`,
       obj
     );
     console.log("daas" + data);
+    if (data) {
+      OrderListData.map(async (item) => {
+        console.log("item" + item.id + item.SubQuantity);
+        await ProductQuantityUpdate(item.id, item.SubQuantity);
+      });
+    }
     return data;
   } catch (error) {
     console.log("ghk" + error);
   }
 };
-
-
 
 //
 export const UpdateUser = async (
@@ -239,7 +260,7 @@ export const UpdateUser = async (
         PhoneNumber: phone,
       },
     ],
-    OrderList: null,
+
     STD: {
       Sales_Id: TaxId,
       Sales_Tax_Link:
@@ -250,7 +271,7 @@ export const UpdateUser = async (
   };
   console.log(JSON.stringify(obj));
   try {
-    const { data } = await instancess.put(
+    const { data } = await instances.put(
       `/api/account/update/${useName}`,
       obj
     );

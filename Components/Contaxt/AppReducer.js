@@ -11,6 +11,11 @@ export default(state,action)=> {
           ...state,
           transations:[...state.transations,action.payload]
         }
+      case 'UPDATE_TRANSACTION':
+        return{
+          ...state,
+          transations:action.payload
+        }
     default :
     return state
   }
