@@ -7,11 +7,10 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
-  Button,
   StatusBar,
   ActivityIndicator,
 } from "react-native";
-
+import { Button } from "native-base";
 import Carousel from "react-native-snap-carousel";
 import CarouselCardItem, { SLIDER_WIDTH, ITEM_WIDTH } from "./Carousel";
 import { Col, Row, Grid } from "react-native-easy-grid";
@@ -22,7 +21,6 @@ import Dashboard_profile from "./Dashboard-profile";
 import Daily from "./Daily";
 import DAily1 from "./Corousel1";
 
-
 import { LinearGradient } from "expo-linear-gradient";
 import { FONTS, SIZES, COLORS } from "../../Assets/theme";
 import {
@@ -32,8 +30,9 @@ import {
 import { Read, ShowData, DailyDeal, GetUserDetails } from "./AxiosUrl";
 import AsyncStorage from "@react-native-community/async-storage";
 import { CartContext } from "../GlobalContext/CartProvider";
+const Packages = [{Displayname:"Stater",name:"starter"}, {Displayname:"Growth",name:"growth"}, {Displayname:"Rockstar",name:"rockstar"}];
 const Dashboard = ({ navigation }) => {
-  const [Loading, setLoading] = useState(false)
+  const [Loading, setLoading] = useState(false);
   const { Profile, setProfile, Prajwal, setPrajwal, setQ } = React.useContext(
     CartContext
   );
@@ -66,8 +65,8 @@ const Dashboard = ({ navigation }) => {
       <LinearGradient
         colors={["#4d4b50", "#020001"]}
         style={{
-          borderRadius:15,
-          margin:5,
+          borderRadius: 15,
+          margin: 5,
         }}
         start={{ x: 1, y: 0 }}
       >
@@ -113,11 +112,22 @@ const Dashboard = ({ navigation }) => {
             </Grid>
           </View>
 
-          <TextInput
-            style={styles.textinput}
-            onChangeText={(text) => onChangeText(text)}
-            value={value}
-          />
+          <Button
+            full
+            rounded
+            style={{
+              backgroundColor: COLORS.lightGray,
+              height: 35,
+              width: "90%",
+              alignSelf: "center",
+            
+            }}
+            onPress={() => navigation.navigate("Search")}
+          >
+            <Text style={{ fontSize: 18,marginRight:"70%" }}>
+              Search
+            </Text>
+          </Button>
         </View>
         <View
           style={{
@@ -197,6 +207,7 @@ const Dashboard = ({ navigation }) => {
                       onPress={() =>
                         navigation.navigate("lists", {
                           category_id: item.id,
+                          value:"category_id"
                         })
                       }
                       key={item.id}
@@ -207,6 +218,49 @@ const Dashboard = ({ navigation }) => {
                 })
               : null}
           </View>
+        </View>
+      </View>
+      <View style={{marginBottom:10}}>
+        <Text
+          style={{
+            marginHorizontal: 10,
+
+            margin: 5,
+            color: COLORS.font,
+            fontSize: 25,
+            fontWeight: "bold",
+          }}
+        >
+          Packages:
+        </Text>
+        <View>
+          {Packages.map((item) => {
+            return (
+              <TouchableWithoutFeedback
+                style={{
+                  zIndex: 1,
+                  marginTop: 20,
+                  marginLeft: "5%",
+                  marginRight: "10%",
+                  width: "85%",
+                  alignItems: "center",
+                  borderRadius: 10,
+                  padding: 15,
+                  borderWidth: 1,
+                  borderColor: "gray",
+                }}
+                onPress={() =>
+                  navigation.navigate("lists", {
+                    category_id: item.name,
+                    value:"Package"
+                  })
+                }
+                key={Math.random()}
+              >
+                <Text style={styles.texts}>{item.Displayname}</Text>
+              </TouchableWithoutFeedback>
+            );
+          })}
         </View>
       </View>
     </ScrollView>

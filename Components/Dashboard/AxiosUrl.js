@@ -6,9 +6,9 @@ const instances = axios.create({
 });
 export const Read = async () => {
   try {
-    const { data } = await instances.post(`/api/category/search`,{
-      query:true,
-      value:'isActive'
+    const { data } = await instances.post(`/api/category/search`, {
+      query: true,
+      value: "isActive",
     });
     console.log("data" + JSON.stringify(data[0]));
     return data;
@@ -37,20 +37,31 @@ export const ShowData = async (Cid, C) => {
 };
 export const DailyDeal = async () => {
   try {
-    const { data } = await instances.get(`/api/product/read`)
+    const { data } = await instances.get(`/api/product/read`);
     const DailyItemList = [];
-    data.filter(item=>item.discount>0 && DailyItemList.push(item))
+    data.filter((item) => item.discount > 0 && DailyItemList.push(item));
     return DailyItemList;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const GetProduct = async (Pids,Nav,Quan) => {
+export const ReadAllProducts = async () => {
+  try {
+    const { data } = await axios.get(
+      "https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/product/read"
+    );
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const GetProduct = async (Pids, Nav, Quan) => {
   var DATA = [];
   try {
     const { data } = await instances.get(`/api/product/read/${Pids}`);
-    console.log(data)
+    console.log(data);
     Nav.navigate("Product", {
       name: data.name,
       description: data.description,
@@ -60,8 +71,8 @@ export const GetProduct = async (Pids,Nav,Quan) => {
       Cid: data.category_id,
       Pid: data.id,
       Discount: data.discount,
-      NewQuan:Quan
-    })
+      NewQuan: Quan,
+    });
   } catch (error) {
     console.log(error);
   }
@@ -271,10 +282,7 @@ export const UpdateUser = async (
   };
   console.log(JSON.stringify(obj));
   try {
-    const { data } = await instances.put(
-      `/api/account/update/${useName}`,
-      obj
-    );
+    const { data } = await instances.put(`/api/account/update/${useName}`, obj);
     console.log("daas" + data);
     return data;
   } catch (error) {

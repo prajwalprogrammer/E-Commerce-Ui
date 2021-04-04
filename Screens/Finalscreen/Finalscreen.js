@@ -106,7 +106,7 @@ const FinalScreen = ({ navigation, route }) => {
         source={require("../../Assets/Tick.png")}
         style={{ width: 180, height: 180, marginLeft: 120 }}
       />
-      <Button light full rounded style={{width:"80%",alignSelf:'center'}} onPress={()=>navigation.navigate("Dashboard")}>
+      <Button light full rounded style={{width:"80%",alignSelf:'center'}} onPress={()=>navigation.navigate("Cart")}>
         <Text  style={{fontWeight:'bold',fontSize:25}}> Go To Home </Text>
       </Button>
 

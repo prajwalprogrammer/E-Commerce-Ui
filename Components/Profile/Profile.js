@@ -131,7 +131,7 @@ const Profile = ({ navigation }) => {
         colors={[COLORS.black, COLORS.black1, COLORS.black1]}
         style={{}}
       >
-        <Animatable.View
+        <View
           style={{
             //flex: 4,
             // alignItems: "center",
@@ -145,7 +145,7 @@ const Profile = ({ navigation }) => {
             <Text
               style={{ fontSize: 30, fontWeight: "bold", color: COLORS.font }}
             >
-              User Profile
+              Profile
             </Text>
           </View>
           <View
@@ -176,8 +176,8 @@ const Profile = ({ navigation }) => {
               <Image
                 source={{ uri: image }}
                 style={{
-                  width: 120,
-                  height: 120,
+                  width: 110,
+                  height: 110,
                   borderRadius: 50,
                   borderColor: COLORS.white,
                   borderWidth: 3,
@@ -185,7 +185,7 @@ const Profile = ({ navigation }) => {
               />
             )}
           </TouchableWithoutFeedback>
-        </Animatable.View>
+        </View>
         {UserProfile ? (
           <LinearGradient
             colors={[COLORS.black1, COLORS.black, COLORS.black]}

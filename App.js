@@ -30,6 +30,7 @@ import SignUpTwo from "./Screens/Sign/SignUpTwo";
 import SignUpFinal from "./Screens/Sign/SignUpFinal";
 import AsyncStorage from "@react-native-community/async-storage";
 import {GlobalProvider} from "./Components/Contaxt/GlobalState";
+import Categories from "./Components/Dashboard/Categories";
 export const DashboardStack = () => {
   return (
     <Stack.Navigator>
@@ -79,6 +80,11 @@ export const DashboardStack = () => {
         options={{ title: "MWC Dispensary Depot" }}
         name="RenderItem"
         component={RenderItem}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="Search"
+        component={Categories}
       />
       <Stack.Screen
         options={{ headerShown: false }}
@@ -192,7 +198,7 @@ export const MyCartStack = () => {
 };
 const tabOptions = {
   showLabel: false,
-
+  keyboardHidesTabBar: true,
   style: {
     height: "8%",
     backgroundColor: COLORS.black,

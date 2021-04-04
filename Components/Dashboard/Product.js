@@ -90,7 +90,7 @@ const Product = ({ navigation, route }) => {
         right: 0,
         top: 0,
         bottom: 0,
-        //height: SIZES.height,
+        height: SIZES.height,
       }}
       start={{ x: 0.9, y: 0.25 }}
     >

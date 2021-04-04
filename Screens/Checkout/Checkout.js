@@ -44,12 +44,12 @@ const Checkout = (props) => {
 
   const OrderPurchase = async () => {
     var FinalDate;
-    if(!toggleCheckBox2 && date===null && Time===null ){
+    if(!toggleCheckBox2 && date===null){
       alert("Select Date And Time")
       return;
     }
-     toggleCheckBox2 ?FinalDate=moment(new Date()).format("lll"):
-     FinalDate=moment(date).format("ll")+" "+ moment(Time).format("LT")
+     toggleCheckBox2 ?FinalDate=moment(new Date()).format("ll"):
+     FinalDate=moment(date).format("ll")
      
     await AddOrder(
       transations,
@@ -212,7 +212,7 @@ const Checkout = (props) => {
                     </Text>
                   </TouchableOpacity>
                 </View>
-                <View>
+                {/* <View>
                   <TouchableOpacity
                     style={{
                       backgroundColor: "#759CFF",
@@ -229,7 +229,7 @@ const Checkout = (props) => {
                       {Time ? moment(Time).format("LT") : "Choose Time"}
                     </Text>
                   </TouchableOpacity>
-                </View>
+                </View> */}
                 {show && (
                   <DateTimePicker
                     testID="dateTimePicker"

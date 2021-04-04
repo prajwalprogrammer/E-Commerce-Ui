@@ -41,7 +41,7 @@ const List = ({ navigation, route }) => {
   useEffect(() => {
     setVisible(true);
     const fetchAPI = async () => {
-      setDATA(await ShowData(route.params.category_id, "category_id"));
+      setDATA(await ShowData(route.params.category_id, route.params.value));
     };
 
     fetchAPI();
@@ -113,7 +113,7 @@ const List = ({ navigation, route }) => {
         }}
         start={{ x: 0.9, y: 0.25 }}
       >
-        <ScrollView style={{}}>
+        <ScrollView style={{marginBottom: 50 }}>
           {Visible ? (
             <ActivityIndicator
               size="large"
@@ -259,11 +259,11 @@ const styles = StyleSheet.create({
   tab: {
     alignSelf: "center",
     zIndex: 1,
-    marginTop: 20,
+    marginTop: 10,
     marginLeft: "5%",
     marginRight: "5%",
     width: "93%",
-    paddingVertical: "5%",
+    paddingVertical: "3%",
     borderRadius: 10,
     padding: 15,
     // borderColor: "gray",
