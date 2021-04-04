@@ -8,11 +8,11 @@ import {
   Text,
 } from "react-native";
 import moment from "moment";
-
+import { Button } from "native-base";
 import Input from "../../Components/Input/Input";
-import Button from "../../Components/Input/Button";
 import * as Animatable from "react-native-animatable";
 import { FontAwesome } from "@expo/vector-icons";
+import * as ImagePicker from "expo-image-picker";
 
 const { height, width } = Dimensions.get("window");
 import { SignUp } from "../../Components/Dashboard/AxiosUrl";
@@ -25,6 +25,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-community/async-storage";
+import { UploadImage } from "../../Components/firebase";
 export const SignUpTwo = ({ navigation, route }) => {
   //alert(route.params.useName)
   const [date, setDate] = useState(new Date());
@@ -36,7 +37,20 @@ export const SignUpTwo = ({ navigation, route }) => {
   const [phone, setPhone] = useState("");
   const [upload, setUpload] = useState("");
   const [TaxId, setTaxId] = useState("");
-  const [TaxExpire, setTaxExpire] = useState("");
+  const [image, setimage] = useState();
+  const PickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      //await UploadImage(result.uri, Id,Profile)
+      setimage(result.uri);
+    }
+  };
   const PassToAxios = async () => {
     // alert("fdf")
     await SignUp(
@@ -52,9 +66,15 @@ export const SignUpTwo = ({ navigation, route }) => {
       if (res === "ERROR!") {
         alert("Unable To SignUp,Try Again");
       } else if (res === "SUCESS!") {
+        let Profile1={
+          id:route.params.useName,
+          STD:{
+            Sales_Id: TaxId,
+          }
+        }
         //alert("Sucessfull");
         await AsyncStorage.setItem("UserID", `${route.params.useName}`);
-
+        await UploadImage(image, route.params.useName,Profile1)
         navigation.navigate("FinalPage");
       } else {
         alert("Something Went Wrong!");
@@ -222,6 +242,48 @@ export const SignUpTwo = ({ navigation, route }) => {
           value={upload}
           onChangeText={(text) => setUpload(text)}
         /> */}
+            {image ? (
+              <Image
+                source={{ uri: image }}
+                style={{
+                  width: 170,
+                  height: 110,
+                  //borderRadius: 50,
+                  borderColor: COLORS.white,
+                  borderWidth: 1,
+                  alignSelf: "center",
+                  marginTop: "10%",
+                }}
+              />
+            ) : (
+              <Button
+                light
+                full
+                style={{ width: "90%", alignSelf: "center", marginTop: "10%" }}
+                rounded
+                bordered
+                onPress={PickImage}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <FontAwesome
+                    name="camera"
+                    size={20}
+                    color={COLORS.font}
+                    style={{ justifyContent: "center", margin: 5 }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      color: COLORS.font,
+                      justifyContent: "center",
+                    }}
+                  >
+                    Upload Sales Tax Image
+                  </Text>
+                </View>
+              </Button>
+            )}
             <TouchableWithoutFeedback
               style={{
                 zIndex: 1,

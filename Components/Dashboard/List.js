@@ -124,7 +124,11 @@ const List = ({ navigation, route }) => {
           ) : null}
           {DATA
             ? DATA.map((item) => {
-                var N1 = transations.some((el) => el.id === item.id);
+                var N1 = transations.some((el) => el.id === item.id);                  
+                var starRating = [];
+                for (var i = 0; i < parseInt(item.Rating); i++) {
+                  starRating.push(i);
+                }
                 return (
                   <LinearGradient
                     colors={["#383838", "#282828", "#202020"]}
@@ -144,12 +148,11 @@ const List = ({ navigation, route }) => {
                           Cid: item.category_id,
                           Pid: item.id,
                           Discount: item.discount,
+                          Rating: item.Rating,
                         })
                       }
                       // key={item.key}
                     >
-                      
-
                       <Grid>
                         <Col size={30}>
                           <Image
@@ -159,7 +162,6 @@ const List = ({ navigation, route }) => {
                         </Col>
                         <Col size={40}>
                           <View style={{ marginTop: "1%" }}>
-                            
                             <Text style={styles.texts}>{item.name}</Text>
                             <Text style={styles.texts}>
                               Price : $
@@ -185,28 +187,15 @@ const List = ({ navigation, route }) => {
                                 </Text>
                               ) : null}
                             </Text>
-                            <Text style={styles.texts}>
-                              <MaterialIcons
-                                name="star-rate"
-                                color="#DBA800"
-                                size={25}
-                              />
-                              <MaterialIcons
-                                name="star-rate"
-                                color="#DBA800"
-                                size={25}
-                              />
-                              <MaterialIcons
-                                name="star-rate"
-                                color="#DBA800"
-                                size={25}
-                              />
-                              <MaterialIcons
-                                name="star-rate"
-                                color="#DBA800"
-                                size={25}
-                              />
-                            </Text>
+                            <View style={{flexDirection:'row'}}>
+                              {starRating.map(() => (
+                                <MaterialIcons
+                                  name="star-rate"
+                                  color="#DBA800"
+                                  size={25}
+                                />
+                              ))}
+                            </View>
                           </View>
                         </Col>
                         <Col

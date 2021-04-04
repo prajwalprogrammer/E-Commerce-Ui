@@ -179,6 +179,7 @@ export const AddOrder = async (
     Status: "Received",
     Total: Total,
     Type: type,
+    orderCreatedDate: moment(new Date()).format('ll'),
     id: "ORD-" + OrderId,
   };
 
@@ -289,3 +290,21 @@ export const UpdateUser = async (
     console.log("ghk" + error);
   }
 };
+
+export const UpdateImage=async(URL, data1)=>{
+  obj={
+    STD:{
+      ...data1.STD,
+      Sales_Tax_Link: URL
+    }
+  }
+//alert(obj)
+  try{
+    const {data}=await instances.put(`/api/account/update/${data1.id}`,obj)
+    alert(data)
+  }
+  catch(err){
+    console.log(err)
+  }
+
+}

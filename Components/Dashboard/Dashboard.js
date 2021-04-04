@@ -83,9 +83,7 @@ const Dashboard = ({ navigation }) => {
                         <Image
                           source={
                             Profile
-                              ? Profile.Image === null
-                                ? require("../../Assets/download.png")
-                                : { uri: Profile.Image }
+                              ? { uri: Profile.STD.Sales_Tax_Link }
                               : require("../../Assets/download.png")
                           }
                           style={{
@@ -231,7 +229,7 @@ const Dashboard = ({ navigation }) => {
             fontWeight: "bold",
           }}
         >
-          Packages:
+          Packages
         </Text>
         <View>
           {Packages.map((item) => {

@@ -34,26 +34,6 @@ import Categories from "./Components/Dashboard/Categories";
 export const DashboardStack = () => {
   return (
     <Stack.Navigator>
-      {/* <Stack.Screen
-        options={{ headerShown: false }}
-        name="SignIn"
-        component={SignIn}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="SignUpOne"
-        component={SignUpOne}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="SignUpTwo"
-        component={SignUpTwo}
-      />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="FinalPage"
-        component={SignUpFinal}
-      /> */}
       <Stack.Screen
         options={{ headerShown: false }}
         name="Dashboard"
@@ -219,21 +199,7 @@ const AppSTack = () => {
               switch (route.name) {
                 case "Dashboard":
                   return (
-                    <View
-                      style={
-                        focused
-                          ? {
-                              borderRedius: "50%",
-                              backgroundColor: COLORS.black1,
-                              width: "50%",
-                              height: "50%",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 50,
-                            }
-                          : null
-                      }
-                    >
+                    <View>
                       <MaterialCommunityIcons
                         name="home"
                         color={tintColor}
@@ -251,21 +217,7 @@ const AppSTack = () => {
                   );
                 case "Report":
                   return (
-                    <View
-                      style={
-                        focused
-                          ? {
-                              borderRedius: "50%",
-                              backgroundColor: COLORS.black1,
-                              width: "60%",
-                              height: "70%",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 50,
-                            }
-                          : null
-                      }
-                    >
+                    <View>
                       <MaterialCommunityIcons
                         name="cart-outline"
                         color={tintColor}
@@ -282,21 +234,7 @@ const AppSTack = () => {
 
                 case "Cart":
                   return (
-                    <View
-                      style={
-                        focused
-                          ? {
-                              borderRedius: "50%",
-                              backgroundColor: COLORS.black1,
-                              width: "60%",
-                              height: "70%",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 50,
-                            }
-                          : null
-                      }
-                    >
+                    <View>
                       <MaterialCommunityIcons
                         name="cart-arrow-right"
                         color={tintColor}
@@ -312,21 +250,7 @@ const AppSTack = () => {
                   );
                 case "Profile":
                   return (
-                    <View
-                      style={
-                        focused
-                          ? {
-                              borderRedius: "50%",
-                              backgroundColor: COLORS.black1,
-                              width: "60%",
-                              height: "70%",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              borderRadius: 50,
-                            }
-                          : null
-                      }
-                    >
+                    <View>
                       <MaterialCommunityIcons
                         name="face"
                         color={tintColor}
@@ -356,40 +280,17 @@ const AppSTack = () => {
           />
 
           <Tab.Screen
-            // options={{
-            //   tabBarLabel: "Repeat",
-            //   tabBarIcon: ({ color, size }) => (
-            //     <MaterialCommunityIcons
-            //       name="cart-outline"
-            //       color={color}
-            //       size={30}
-            //     />
-            //   ),
-            // }}
             name="Report"
             component={MyCartStack}
           />
           <Tab.Screen
              options={{
                tabBarLabel: "Show All",
-            //   tabBarIcon: ({ color, size }) => (
-            //     <MaterialCommunityIcons
-            //       name="cart-arrow-right"
-            //       color={color}
-            //       size={30}
-            //     />
-            //   ),
              }}
             name="Cart"
             component={AllProductStack}
           />
           <Tab.Screen
-            // options={{
-            //   tabBarLabel: "Profile",
-            //   tabBarIcon: ({ color, size }) => (
-            //     <MaterialCommunityIcons name="face" color={color} size={30} />
-            //   ),
-            // }}
             name="Profile"
             component={Profile}
           />

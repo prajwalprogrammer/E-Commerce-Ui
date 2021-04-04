@@ -79,6 +79,14 @@ const Product = ({ navigation, route }) => {
       }, 1000);
     });
   };
+  
+    var starRating = []
+    alert(route.params.Rating)
+    for (var i=0; i<parseInt(route.params.Rating); i++){
+      starRating.push(i)
+    }
+   
+  
   return (
     <LinearGradient
       colors={["#000000", "#474747"]}
@@ -180,10 +188,7 @@ const Product = ({ navigation, route }) => {
             ) : null}
           </Text>
           <Text style={styles.texts}>
-            <MaterialIcons name="star-rate" color="#DBA800" size={25} />
-            <MaterialIcons name="star-rate" color="#DBA800" size={25} />
-            <MaterialIcons name="star-rate" color="#DBA800" size={25} />
-            <MaterialIcons name="star-rate" color="#DBA800" size={25} />
+          {starRating.map(()=><MaterialIcons name="star-rate" color="#DBA800" size={25} />)}
           </Text>
           <Text>{"\n"}</Text>
           <Text style={{ fontSize: 25, color: "white", fontWeight: "bold" }}>

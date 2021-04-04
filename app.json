@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "E-commerce",
-    "slug": "E-commerce",
+    "name": "MWC",
+    "slug": "MWC",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./Assets/E2.png",
+    "icon": "./Assets/MWC2.png",
     "githubUrl":"https://github.com/prajwalprogrammer/E-Commerce-Ui",
     "splash": {
       "image": "./Assets/E2.png",

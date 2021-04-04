@@ -82,6 +82,7 @@ export const RenderItem = (props) => {
           Cid: props.data.category_id,
           Pid: props.data.id,
           Discount: props.data.discount,
+          Rating:props.data.Rating
         })
       }
     >
