@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
+  
   StyleSheet,
   TouchableOpacity,
   Image,
   Button,
   ScrollView,
 } from "react-native";
+import Text from '../../Components/Dashboard/MyText'
 import { Col, Row, Grid } from "react-native-easy-grid";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import CheckBox from "@react-native-community/checkbox";
@@ -16,11 +17,12 @@ import { LinearGradient } from "expo-linear-gradient";
 import moment from "moment";
 import { CartContext } from "../../Components/GlobalContext/CartProvider";
 import { GlobalContext } from "../../Components/Contaxt/GlobalState";
-import { AddOrder } from "../../Components/Dashboard/AxiosUrl";
+import { AddOrder, GetUserDetails } from "../../Components/Dashboard/AxiosUrl";
+import AsyncStorage from "@react-native-community/async-storage";
 
 const Checkout = (props) => {
   const { transations } = React.useContext(GlobalContext);
-  const { Profile } = React.useContext(CartContext);
+  const { Profile ,setProfile} = React.useContext(CartContext);
   const [date, setDate] = useState(null);
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
@@ -48,8 +50,8 @@ const Checkout = (props) => {
       alert("Select Date And Time")
       return;
     }
-     toggleCheckBox2 ?FinalDate=moment(new Date()).format("ll"):
-     FinalDate=moment(date).format("ll")
+     toggleCheckBox2 ?FinalDate=moment(new Date()).format("lll"):
+     FinalDate=moment(date).format("lll")
      
     await AddOrder(
       transations,
@@ -57,10 +59,11 @@ const Checkout = (props) => {
       Profile.AccountName,
       FinalDate,
       props.amount,
-      toggleCheckBox2 ? "Delivery" : "Pick up",
+      toggleCheckBox2 ? "Delivery" : "PickUp",
       Profile
-    ).then((res) => {
+    ).then(async(res) => {
       // console.log(res),
+      setProfile(await GetUserDetails(await AsyncStorage.getItem("UserID")))
       props.Nav.navigate("Finalscreen", {
         isdelivery: toggleCheckBox2 ? true : false,
         Date: moment(date).format("ll"),
@@ -123,7 +126,7 @@ const Checkout = (props) => {
                   </Col>
                   <Col size={30}>
                     <Text style={{ fontSize: 20, color: COLORS.font }}>
-                      Pick up
+                      PickUp
                     </Text>
                   </Col>
                 </Row>

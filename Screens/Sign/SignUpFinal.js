@@ -1,96 +1,116 @@
 import React from "react";
 import * as Animatable from "react-native-animatable";
-
+import Text from '../../Components/Dashboard/MyText'
 import {
   View,
   ImageBackground,
   StatusBar,
   Dimensions,
-  Text,
+  
   Image,
-  BackHandler
+  BackHandler,
+  ScrollView,
 } from "react-native";
 import { COLORS } from "../../Assets/theme";
 
 const { height, width } = Dimensions.get("window");
 
 export default function SignUpFinal() {
+  var Message = ` We will Review the information you have provided and  get back to you at our earliest. `;
   React.useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', () => BackHandler.exitApp(), true)
+    BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => BackHandler.exitApp(),
+      true
+    );
     return () =>
-      BackHandler.removeEventListener('hardwareBackPress', () =>BackHandler.exitApp(), true)
-  }, [])
+      BackHandler.removeEventListener(
+        "hardwareBackPress",
+        () => BackHandler.exitApp(),
+        true
+      );
+  }, []);
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: COLORS.black,
-        padding: 5,
-      }}
-    >
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={COLORS.black}
-      />
-      {/* /*<ImageBackground
-        source={require("../../Assets/picture.png")}
+    <ScrollView style={{ backgroundColor: "#000000" }}>
+      <Image
+        source={require("../../Assets/Banner.png")}
         style={{
-          height: height * 0.542,
-          width: width * 0.93,
+          width: 350,
+          height: 370,
+          marginTop: 130,
+          marginLeft: 20,
+          justifyContent: "center",
           alignSelf: "center",
-          marginTop: height * 0.16,
         }}
-      /> */}
-      <Animatable.View animation="bounceIn"
-        style={{
-          backgroundColor: "#ffff",
-          position: "absolute",
-          top: height/3,
+      />
 
-          left: width * 0.1,
-          alignItems:"center",
-          justifyContent:"center",
-          borderRadius:15,
-          height: 250,
-          width: 300
+      {/* {isdelivery ?<> */}
+      <View
+        style={{
+          position: "absolute",
+          top: 220,
+          left: 50,
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        {/* /*<Image
-          source={require("../../Assets/mwc-title.png")}
-          style={{
-            height: height * 0.032,
-            width: width * 0.203,
-            alignSelf: "center",
-            marginTop: 34,
-          }}
-        />
-        <Image
-          source={require("../../Assets/mwc-text.png")}
-          style={{
-            height: height * 0.019,
-            width: width * 0.46,
-            alignSelf: "center",
-            marginTop: 13,
-          }}
-        />*/}
-        <Text style={{ fontSize: 25, fontWeight: "500", marginTop: 8 }}>
-          Dear Customer,
+        <Text style={{ fontWeight: "bold" }}>Dear Customer,</Text>
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          top: 260,
+          left: 40,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Text style={{ fontWeight: "900" }}>Thanks for Signing Up,</Text>
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          top: 300,
+          left: 40,
+          justifyContent: "center",
+          alignItems: "center",
+          width: 180,
+        }}
+      >
+        <Text>{Message}</Text>
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          top: 380,
+          left: 40,
+          justifyContent: "center",
+          alignItems: "center",
+          width: 180,
+        }}
+      >
+        <Text>Please reach out to us 216-712-5054.</Text>
+      </View>
+      <View
+        style={{
+          position: "absolute",
+          top: 430,
+          left: 40,
+          justifyContent: "center",
+          alignItems: "center",
+          width: 180,
+        }}
+      >
+        <Text style={{ fontSize: 16, fontWeight: "bold" }}>
+          Thank you and have a great day !
         </Text>
-        <Text
-          style={{
-            fontSize: 19,
-            color: "green",
-            fontWeight: "300",
-            marginTop: 10,
-          }}
-        >
-          We will review your {"\n"}information and get{"\n"}back to you at
-          {"\n"}our earliest
-        </Text>
-        <Text style={{ fontSize: 19, marginTop: 10 }}>
-          Thanks For Signing Up!
-        </Text>
-      </Animatable.View>
-    </View>
+      </View>
+      <Image
+        source={require("../../Assets/Tick.png")}
+        style={{ width: 180, height: 180, marginLeft: 120 }}
+      />
+
+      {/* </>:<></>} */}
+    </ScrollView>
   );
 }

@@ -2,12 +2,13 @@ import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
   StyleSheet,
-  Text,
+  
   View,
   TouchableWithoutFeedback,
   Dimensions,
   Image,
 } from "react-native";
+import Text from './MyText'
 import { SIZES, COLORS } from "../../Assets/theme";
 import { SearchBar } from "react-native-elements";
 import { GetMyCart, ReadAllProducts } from "./AxiosUrl";
@@ -95,6 +96,10 @@ const Categories = ({ navigation }) => {
           {DATA
             ? DATA.map((item) => {
                 var N1 = transations.some((el) => el.id === item.id);
+                var starRating = [];
+                for (var i = 0; i < parseInt(item.Rating); i++) {
+                  starRating.push(i);
+                }
                 return (
                   <LinearGradient
                     colors={["#383838", "#282828", "#202020"]}
@@ -152,28 +157,15 @@ const Categories = ({ navigation }) => {
                                 </Text>
                               ) : null}
                             </Text>
-                            <Text style={styles.texts}>
-                              <MaterialIcons
-                                name="star-rate"
-                                color="#DBA800"
-                                size={25}
-                              />
-                              <MaterialIcons
-                                name="star-rate"
-                                color="#DBA800"
-                                size={25}
-                              />
-                              <MaterialIcons
-                                name="star-rate"
-                                color="#DBA800"
-                                size={25}
-                              />
-                              <MaterialIcons
-                                name="star-rate"
-                                color="#DBA800"
-                                size={25}
-                              />
-                            </Text>
+                            <View style={{flexDirection:'row'}}>
+                              {starRating.map(() => (
+                                <MaterialIcons
+                                  name="star-rate"
+                                  color="#DBA800"
+                                  size={25}
+                                />
+                              ))}
+                            </View>
                           </View>
                         </Col>
                         <Col

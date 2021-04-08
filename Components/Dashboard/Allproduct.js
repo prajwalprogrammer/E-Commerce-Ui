@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
+  
   StyleSheet,
   TouchableOpacity,
   Image,
@@ -9,6 +9,7 @@ import {
   Dimensions,
   ActivityIndicator
 } from "react-native";
+import Text from './MyText'
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
@@ -24,6 +25,7 @@ import {
   Subtitle,
   Title,
 } from "native-base";
+import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
@@ -50,7 +52,7 @@ const Allproduct = ({ navigation, route }) => {
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
             {/* <Icon name="arrow-back" style={{ color: "#6a5acd" }} /> */}
-            <Icon name="back" size={30} color={COLORS.font} />
+            <Ionicons name="arrow-back" size={24} color="white" />
           </Button>
         </Left>
         <Body>
@@ -112,7 +114,7 @@ const Allproduct = ({ navigation, route }) => {
                       onPress={() =>
                         navigation.navigate("lists", {
                           category_id: item.id,
-                        })
+                          value:"category_id"                        })
                       }
                       key={item.id}
                     >

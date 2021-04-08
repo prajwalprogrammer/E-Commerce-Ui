@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
+  
   StyleSheet,
   TouchableOpacity,
   Image,
   ScrollView,
   BackHandler,
 } from "react-native";
+import Text from '../../Components/Dashboard/MyText'
 import { Col, Row, Grid } from "react-native-easy-grid";
 import { GlobalContext } from "../../Components/Contaxt/GlobalState";
 import { CartContext } from "../../Components/GlobalContext/CartProvider";
@@ -106,7 +107,7 @@ const FinalScreen = ({ navigation, route }) => {
         source={require("../../Assets/Tick.png")}
         style={{ width: 180, height: 180, marginLeft: 120 }}
       />
-      <Button light full rounded style={{width:"80%",alignSelf:'center'}} onPress={()=>navigation.navigate("Cart")}>
+      <Button light full rounded style={{width:"80%",alignSelf:'center'}} onPress={()=>{navigation.navigate("Cart"),navigation.navigate("Dashboard")}}>
         <Text  style={{fontWeight:'bold',fontSize:25}}> Go To Home </Text>
       </Button>
 

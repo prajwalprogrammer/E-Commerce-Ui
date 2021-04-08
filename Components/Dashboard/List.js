@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  Text,
+  
   StyleSheet,
   TouchableOpacity,
   Image,
@@ -15,6 +15,8 @@ import Icon from "react-native-vector-icons/AntDesign";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 const SLIDER_WIDTH = Dimensions.get("window").width;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8);
+import { Ionicons } from "@expo/vector-icons";
+import Text from './MyText';
 
 import {
   Container,
@@ -80,7 +82,7 @@ const List = ({ navigation, route }) => {
         <Left>
           <Button transparent onPress={() => navigation.goBack()}>
             {/* <Icon name="arrow-back" style={{ color: "#6a5acd" }} /> */}
-            <Icon name="back" size={30} color={COLORS.font} />
+            <Ionicons name="arrow-back" size={24} color="white" />
           </Button>
         </Left>
         <Body>

@@ -1,5 +1,6 @@
 import React, { useState ,useEffect} from "react";
-import { View, Dimensions, StatusBar, Image, Text,BackHandler } from "react-native";
+import { View, Dimensions, StatusBar, Image,BackHandler,Alert } from "react-native";
+import Text from '../../Components/Dashboard/MyText'
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Input/Button";
 import { SignIn123 } from "../../Components/Dashboard/AxiosUrl";
@@ -52,8 +53,11 @@ export default function SignIn({ navigation }) {
       <View
         style={{ flex: 0.5, alignSelf: "center", justifyContent: "flex-end" }}
       >
-        <Text style={{ fontSize: 40, fontWeight: "bold", color: COLORS.font }}>
-          Sign In
+        <Text style={{ fontSize: 30, fontWeight: "bold", color: COLORS.font,alignSelf:'center' ,fontFamily:'sans-serif-medium'}}>
+        AR Imports
+        </Text>
+        <Text style={{ fontSize: 30, fontWeight: "bold", color: COLORS.font,alignSelf:'center',fontFamily:'sans-serif-medium' }}>
+       Dispensary Depot
         </Text>
       </View>
       <LinearGradient
@@ -93,6 +97,7 @@ export default function SignIn({ navigation }) {
               alignSelf: "flex-start",
               marginLeft: 20,
               marginTop: 80,
+              fontFamily:'sans-serif-light'
             }}
           >
             Enter Username
@@ -112,39 +117,37 @@ export default function SignIn({ navigation }) {
             onChangeText={(text) => setPassword(text)}
             Pass={true}
           />
-          <Text
-            style={{
-              color: "#D80000",
-              fontSize: 18,
-              fontWeight: "bold",
-              alignSelf: "flex-end",
-              marginRight: 10,
-              marginTop: 10,
-            }}
-          >
-            Forgot Password?
-          </Text>
           {/* <Button title="SIGN IN" marginTop={60} onPress={() => SignIn1()} /> */}
-          <TouchableWithoutFeedback
-            style={{
-              zIndex: 1,
-              marginTop: 50,
-              marginLeft: "5%",
-              marginRight: "10%",
-              width: "65%",
-              alignItems: "center",
-              alignSelf: "center",
-              borderRadius: 10,
-              padding: 15,
-              // backgroundColor: getRandomColor(),
-              borderWidth: 1,
-              borderColor: COLORS.font,
-            }}
-            onPress={() => SignIn1()}
-          >
-            {/* <Text style={styles.texts}>{item.category_name}</Text> */}
-            <Text style={styles.texts}>Sign In</Text>
-          </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={() => SignIn1()}>
+              <LinearGradient
+                colors={[ "#5dd394","#80edb2"]}
+                style={{
+                  zIndex: 1,
+                  marginTop: 40,
+                  marginLeft: "5%",
+                  marginRight: "10%",
+                  width: "65%",
+                  alignItems: "center",
+                  alignSelf: "center",
+                  borderRadius: 10,
+                  padding: 15,
+                  // backgroundColor: getRandomColor(),
+                  borderWidth: 1,
+                 // borderColor: COLORS.font,
+                }}
+              >
+                {/* <Text style={styles.texts}>{item.category_name}</Text> */}
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: "bold",
+                    color: 'white',
+                  }}
+                >
+                  Submit
+                </Text>
+              </LinearGradient>
+            </TouchableWithoutFeedback>
           <Text
             style={{
               textAlign: "center",

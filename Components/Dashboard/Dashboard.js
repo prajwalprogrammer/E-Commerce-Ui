@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   View,
-  Text,
+  
   StyleSheet,
   TouchableOpacity,
   TextInput,
@@ -27,6 +27,8 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
+import { useFonts } from 'expo-font';
+import Text from './MyText'
 import { Read, ShowData, DailyDeal, GetUserDetails } from "./AxiosUrl";
 import AsyncStorage from "@react-native-community/async-storage";
 import { CartContext } from "../GlobalContext/CartProvider";
@@ -37,11 +39,13 @@ const Dashboard = ({ navigation }) => {
     CartContext
   );
   const isCarousel = React.useRef(null);
+  
   const [DATA, setDATA] = React.useState([]);
   const [value, onChangeText] = React.useState("Search");
   const [Visible, setVisible] = useState(null);
   const [DAILY, setDAILY] = useState([]);
   const [UserProfile, setUserProfile] = useState();
+  const [isReady, setIsReady] = useState(false)
   React.useEffect(() => {
     setVisible(true);
     const fetchAPI = async () => {
@@ -98,6 +102,7 @@ const Dashboard = ({ navigation }) => {
                         style={{
                           margin: 5,
                           color: "white",
+                          fontFamily:"notoserif"
                         }}
                       >
                         Howdy,{"\n"}
@@ -122,7 +127,7 @@ const Dashboard = ({ navigation }) => {
             }}
             onPress={() => navigation.navigate("Search")}
           >
-            <Text style={{ fontSize: 18,marginRight:"70%" }}>
+            <Text style={{ fontSize: 18,marginRight:"70%",fontFamily:"sans-serif-condensed" }}>
               Search
             </Text>
           </Button>

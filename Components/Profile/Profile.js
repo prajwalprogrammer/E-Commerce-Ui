@@ -1,11 +1,12 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { COLORS } from "../../Assets/theme";
 import * as Animatable from "react-native-animatable";
 import { GetUserDetails, UpdateUser } from "../Dashboard/AxiosUrl";
 import AsyncStorage from "@react-native-community/async-storage";
 import Input from "../Input/Input";
+import Text from '../Dashboard/MyText'
 import {
   ScrollView,
   TouchableWithoutFeedback,
@@ -53,7 +54,7 @@ const Profile = ({ navigation }) => {
   const [date, setDate] = useState(null);
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const { Profile } = React.useContext(CartContext);
+  const { Profile,setProfile } = React.useContext(CartContext);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -84,15 +85,16 @@ const Profile = ({ navigation }) => {
 
 
   const pickImage = async () => {
+    //alert(image)
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
+     // allowsEditing: true,
+     // aspect: [4, 3],
       quality: 1,
     });
 
     if (!result.cancelled) {
-      await UploadImage(result.uri, Id,Profile)
+      await UploadImage(result.uri, Id,Profile).then(async()=>setProfile(await GetUserDetails(await AsyncStorage.getItem("UserID"))))
        setImage(result.uri);
       // setImage(result.uri)
       // console.log(response)
@@ -101,13 +103,16 @@ const Profile = ({ navigation }) => {
   };
 
 
-  const onChange = (event, selectedDate) => {k
+  const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
     setSalesEx(currentDate);
   };
   const Updateuser = async () => {
+    await GetUserDetails(await AsyncStorage.getItem("UserID")).then(async(res)=>{
+
+    console.log("Link"+res.STD.Sales_Tax_Link)
     await UpdateUser(
       Id,
       AccountStatus,
@@ -118,15 +123,19 @@ const Profile = ({ navigation }) => {
       Phone,
       SalesId,
       UserProfile.Password,
-      image
-    ).then((res) => {
-      alert(res);
+      image,
+      res.STD.Sales_Tax_Link,
+      res.STD.Sales_expire_Date
+    ).then(async(res) => {
+     // alert(res);
+     setProfile(await GetUserDetails(await AsyncStorage.getItem("UserID")))
       setTimeout(() => {
         if (!AccountStatus) {
           Logout();
         }
       }, 2000);
-    });
+      navigation.navigate("Dashboard")
+    });})
   };
   const Logout = async () => {
     await AsyncStorage.clear().then(() => navigation.navigate("Auth"));
@@ -166,7 +175,7 @@ const Profile = ({ navigation }) => {
             }}
           >
             <Text style={{ color: COLORS.font, alignSelf: "center" }}>
-              Id:{" "}
+              Id:
             </Text>
             <Text
               style={{ color: COLORS.font, fontSize: 20, fontWeight: "bold" }}
@@ -178,6 +187,7 @@ const Profile = ({ navigation }) => {
             style={{ alignItems: "center", justifyContent: "center" }}
             onPress={pickImage}
           >
+            {/* <Text style={{color:"white"}}>giiii</Text> */}
             {/* <Button title="Pick an image from camera roll" onPress={pickImage} /> */}
             {image && (
               <Image
@@ -210,7 +220,7 @@ const Profile = ({ navigation }) => {
               //marginTop={}
               value={UserName}
               //value={UserProfile.Contact[0].PhoneNumber}
-              onChangeText={(text) => setPhone(text)}
+              onChangeText={(text) => setUserName(text)}
             />
             <TextField name="Phone Number" />
             <Input

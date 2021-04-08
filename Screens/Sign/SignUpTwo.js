@@ -5,8 +5,9 @@ import {
   Image,
   StatusBar,
   TextInput,
-  Text,
+  
 } from "react-native";
+import Text from '../../Components/Dashboard/MyText'
 import moment from "moment";
 import { Button } from "native-base";
 import Input from "../../Components/Input/Input";
@@ -41,8 +42,8 @@ export const SignUpTwo = ({ navigation, route }) => {
   const PickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
+     // allowsEditing: true,
+     // aspect: [4, 3],
       quality: 1,
     });
 
@@ -53,6 +54,7 @@ export const SignUpTwo = ({ navigation, route }) => {
   };
   const PassToAxios = async () => {
     // alert("fdf")
+    if((name != "")&&(address != "")&&(email != "")&&(phone != "")&&(image != null)){
     await SignUp(
       route.params.useName,
       route.params.password,
@@ -60,26 +62,28 @@ export const SignUpTwo = ({ navigation, route }) => {
       address,
       email,
       phone,
-      TaxId
+      // TaxId
       // date
     ).then(async (res) => {
       if (res === "ERROR!") {
         alert("Unable To SignUp,Try Again");
       } else if (res === "SUCESS!") {
-        let Profile1={
-          id:route.params.useName,
-          STD:{
-            Sales_Id: TaxId,
-          }
-        }
-        //alert("Sucessfull");
+        let Profile1 = {
+          id: route.params.useName,
+          STD: {
+            Sales_Id: null,
+          },
+        };
         await AsyncStorage.setItem("UserID", `${route.params.useName}`);
-        await UploadImage(image, route.params.useName,Profile1)
+        await UploadImage(image, route.params.useName, Profile1);
         navigation.navigate("FinalPage");
       } else {
         alert("Something Went Wrong!");
       }
-    });
+    });}
+    else{
+      alert("All Fields are Mandatory")
+    }
   };
   const onChange = (event, selectedDate) => {
     //alert(moment(selectedDate).format('lll'))
@@ -97,18 +101,23 @@ export const SignUpTwo = ({ navigation, route }) => {
       <ScrollView>
         <StatusBar barStyle="light-content" backgroundColor={COLORS.black1} />
         <View
-          style={{ flex: 0.7, alignSelf: "center", justifyContent: "flex-end" }}
+          style={{
+            flex: 0.7,
+            alignSelf: "center",
+            justifyContent: "flex-end",
+            marginTop: 20,
+          }}
         >
           <Text
-            style={{ fontSize: 40, fontWeight: "bold", color: COLORS.font }}
+            style={{ fontSize: 30, fontWeight: "bold", color: COLORS.font }}
           >
-            Company Details
+            Enter Company Details
           </Text>
         </View>
         <LinearGradient
           colors={["#333333", "#202020", "#191919", COLORS.black]}
           style={{
-            height: height * 0.85,
+            height: height * 0.80,
             width: width * 0.88,
             alignSelf: "center",
             borderRadius: 10,
@@ -164,13 +173,7 @@ export const SignUpTwo = ({ navigation, route }) => {
               onChangeText={(text) => setPhone(text)}
               Num="numeric"
             />
-            <Input
-              placeholder="Sales Tax Id"
-              marginTop={30}
-              value={TaxId}
-              onChangeText={(text) => setTaxId(text)}
-              Num="numeric"
-            />
+            
             {/* <Input
         placeholder="Sales Tax Expire Date"
         marginTop={30}
@@ -246,8 +249,8 @@ export const SignUpTwo = ({ navigation, route }) => {
               <Image
                 source={{ uri: image }}
                 style={{
-                  width: 170,
-                  height: 110,
+                  width: 200,
+                  height: 130,
                   //borderRadius: 50,
                   borderColor: COLORS.white,
                   borderWidth: 1,
@@ -284,33 +287,35 @@ export const SignUpTwo = ({ navigation, route }) => {
                 </View>
               </Button>
             )}
-            <TouchableWithoutFeedback
-              style={{
-                zIndex: 1,
-                marginTop: 40,
-                marginLeft: "5%",
-                marginRight: "10%",
-                width: "65%",
-                alignItems: "center",
-                alignSelf: "center",
-                borderRadius: 10,
-                padding: 15,
-                // backgroundColor: getRandomColor(),
-                borderWidth: 1,
-                borderColor: COLORS.font,
-              }}
-              onPress={() => PassToAxios()}
-            >
-              {/* <Text style={styles.texts}>{item.category_name}</Text> */}
-              <Text
+            <TouchableWithoutFeedback onPress={() => PassToAxios()}>
+              <LinearGradient
+                colors={[ "#5dd394","#80edb2"]}
                 style={{
-                  fontSize: 25,
-                  fontWeight: "bold",
-                  color: COLORS.font,
+                  zIndex: 1,
+                  marginTop: 40,
+                  marginLeft: "5%",
+                  marginRight: "10%",
+                  width: "65%",
+                  alignItems: "center",
+                  alignSelf: "center",
+                  borderRadius: 10,
+                  padding: 15,
+                  // backgroundColor: getRandomColor(),
+                  borderWidth: 1,
+                 // borderColor: COLORS.font,
                 }}
               >
-                Submit
-              </Text>
+                {/* <Text style={styles.texts}>{item.category_name}</Text> */}
+                <Text
+                  style={{
+                    fontSize: 30,
+                    fontWeight: "bold",
+                    color: 'white',
+                  }}
+                >
+                  Submit
+                </Text>
+              </LinearGradient>
             </TouchableWithoutFeedback>
 
             {/* <Button

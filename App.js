@@ -3,7 +3,8 @@ import "react-native-gesture-handler";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Image,Text } from "react-native";
+import { Image } from "react-native";
+import Text from './Components/Dashboard/MyText'
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Report from "./Components/Report/Report";
 import Profile from "./Components/Profile/Profile";
@@ -232,7 +233,7 @@ const AppSTack = () => {
                     </View>
                   );
 
-                case "Cart":
+                case "Cart1":
                   return (
                     <View>
                       <MaterialCommunityIcons
@@ -287,7 +288,7 @@ const AppSTack = () => {
              options={{
                tabBarLabel: "Show All",
              }}
-            name="Cart"
+            name="Cart1"
             component={AllProductStack}
           />
           <Tab.Screen
@@ -390,4 +391,5 @@ const App = () => (
     </AllAppNavigation.Navigator>
   </NavigationContainer>
 );
+
 export default App;

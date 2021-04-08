@@ -7,9 +7,9 @@
     "icon": "./Assets/MWC2.png",
     "githubUrl":"https://github.com/prajwalprogrammer/E-Commerce-Ui",
     "splash": {
-      "image": "./Assets/E2.png",
+      "image": "./Assets/MWC2.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#020001"
     },
     "androidStatusBar":{
       "backgroundColor":"#020001"

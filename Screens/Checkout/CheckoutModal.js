@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, Button } from "react-native";
-
+import { StyleSheet, View, TouchableOpacity, Button } from "react-native";
+import Text from '../../Components/Dashboard/MyText'
 import { TextInput } from "react-native-gesture-handler";
 // import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Modal from "react-native-modal";

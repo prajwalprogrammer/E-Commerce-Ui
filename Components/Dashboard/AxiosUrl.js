@@ -29,8 +29,10 @@ export const ShowData = async (Cid, C) => {
       //   "value": "category_id",
       // }
     );
+    const ActiveProduct = [];
+    data.filter((item) => item.isActive && ActiveProduct.push(item));
     console.log("show" + JSON.stringify(data[0].image[0]));
-    return data;
+    return ActiveProduct;
   } catch (error) {
     console.log(error);
   }
@@ -39,7 +41,15 @@ export const DailyDeal = async () => {
   try {
     const { data } = await instances.get(`/api/product/read`);
     const DailyItemList = [];
-    data.filter((item) => item.discount > 0 && DailyItemList.push(item));
+    const ActiveList = [];
+    data.filter(
+      (item) => item.discount > 0 && item.isActive && DailyItemList.push(item)
+    );
+    // DailyDeal.map((item) => {
+    //   item.hasOwnProperty("isActive")
+    //     ? item.isActive && ActiveList.push(item)
+    //     : ActiveList.push(item);
+    // });
     return DailyItemList;
   } catch (error) {
     console.log(error);
@@ -47,9 +57,11 @@ export const DailyDeal = async () => {
 };
 
 export const ReadAllProducts = async () => {
+  const obj = { query: true, value: "isActive" };
   try {
-    const { data } = await axios.get(
-      "https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/product/read"
+    const { data } = await axios.post(
+      "https://us-central1-mwcdispdepot-df9c9.cloudfunctions.net/app/api/product/search/",
+      obj
     );
     return data;
   } catch (error) {
@@ -62,6 +74,7 @@ export const GetProduct = async (Pids, Nav, Quan) => {
   try {
     const { data } = await instances.get(`/api/product/read/${Pids}`);
     console.log(data);
+    // alert(data.quantity +"yy" +Quan)
     Nav.navigate("Product", {
       name: data.name,
       description: data.description,
@@ -93,8 +106,7 @@ export const SignUp = async (
   name,
   address,
   email,
-  phone,
-  TaxId
+  phone
 ) => {
   //alert("gyy")
   const obj = {
@@ -113,7 +125,7 @@ export const SignUp = async (
     OrderList: null,
     Image: null,
     STD: {
-      Sales_Id: TaxId,
+      Sales_Id: null,
       Sales_Tax_Link:
         "https://digitalasset.intuit.com/IMAGE/A06yW2VcG/w-9_tax_form.jpg",
       Sales_expire_Date: null,
@@ -179,7 +191,7 @@ export const AddOrder = async (
     Status: "Received",
     Total: Total,
     Type: type,
-    orderCreatedDate: moment(new Date()).format('ll'),
+    orderCreatedDate: moment(new Date()).format("ll"),
     id: "ORD-" + OrderId,
   };
 
@@ -256,7 +268,9 @@ export const UpdateUser = async (
   phone,
   TaxId,
   password,
-  Image
+  Image,
+  Link,
+  Date
 ) => {
   //alert("gyy")
   const obj = {
@@ -275,11 +289,9 @@ export const UpdateUser = async (
 
     STD: {
       Sales_Id: TaxId,
-      Sales_Tax_Link:
-        "https://digitalasset.intuit.com/IMAGE/A06yW2VcG/w-9_tax_form.jpg",
-      Sales_expire_Date: null,
+      Sales_Tax_Link: Link,
+      Sales_expire_Date: Date,
     },
-    Image: Image,
   };
   console.log(JSON.stringify(obj));
   try {
@@ -291,20 +303,22 @@ export const UpdateUser = async (
   }
 };
 
-export const UpdateImage=async(URL, data1)=>{
-  obj={
-    STD:{
+export const UpdateImage = async (URL, data1) => {
+  obj = {
+    STD: {
       ...data1.STD,
-      Sales_Tax_Link: URL
-    }
+      Sales_Tax_Link: URL,
+    },
+  };
+  // alert(URL)
+  try {
+    const { data } = await instances.put(
+      `/api/account/update/${data1.id}`,
+      obj
+    );
+    //alert(data)
+    return URL;
+  } catch (err) {
+    console.log(err);
   }
-//alert(obj)
-  try{
-    const {data}=await instances.put(`/api/account/update/${data1.id}`,obj)
-    alert(data)
-  }
-  catch(err){
-    console.log(err)
-  }
-
-}
+};

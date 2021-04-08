@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import {
   View,
-  Text,
+  
   StyleSheet,
   ScrollView,
   Dimensions,
@@ -11,7 +11,8 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import Carousel from "react-native-snap-carousel";
-
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import Text from './MyText'
 import { Col, Row, Grid } from "react-native-easy-grid";
 import Icon from "react-native-vector-icons/AntDesign";
 import { useRef } from "react";
@@ -70,6 +71,10 @@ export const RenderItem = (props) => {
       addTransaction(newTransaction);
     });
   };
+  var starRating = [];
+  for (var i = 0; i < parseInt(props.data.Rating); i++) {
+    starRating.push(i);
+  }
   return (
     <TouchableWithoutFeedback
       onPress={() =>
@@ -82,7 +87,7 @@ export const RenderItem = (props) => {
           Cid: props.data.category_id,
           Pid: props.data.id,
           Discount: props.data.discount,
-          Rating:props.data.Rating
+          Rating: props.data.Rating,
         })
       }
     >
@@ -93,7 +98,7 @@ export const RenderItem = (props) => {
           elevation: 55,
           width: "98%",
           margin: 3,
-          height: 280,
+          height: 290,
         }}
       >
         <View
@@ -128,7 +133,7 @@ export const RenderItem = (props) => {
             source={{ uri: props.data.image[0] }}
             style={{ ...styles.image, alignSelf: "center" }}
           />
-          <View
+          {/* <View
             style={{
               flexDirection: "row",
               justifyContent: "center",
@@ -136,8 +141,8 @@ export const RenderItem = (props) => {
               marginVertical: 5,
               marginTop: -19,
             }}
-          >
-            {found ? (
+          > */}
+          {/* {found ? (
               <TouchableWithoutFeedback
                 //style={{ ...styles.tab, alignSelf: "center" }}
                 onPress={() => props.navigation.navigate("Report")}
@@ -152,13 +157,41 @@ export const RenderItem = (props) => {
                   <Text style={styles.texts}>Add To Cart</Text>
                 </View>
               </TouchableWithoutFeedback>
-            )}
-          </View>
-          <View style={{ justifyContent: "center", alignSelf: "center" }}>
-            <Text style={{ ...styles.body, fontWeight: "bold" }}>
+            )} */}
+          {/* </View> */}
+          <View
+            style={{
+              justifyContent: "center",
+              alignSelf: "center",
+              marginTop: 10,
+              marginBottom: 5,
+            }}
+          >
+            <Text style={{ ...styles.body, fontWeight: "bold", fontSize: 20 }}>
               {props.data.name.slice(0, 20)}
               {props.data.name.length >= 20 && "..."}
             </Text>
+            <View
+              style={{
+                justifyContent: "center",
+                alignSelf: "center",
+                //  marginTop: 5,
+                // marginBottom: 5,
+              }}
+            >
+              <Text
+                style={{
+                  ...styles.body,
+                  fontWeight: "bold",
+                  fontSize: 15,
+                  flexDirection: "row",
+                }}
+              >
+                {starRating.map(() => (
+                  <MaterialIcons name="star-rate" color="#DBA800" size={25} />
+                ))}
+              </Text>
+            </View>
           </View>
           <Grid>
             <Col size={170}>
@@ -237,7 +270,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "90%",
-    height: "66%",
+    height: "60%",
     margin: 10,
     marginBottom: 1,
     borderRadius: 10,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import {
   View,
-  Text,
+  
   StyleSheet,
   Image,
   TouchableOpacity,
@@ -9,6 +9,18 @@ import {
   ActivityIndicator,
   LogBox,
 } from "react-native";
+import Text from './MyText'
+import {
+  Container,
+  Header,
+  Left,
+  Body,
+  Right,
+  Icon,
+  Subtitle,
+  Title,
+  Button,
+} from "native-base";
 import { Col, Row, Grid } from "react-native-easy-grid";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import NumericInput from "react-native-numeric-input";
@@ -20,10 +32,11 @@ import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { GetMyCart } from "./AxiosUrl";
 import { GlobalContext } from "../Contaxt/GlobalState";
 import AwesomeAlert from "react-native-awesome-alerts";
+import { Ionicons } from "@expo/vector-icons";
 
 const Product = ({ navigation, route }) => {
   const [value, setvalue] = useState(1);
- 
+
   LogBox.ignoreAllLogs();
   const [isModalVisible, setIsModalVisible] = useState(false);
   // useEffect(()=>{console.log(route.params.description)},[])
@@ -31,7 +44,7 @@ const Product = ({ navigation, route }) => {
     GlobalContext
   );
   const { CheckTheProduct, user, AddToCart } = useContext(CartContext);
-   var N1 = transations.some((el) => el.id === route.params.Pid);
+  var N1 = transations.some((el) => el.id === route.params.Pid);
   const SetQua = (VAl) => {
     const ORGPrice =
       Math.round(
@@ -49,12 +62,11 @@ const Product = ({ navigation, route }) => {
     };
     // transations=newArray;
     UpdateTransaction(newArray);
-    N1=transations.some((el) => el.id === route.params.Pid);
+    N1 = transations.some((el) => el.id === route.params.Pid);
   };
   const onsubmit = async () => {
     // e.preventDefault();
     await GetMyCart(route.params.Pid).then((res) => {
-     
       const ORGPrice =
         Math.round(res.price - (res.price * res.discount) / 100) * value;
       const SinglePrice = Math.round(
@@ -79,32 +91,55 @@ const Product = ({ navigation, route }) => {
       }, 1000);
     });
   };
-  
-    var starRating = []
-    alert(route.params.Rating)
-    for (var i=0; i<parseInt(route.params.Rating); i++){
-      starRating.push(i)
-    }
-   
-  
+
+  var starRating = [];
+  for (var i = 0; i < parseInt(route.params.Rating); i++) {
+    starRating.push(i);
+  }
+
   return (
-    <LinearGradient
-      colors={["#000000", "#474747"]}
-      style={{
-        
-        elevation: 0.8,
-        //  position: "relative",
-        left: 0,
-        right: 0,
-        top: 0,
-        bottom: 0,
-        height: SIZES.height,
-      }}
-      start={{ x: 0.9, y: 0.25 }}
-    >
-      <ScrollView contentContainerStyle={{ marginBottom: "10%" }}>
-        <View style={{ margin: 20 }}>
-          {/* <Image 
+    <>
+      <Header
+        style={{
+          backgroundColor: "#202020",
+          elevation: 12,
+          height: 60,
+          // borderBottomColor: "white",
+          // borderBottomWidth: 0.5,
+        }}
+        androidStatusBarColor="#202020"
+      >
+        <Left>
+          <Button transparent onPress={() => navigation.goBack()}>
+            <Ionicons name="arrow-back" size={24} color="white" />
+          </Button>
+        </Left>
+        <Body>
+          <Title
+            style={{ fontSize: 20, fontWeight: "bold", color: COLORS.font }}
+          >
+            Product Details
+          </Title>
+        </Body>
+      </Header>
+      <LinearGradient
+        colors={["#000000", "#474747"]}
+        style={{
+          elevation: 0.8,
+          //  position: "relative",
+          left: 0,
+          right: 0,
+          top: 0,
+          // bottom: 10,
+          height: SIZES.height,
+          paddingBottom: 20,
+          marginBottom: 30,
+        }}
+        start={{ x: 0.9, y: 0.25 }}
+      >
+        <ScrollView contentContainerStyle={{ marginBottom: "40%" }}>
+          <View style={{ margin: 20 }}>
+            {/* <Image 
                   source={{uri:route.params.uri1[0]}}                                               
                   style={{
                     // width: 350,
@@ -112,145 +147,194 @@ const Product = ({ navigation, route }) => {
                     // borderRadius:10          
                   }}
                 />    */}
-          <SliderBox
-            images={route.params.uri1}
-            sliderBoxHeight={300}
-            
-            dotColor="#DBA800"
-            inactiveDotColor={COLORS.white}
-            paginationBoxVerticalPadding={20}
-            autoplay
-            circleLoop
-            style={{
-              width: "90%",
-              height: 300,
-              borderRadius: 10,
-            }}
-          />
-          <AwesomeAlert
-            show={isModalVisible}
-            showProgress={false}
-            title="Success!!!"
-            titleStyle={{ fontSize: 30, fontWeight: "bold", color: "black" }}
-            message={"Item Added To Cart"}
-            messageStyle={{ fontSize: 20, color: "gray" }}
-            closeOnTouchOutside={true}
-            closeOnHardwareBackPress={true}
-            showCancelButton={true}
-            showConfirmButton={true}
-            cancelButtonStyle={{}}
-            cancelText="Continue Shopping"
-            cancelButtonColor="red"
-            confirmText="Proceed to Checkout"
-            confirmButtonColor="#05375a"
-            onCancelPressed={() => {
-              setIsModalVisible(!isModalVisible), navigation.navigate("Cart");
-            }}
-            onConfirmPressed={() => {
-              setIsModalVisible(!isModalVisible), navigation.navigate("Report");
-            }}
-          />
-        </View>
-        <View style={{ margin: 20 }}>
-          <Text
-            style={{
-              fontSize: 24,
-              color: "white",
-              color: "white",
-              fontWeight: "bold",
-            }}
-          >
-            {route.params.name}
-          </Text>
-          <Text style={{ fontSize: 20, color: "white" }}>
-            {" "}
-            $
-            {Math.floor(
-              route.params.price -
-                (route.params.price * route.params.Discount) / 100
-            )}{" "}
-            {/* $ {route.params.price} */}
-            {route.params.Discount > 0 ? (
-              <Text
-                style={{
-                  fontSize: 12,
-                  opacity: 0.5,
-                  textDecorationLine: "line-through",
-                  textDecorationStyle: "solid",
-                  color: COLORS.font,
-                  marginTop: 10,
-                  fontWeight: "normal",
-                  marginHorizontal: 12,
-                }}
-              >
-                ${route.params.price}
-              </Text>
-            ) : null}
-          </Text>
-          <Text style={styles.texts}>
-          {starRating.map(()=><MaterialIcons name="star-rate" color="#DBA800" size={25} />)}
-          </Text>
-          <Text>{"\n"}</Text>
-          <Text style={{ fontSize: 25, color: "white", fontWeight: "bold" }}>
-            {" "}
-            Know More About :
-          </Text>
-          <View style={{ marginLeft: 10, marginTop: 10 }}>
-            <Text style={{ color: "white", fontSize: 15 }}>
-              {" "}
-              {route.params.description}
-            </Text>
-            {/* <Text style={{color:"white",fontSize:15}}>  {route.params.description}</Text> */}
+            <SliderBox
+              images={route.params.uri1}
+              sliderBoxHeight={300}
+              dotColor="#DBA800"
+              inactiveDotColor={COLORS.white}
+              paginationBoxVerticalPadding={20}
+              autoplay
+              circleLoop
+              style={{
+                width: "90%",
+                height: 300,
+                borderRadius: 10,
+              }}
+            />
+            <AwesomeAlert
+              show={isModalVisible}
+              showProgress={false}
+              title="Success!!!"
+              titleStyle={{ fontSize: 30, fontWeight: "bold", color: "black" }}
+              message={"Item Added To Cart"}
+              messageStyle={{ fontSize: 20, color: "gray" }}
+              closeOnTouchOutside={false}
+              closeOnHardwareBackPress={true}
+              showCancelButton={true}
+              showConfirmButton={true}
+              cancelButtonStyle={{}}
+              cancelText="Continue Shopping"
+              cancelButtonColor="green"
+              confirmText="Proceed to Checkout"
+              confirmButtonColor="red"
+              onCancelPressed={() => {
+                setIsModalVisible(!isModalVisible),
+                  navigation.navigate("Cart1"),navigation.navigate("Allproduct");
+              }}
+              onConfirmPressed={() => {
+                setIsModalVisible(!isModalVisible),
+                  navigation.navigate("Report");
+              }}
+            />
           </View>
-        </View>
-        <Grid>
-          <Col>
-            {N1 ? (
-              <TouchableWithoutFeedback
-                style={styles.tab1}
-                onPress={() => navigation.navigate("Report")}
-              >
-                <Text style={styles.texts}>Go to Cart</Text>
-              </TouchableWithoutFeedback>
-            ) : (
-              <TouchableWithoutFeedback
-                style={styles.tab1}
-                onPress={() => onsubmit()}
-              >
-                <Text style={styles.texts}>Add To Cart</Text>
-              </TouchableWithoutFeedback>
-            )}
-            
-          </Col>
-          <Col>
-            <View style={styles.tab2}>
-              {N1 ? (
-                <NumericInput
-                  textColor="white"
-                  rounded
-                 // type="up-down"
-                  minValue={1}
-                  maxValue={route.params.Quantity}
-                  onChange={(value) => SetQua(value)}
-                  value={route.params.NewQuan}
-                />
-              ) : (
-                <NumericInput
-                  textColor="white"
-                  rounded
-                 // type="up-down"
-                  minValue={1}
-                  maxValue={route.params.Quantity}
-                  onChange={(value) => setvalue(value)}
-                  value={1}
-                />
-              )}
+          <View style={{ margin: 20 }}>
+            <Text
+              style={{
+                fontSize: 24,
+                color: "white",
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
+              {route.params.name}
+            </Text>
+            <Text style={{ fontSize: 20, color: "white" }}>
+              {" "}
+              $
+              {Math.floor(
+                route.params.price -
+                  (route.params.price * route.params.Discount) / 100
+              )}{" "}
+              {/* $ {route.params.price} */}
+              {route.params.Discount > 0 ? (
+                <Text
+                  style={{
+                    fontSize: 12,
+                    opacity: 0.5,
+                    textDecorationLine: "line-through",
+                    textDecorationStyle: "solid",
+                    color: COLORS.font,
+                    marginTop: 10,
+                    fontWeight: "normal",
+                    marginHorizontal: 12,
+                  }}
+                >
+                  ${route.params.price}
+                </Text>
+              ) : null}
+            </Text>
+            <Text style={styles.texts}>
+              {starRating.map(() => (
+                <MaterialIcons name="star-rate" color="#DBA800" size={25} />
+              ))}
+            </Text>
+            <Text>{"\n"}</Text>
+            <Text style={{ fontSize: 25, color: "white", fontWeight: "bold" }}>
+              {" "}
+              Know More About :
+            </Text>
+            <View style={{ marginLeft: 10, marginTop: 10 }}>
+              <Text style={{ color: "white", fontSize: 15 }}>
+                {" "}
+                {route.params.description}
+              </Text>
+              {/* <Text style={{color:"white",fontSize:15}}>  {route.params.description}</Text> */}
             </View>
-          </Col>
-        </Grid>
-        <Text>{"\n"}</Text>
-      </ScrollView>
-    </LinearGradient>
+          </View>
+          <Grid style={{ marginBottom: "15%" }}>
+            <Col>
+              {N1 ? (
+                <TouchableWithoutFeedback
+                  style={styles.tab1}
+                  onPress={() => navigation.navigate("MyCart")}
+                >
+                  <Text style={styles.texts}>Go to Cart</Text>
+                </TouchableWithoutFeedback>
+              ) : (
+                <TouchableWithoutFeedback
+                  style={styles.tab1}
+                  onPress={() => onsubmit()}
+                >
+                  <Text style={styles.texts}>Add To Cart</Text>
+                </TouchableWithoutFeedback>
+              )}
+            </Col>
+            {!N1 && (
+              <Col>
+                <View style={styles.tab2}>
+                  {N1 ? null : (
+                    //   <NumericInput
+                    //   value={route.params.NewQuan}
+                    //   onChange={(value) => SetQua(value)}
+                    //   onLimitReached={(isMax, msg) => console.log(isMax, msg)}
+                    //   totalWidth={120}
+                    //   totalHeight={50}
+                    //   iconSize={25}
+                    //   step={1}
+                    //   //valueType="real"
+                    //   rounded
+                    //   iconStyle={{
+                    //     color: "white",
+                    //     fontSize: 20,
+                    //     fontWeight: "bold",
+                    //   }}
+                    //   textColor="#ffffff"
+                    //   rightButtonBackgroundColor="#474747"
+                    //   leftButtonBackgroundColor="#474747"
+                    // />
+                    // <NumericInput
+                    //   textColor="white"
+                    //   rounded
+                    //   // type="up-down"
+                    //   minValue={1}
+                    //   maxValue={route.params.Quantity}
+                    //   onChange={(value) => SetQua(value)}
+                    //   value={route.params.NewQuan}
+                    // />
+                    <NumericInput
+                      value={value}
+                      onChange={(value) => setvalue(value)}
+                      onLimitReached={(isMax, msg) => alert(msg)}
+                      totalWidth={120}
+                      totalHeight={50}
+                      iconSize={25}
+                      step={1}
+                      maxValue={route.params.Quantity}
+                      //valueType="real"
+                      rounded
+                      iconStyle={{
+                        color: "white",
+                        fontSize: 20,
+                        fontWeight: "bold",
+                      }}
+                      textColor="#ffffff"
+                      rightButtonBackgroundColor="#474747"
+                      leftButtonBackgroundColor="#474747"
+                    />
+                    // <NumericInput
+                    //   textColor="white"
+                    //   // type="up-down"
+                    // iconStyle={{
+                    //   color: "white",
+                    //   fontSize: 20,
+                    //   fontWeight: "bold",
+                    // }}
+                    //   rightButtonBackgroundColor="#474747"
+                    //   leftButtonBackgroundColor="#474747"
+                    //   //minValue={1}
+                    //   // maxValue={4}
+                    //   // onChange={(value) => setvalue(value)}
+                    //   value={1}
+                    // />
+                  )}
+                </View>
+              </Col>
+            )}
+          </Grid>
+          <Text>{"\n"}</Text>
+        </ScrollView>
+      </LinearGradient>
+    </>
   );
 };
 
@@ -261,9 +345,9 @@ const styles = StyleSheet.create({
   tab1: {
     zIndex: 1,
     marginTop: 20,
-    marginLeft: "15%",
+    marginLeft: "10%",
     marginRight: "10%",
-    width: "100%",
+    width: "80%",
     alignItems: "center",
     borderRadius: 5,
     padding: 10,

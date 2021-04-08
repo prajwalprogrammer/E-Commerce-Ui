@@ -1,6 +1,6 @@
 import React from "react";
-import { TouchableOpacity, Text, Dimensions } from "react-native";
-
+import { TouchableOpacity, Dimensions } from "react-native";
+import Text from '../Dashboard/MyText'
 const { height, width } = Dimensions.get("window");
 
 export default function Button({ title, onPress, marginTop }) {

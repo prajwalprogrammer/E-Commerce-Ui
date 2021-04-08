@@ -1,7 +1,7 @@
 import React from 'react'
-import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity } from "react-native"
+import { View, StyleSheet, Dimensions, Image,TouchableOpacity } from "react-native"
 import { Col, Row, Grid } from "react-native-easy-grid";
-
+import Text from './MyText'
 export const SLIDER_WIDTH = Dimensions.get('window').width 
 export const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.8)
 

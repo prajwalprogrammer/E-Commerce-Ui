@@ -37,7 +37,8 @@ export async function UploadImage(uri, acc,ProfileDetails){
         .getDownloadURL()
         .then(async (url) => {
           URL = await url
-         await UpdateImage(url,ProfileDetails)
+          console.log(url)
+         await UpdateImage(url,ProfileDetails).then((res)=>{return res;})
         });
     }
   );

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Dimensions, StatusBar, Image, Text } from "react-native";
+import { View, Dimensions, StatusBar, Image } from "react-native";
 import Input from "../../Components/Input/Input";
 import Button from "../../Components/Input/Button";
 import BcryptReactNative from "bcrypt-react-native";
@@ -8,7 +8,7 @@ import { LinearGradient } from "expo-linear-gradient";
 const { height, width } = Dimensions.get("window");
 import * as Animatable from "react-native-animatable";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-
+import Text from '../../Components/Dashboard/MyText'
 export default function SignUpOne({ navigation }) {
   const [username, setUsername] = useState(`AC-${Math.floor(Math.random()*100000)}`);
   const [password, setPassword] = useState("");

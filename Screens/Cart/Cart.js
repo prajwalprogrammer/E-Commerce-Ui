@@ -1,7 +1,7 @@
 import React from "react";
 import {
   View,
-  Text,
+  
   StyleSheet,
   TouchableOpacity,
   ScrollView,
@@ -32,7 +32,8 @@ import { CartContext } from "../../Components/GlobalContext/CartProvider";
 import CartList from "./CartList";
 import { GlobalContext } from "../../Components/Contaxt/GlobalState";
 import { AntDesign } from "@expo/vector-icons";
-
+import { Ionicons } from "@expo/vector-icons";
+import Text from '../../Components/Dashboard/MyText'
 const Cart = ({ navigation }) => {
   const {
     transations,
@@ -67,10 +68,11 @@ const Cart = ({ navigation }) => {
     Fetch();
   }, [Prajwal]);
   const OpenProduct = async (ID, Quantity) => {
+    //alert(Quantity)
     await GetProduct(ID, navigation, Quantity);
   };
 
-  const SetQua = (VAl, Id, Price, Discount,OrgQuan) => {
+  const SetQua = (VAl, Id, Price, Discount, OrgQuan) => {
     const ORGPrice = Math.round(Price - (Price * Discount) / 100) * VAl;
     const elementsIndex = transations.findIndex((element) => element.id == Id);
     let newArray = [...transations];
@@ -78,7 +80,7 @@ const Cart = ({ navigation }) => {
       ...newArray[elementsIndex],
       Quantity: VAl,
       Total: ORGPrice,
-      SubQuantity: OrgQuan - VAl
+      SubQuantity: OrgQuan - VAl,
     };
     // transations=newArray;
     UpdateTransaction(newArray);
@@ -105,7 +107,7 @@ const Cart = ({ navigation }) => {
         >
           <Left>
             <Button transparent onPress={() => navigation.goBack()}>
-              <Icon name="arrow-back" style={{ color: COLORS.font }} />
+              <Ionicons name="arrow-back" size={24} color={COLORS.font} />
             </Button>
           </Left>
           <Body>
@@ -213,9 +215,6 @@ const Cart = ({ navigation }) => {
                                   >
                                     {item.name}
                                   </Text>
-                                  <Text style={{ color: COLORS.font }}>
-                                    {item.id}
-                                  </Text>
                                 </Col>
                                 <Col size={35}>
                                   <TouchableWithoutFeedback
@@ -223,7 +222,7 @@ const Cart = ({ navigation }) => {
                                   >
                                     <AntDesign
                                       name="delete"
-                                      size={18}
+                                      size={20}
                                       color="red"
                                       style={{ alignSelf: "center" }}
                                     />
@@ -236,6 +235,7 @@ const Cart = ({ navigation }) => {
                                     style={{
                                       color: COLORS.font,
                                       alignSelf: "center",
+                                      fontSize: item.price > 10000 ? 15 : 20,
                                     }}
                                   >
                                     $ {item.price}
@@ -253,6 +253,16 @@ const Cart = ({ navigation }) => {
                                       <NumericInput
                                         textColor="white"
                                         rounded
+                                        iconStyle={{
+                                          color: "white",
+                                          fontSize: 19,
+                                          fontWeight: "bold",
+                                        }}
+                                        rightButtonBackgroundColor="black"
+                                        leftButtonBackgroundColor="black"
+                                        onLimitReached={(isMax, msg) =>
+                                          alert(msg)
+                                        }
                                         minValue={1}
                                         maxValue={
                                           item.SubQuantity + item.Quantity
@@ -267,7 +277,7 @@ const Cart = ({ navigation }) => {
                                           )
                                         }
                                         value={item.Quantity}
-                                        totalWidth={70}
+                                        totalWidth={80}
                                       />
                                     </TouchableWithoutFeedback>
                                   </View>
@@ -278,11 +288,10 @@ const Cart = ({ navigation }) => {
                                   <Text
                                     style={{
                                       color: COLORS.font,
-                                      fontSize: 17,
+                                      fontSize: item.price > 10000 ? 15 : 20,
                                       fontWeight: "bold",
                                     }}
                                   >
-                                    {" "}
                                     = ${item.Total}
                                   </Text>
                                 </View>
@@ -305,14 +314,13 @@ const Cart = ({ navigation }) => {
           backgroundColor: "#303030",
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
-          height: "15%",
+          height: 140,
           // top:10,
           // marginVertical: 10,
           elevation: 20,
           borderTopColor: "red",
         }}
       >
-       
         <Button
           disabled={transations.length > 0 ? false : true}
           success
@@ -368,8 +376,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#35B551",
     marginBottom: 10,
     marginTop: 10,
-    width: 200,
-    marginLeft: 100,
+    width: "70%",
+    height: 50,
+    marginLeft: 70,
     borderRadius: 10,
     padding: 7,
     justifyContent: "center",
@@ -379,8 +388,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#E60808",
     marginBottom: 10,
     marginTop: 2,
-    width: 200,
-    marginLeft: 100,
+    width: "70%",
+    height: 40,
+    marginLeft: 70,
     borderRadius: 10,
     padding: 7,
     justifyContent: "center",
