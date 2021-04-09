@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   View,
-  
   StyleSheet,
   TouchableOpacity,
   TextInput,
   Image,
   StatusBar,
   ActivityIndicator,
+  SafeAreaView,
+  Platform,
 } from "react-native";
 import { Button } from "native-base";
 import Carousel from "react-native-snap-carousel";
@@ -27,246 +28,257 @@ import {
   TouchableHighlight,
   TouchableWithoutFeedback,
 } from "react-native-gesture-handler";
-import { useFonts } from 'expo-font';
-import Text from './MyText'
+import { useFonts } from "expo-font";
+import Text from "./MyText";
 import { Read, ShowData, DailyDeal, GetUserDetails } from "./AxiosUrl";
 import AsyncStorage from "@react-native-community/async-storage";
 import { CartContext } from "../GlobalContext/CartProvider";
-const Packages = [{Displayname:"Stater",name:"starter"}, {Displayname:"Growth",name:"growth"}, {Displayname:"Rockstar",name:"rockstar"}];
+const Packages = [
+  { Displayname: "Stater", name: "starter" },
+  { Displayname: "Growth", name: "growth" },
+  { Displayname: "Rockstar", name: "rockstar" },
+];
 const Dashboard = ({ navigation }) => {
   const [Loading, setLoading] = useState(false);
   const { Profile, setProfile, Prajwal, setPrajwal, setQ } = React.useContext(
     CartContext
   );
   const isCarousel = React.useRef(null);
-  
-  const [DATA, setDATA] = React.useState([]);
-  const [value, onChangeText] = React.useState("Search");
+
+  const [DATA, setDATA] = useState([]);
+  const [value, onChangeText] = useState("Search");
   const [Visible, setVisible] = useState(null);
   const [DAILY, setDAILY] = useState([]);
   const [UserProfile, setUserProfile] = useState();
-  const [isReady, setIsReady] = useState(false)
-  React.useEffect(() => {
-    setVisible(true);
-    const fetchAPI = async () => {
-      //  alert(await AsyncStorage.getItem("UserID"))
-      setPrajwal(await AsyncStorage.getItem("countries"));
-      setQ(await AsyncStorage.getItem("Quan"));
+  const [isReady, setIsReady] = useState(false);
 
+  useEffect(() => {
+    const fetchAPI = async () => {
       setProfile(await GetUserDetails(await AsyncStorage.getItem("UserID")));
       setDATA(await Read());
       setDAILY(await DailyDeal());
     };
     fetchAPI();
-    if (DATA) {
-      setVisible(false);
-    }
   }, []);
-
   return (
-    <ScrollView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#4d4b50" />
-      <LinearGradient
-        colors={["#4d4b50", "#020001"]}
-        style={{
-          borderRadius: 15,
-          margin: 5,
-        }}
-        start={{ x: 1, y: 0 }}
-      >
-        <View>
-          <View style={{ ...styles.profile }}>
-            <Grid style={{ justifyContent: "space-between" }}>
-              <Row>
-                <Col>
-                  <Row style={{ flexDirection: "row" }}>
-                    <View style={{ flexDirection: "row" }}>
-                      <TouchableWithoutFeedback
-                        onPress={() => navigation.navigate("Profile")}
-                      >
-                        <Image
-                          source={
-                            Profile
-                              ? { uri: Profile.STD.Sales_Tax_Link }
-                              : require("../../Assets/download.png")
-                          }
-                          style={{
-                            width: 35,
-                            height: 35,
-                            margin: 5,
-                            borderRadius: 100,
-                          }}
-                        />
-                      </TouchableWithoutFeedback>
-                      <Text
-                        style={{
-                          margin: 5,
-                          color: "white",
-                          fontFamily:"notoserif"
-                        }}
-                      >
-                        Howdy,{"\n"}
-                        {Profile ? Profile.AccountName : null}
-                      </Text>
-                    </View>
-                  </Row>
-                </Col>
-              </Row>
-            </Grid>
-          </View>
-
-          <Button
-            full
-            rounded
-            style={{
-              backgroundColor: COLORS.lightGray,
-              height: 35,
-              width: "90%",
-              alignSelf: "center",
-            
-            }}
-            onPress={() => navigation.navigate("Search")}
-          >
-            <Text style={{ fontSize: 18,marginRight:"70%",fontFamily:"sans-serif-condensed" }}>
-              Search
-            </Text>
-          </Button>
-        </View>
-        <View
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: "#000000",
+        paddingTop: Platform.OS === "android" ? 0 : 0,
+      }}
+    >
+      <ScrollView style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="#4d4b50" />
+        <LinearGradient
+          colors={["#4d4b50", "#020001"]}
           style={{
-            paddingBottom: 50,
-            // backgroundColor: "#6a5acd",
-            borderBottomRightRadius: 35,
-            borderBottomLeftRadius: 35,
+            borderRadius: 15,
+            margin: 5,
           }}
+          start={{ x: 1, y: 0 }}
         >
+          <View>
+            <View style={{ ...styles.profile }}>
+              <Grid style={{ justifyContent: "space-between" }}>
+                <Row>
+                  <Col>
+                    <Row style={{ flexDirection: "row" }}>
+                      <View style={{ flexDirection: "row" }}>
+                        <TouchableWithoutFeedback
+                          onPress={() => navigation.navigate("Profile")}
+                        >
+                          <Image
+                            source={
+                              Profile
+                                ? { uri: Profile.STD.Sales_Tax_Link }
+                                : require("../../Assets/download.png")
+                            }
+                            style={{
+                              width: 35,
+                              height: 35,
+                              margin: 5,
+                              borderRadius: 100,
+                            }}
+                          />
+                        </TouchableWithoutFeedback>
+                        <Text
+                          style={{
+                            margin: 5,
+                            color: "white",
+                            fontFamily: "notoserif",
+                          }}
+                        >
+                          Howdy,{"\n"}
+                          {Profile ? Profile.AccountName : null}
+                        </Text>
+                      </View>
+                    </Row>
+                  </Col>
+                </Row>
+              </Grid>
+            </View>
+
+            <Button
+              full
+              rounded
+              style={{
+                backgroundColor: COLORS.lightGray,
+                height: 35,
+                width: "90%",
+                alignSelf: "center",
+              }}
+              onPress={() => navigation.navigate("Search")}
+            >
+              <Text
+                style={{
+                  fontSize: 18,
+                  marginRight: "70%",
+                  fontFamily: "sans-serif-condensed",
+                }}
+              >
+                Search
+              </Text>
+            </Button>
+          </View>
           <View
             style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "space-between",
-              marginHorizontal: 4,
+              paddingBottom: 50,
+              // backgroundColor: "#6a5acd",
+              borderBottomRightRadius: 35,
+              borderBottomLeftRadius: 35,
             }}
           >
-            <Text
+            <View
               style={{
-                fontSize: 25,
-                fontWeight: "bold",
-                margin: 5,
-                color: COLORS.font,
-                marginHorizontal: 10,
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                marginHorizontal: 4,
               }}
             >
-              Daily Deals
-            </Text>
-            <MaterialCommunityIcons
-              name="arrow-right"
-              color={COLORS.font}
-              size={25}
-            />
-          </View>
-          {DAILY ? <DAily1 DAilyItem={DAILY} navigation={navigation} /> : null}
-        </View>
-      </LinearGradient>
-      <View>
-        <Text
-          style={{
-            marginHorizontal: 10,
-
-            margin: 5,
-            color: COLORS.font,
-            fontSize: 25,
-            fontWeight: "bold",
-          }}
-        >
-          Popular Categories:
-        </Text>
-        {Visible ? (
-          <ActivityIndicator
-            size="large"
-            color="#ffffff"
-            animating={true}
-            style={{ justifyContent: "center", alignSelf: "center" }}
-          />
-        ) : null}
-        <View>
-          <View>
-            {DATA
-              ? DATA.map((item) => {
-                  return (
-                    <TouchableWithoutFeedback
-                      style={{
-                        zIndex: 1,
-                        marginTop: 20,
-                        marginLeft: "5%",
-                        marginRight: "10%",
-                        width: "85%",
-                        alignItems: "center",
-                        borderRadius: 10,
-                        padding: 15,
-                        borderWidth: 1,
-                        borderColor: "gray",
-                      }}
-                      onPress={() =>
-                        navigation.navigate("lists", {
-                          category_id: item.id,
-                          value:"category_id"
-                        })
-                      }
-                      key={item.id}
-                    >
-                      <Text style={styles.texts}>{item.name}</Text>
-                    </TouchableWithoutFeedback>
-                  );
-                })
-              : null}
-          </View>
-        </View>
-      </View>
-      <View style={{marginBottom:10}}>
-        <Text
-          style={{
-            marginHorizontal: 10,
-
-            margin: 5,
-            color: COLORS.font,
-            fontSize: 25,
-            fontWeight: "bold",
-          }}
-        >
-          Packages
-        </Text>
-        <View>
-          {Packages.map((item) => {
-            return (
-              <TouchableWithoutFeedback
+              <Text
                 style={{
-                  zIndex: 1,
-                  marginTop: 20,
-                  marginLeft: "5%",
-                  marginRight: "10%",
-                  width: "85%",
-                  alignItems: "center",
-                  borderRadius: 10,
-                  padding: 15,
-                  borderWidth: 1,
-                  borderColor: "gray",
+                  fontSize: 25,
+                  fontWeight: "bold",
+                  margin: 5,
+                  color: COLORS.font,
+                  marginHorizontal: 10,
                 }}
-                onPress={() =>
-                  navigation.navigate("lists", {
-                    category_id: item.name,
-                    value:"Package"
-                  })
-                }
-                key={Math.random()}
               >
-                <Text style={styles.texts}>{item.Displayname}</Text>
-              </TouchableWithoutFeedback>
-            );
-          })}
+                Daily Deals
+              </Text>
+              <MaterialCommunityIcons
+                name="arrow-right"
+                color={COLORS.font}
+                size={25}
+              />
+            </View>
+            {DAILY ? (
+              <DAily1 DAilyItem={DAILY} navigation={navigation} />
+            ) : null}
+          </View>
+        </LinearGradient>
+        <View>
+          <Text
+            style={{
+              marginHorizontal: 10,
+
+              margin: 5,
+              color: COLORS.font,
+              fontSize: 25,
+              fontWeight: "bold",
+            }}
+          >
+            Popular Categories:
+          </Text>
+          {Visible ? (
+            <ActivityIndicator
+              size="large"
+              color="#ffffff"
+              animating={true}
+              style={{ justifyContent: "center", alignSelf: "center" }}
+            />
+          ) : null}
+          <View>
+            <View>
+              {DATA
+                ? DATA.map((item) => {
+                    return (
+                      <TouchableWithoutFeedback
+                        style={{
+                          zIndex: 1,
+                          marginTop: 20,
+                          marginLeft: "5%",
+                          marginRight: "10%",
+                          width: "85%",
+                          alignItems: "center",
+                          borderRadius: 10,
+                          padding: 15,
+                          borderWidth: 1,
+                          borderColor: "gray",
+                        }}
+                        onPress={() =>
+                          navigation.navigate("lists", {
+                            category_id: item.id,
+                            value: "category_id",
+                          })
+                        }
+                        key={item.id}
+                      >
+                        <Text style={styles.texts}>{item.name}</Text>
+                      </TouchableWithoutFeedback>
+                    );
+                  })
+                : null}
+            </View>
+          </View>
         </View>
-      </View>
-    </ScrollView>
+        <View style={{ marginBottom: 10 }}>
+          <Text
+            style={{
+              marginHorizontal: 10,
+
+              margin: 5,
+              color: COLORS.font,
+              fontSize: 25,
+              fontWeight: "bold",
+            }}
+          >
+            Packages
+          </Text>
+          <View>
+            {Packages.map((item) => {
+              return (
+                <TouchableWithoutFeedback
+                  style={{
+                    zIndex: 1,
+                    marginTop: 20,
+                    marginLeft: "5%",
+                    marginRight: "10%",
+                    width: "85%",
+                    alignItems: "center",
+                    borderRadius: 10,
+                    padding: 15,
+                    borderWidth: 1,
+                    borderColor: "gray",
+                  }}
+                  onPress={() =>
+                    navigation.navigate("lists", {
+                      category_id: item.name,
+                      value: "Package",
+                    })
+                  }
+                  key={Math.random()}
+                >
+                  <Text style={styles.texts}>{item.Displayname}</Text>
+                </TouchableWithoutFeedback>
+              );
+            })}
+          </View>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

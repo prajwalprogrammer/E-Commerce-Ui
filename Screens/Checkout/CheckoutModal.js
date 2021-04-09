@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { StyleSheet, View, TouchableOpacity, Button } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Button,SafeAreaView ,Platform,StatusBar} from "react-native";
 import Text from '../../Components/Dashboard/MyText'
 import { TextInput } from "react-native-gesture-handler";
 // import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -31,6 +31,12 @@ const CheckoutModal = ({ navigation ,route}) => {
     );
   };
   return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: '#000000',
+        paddingTop: Platform.OS === 'android' ? 0 : 0,
+      }}>
     <View style={styles.container}>
       
       <View style={styles.header}>
@@ -47,6 +53,7 @@ const CheckoutModal = ({ navigation ,route}) => {
       </LinearGradient>
     
     </View>
+    </SafeAreaView>
   );
 };
 export default CheckoutModal;

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  
+  StatusBar,
   StyleSheet,
   TouchableOpacity,
   Image,
   ScrollView,
   Dimensions,
-  ActivityIndicator
+  ActivityIndicator,
+  SafeAreaView,
+  Platform
 } from "react-native";
 import Text from './MyText'
 import { Col, Row, Grid } from "react-native-easy-grid";
@@ -29,7 +31,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS, FONTS, SIZES } from "../../Assets/theme";
 import { LinearGradient } from "expo-linear-gradient";
-import { Read } from "./AxiosUrl";
+import { Read, Read1 } from "./AxiosUrl";
 import { TouchableWithoutFeedback } from "react-native-gesture-handler";
 import { CartContext } from "../GlobalContext/CartProvider";
 const Allproduct = ({ navigation, route }) => {
@@ -39,14 +41,17 @@ const Allproduct = ({ navigation, route }) => {
   React.useEffect(() => {
     setVisible(true)
     const fetchAPI = async () => {
-      setDATA(await Read());
+      setDATA(await Read1());
       console.log(DATA);
     };
     fetchAPI();
     if(DATA){
       setVisible(false)}
-  }, []);
+  },[]);
   return (
+        <SafeAreaView style={{flex:1,backgroundColor:"#000000",paddingTop: Platform.OS === 'android' ? 0 : 0}}>
+        <StatusBar barStyle="light-content" backgroundColor={COLORS.black} />
+
     <Container>
       <Header style={{ backgroundColor: "#202020", elevation: 12, height: 80 }} androidStatusBarColor="#202020" >
         <Left>
@@ -128,6 +133,7 @@ const Allproduct = ({ navigation, route }) => {
       </ScrollView>
       </LinearGradient>
     </Container>
+    </SafeAreaView>
   );
 };
 

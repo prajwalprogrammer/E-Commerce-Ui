@@ -25,8 +25,7 @@
     },
     "android": {
       "package": "com.prajwalprogrammer.Ecommerce",
-      "versionCode": 1
-    },
+      "versionCode": 1    },
     "web": {
       "favicon": "./assets/favicon.png"
     }

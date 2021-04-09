@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  
+  SafeAreaView,
+  Platform,
+  StatusBar,
   StyleSheet,
   TouchableOpacity,
   Image,
@@ -33,6 +35,12 @@ const FinalScreen = ({ navigation, route }) => {
       );
   }, []);
   return (
+     <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: '#000000',
+        paddingTop: Platform.OS === 'android' ? 0 : 0,
+      }}>
     <ScrollView style={{ backgroundColor: "#000000" }}>
       <Image
         source={require("../../Assets/Banner.png")}
@@ -113,6 +121,7 @@ const FinalScreen = ({ navigation, route }) => {
 
       {/* </>:<></>} */}
     </ScrollView>
+    </SafeAreaView>
   );
 };
 

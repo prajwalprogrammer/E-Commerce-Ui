@@ -7,6 +7,7 @@ import { Image } from "react-native";
 import Text from './Components/Dashboard/MyText'
 import Dashboard from "./Components/Dashboard/Dashboard";
 import Report from "./Components/Report/Report";
+import { FontAwesome } from '@expo/vector-icons'; 
 import Profile from "./Components/Profile/Profile";
 import List from "./Components/Dashboard/List";
 import Product from "./Components/Dashboard/Product";
@@ -18,6 +19,7 @@ import Favourites from "./Screens/Favourites/Favourites";
 import Finalscreen from "./Screens/Finalscreen/Finalscreen";
 import { ActivityIndicator, StatusBar } from "react-native";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import { Octicons } from "@expo/vector-icons"; 
 import Icon from "react-native-vector-icons/AntDesign";
 import { View, StyleSheet } from "react-native";
 const Stack = createStackNavigator();
@@ -26,6 +28,7 @@ import { COLORS, FONTS, SIZES } from "./Assets/theme";
 import CartProvider from "./Components/GlobalContext/CartProvider";
 import RenderItem from "./Components/Dashboard/Daily";
 import SignIn from "./Screens/Sign/SignIn";
+import { Feather } from "@expo/vector-icons"; 
 import SignUpOne from "./Screens/Sign/SignUpOne";
 import SignUpTwo from "./Screens/Sign/SignUpTwo";
 import SignUpFinal from "./Screens/Sign/SignUpFinal";
@@ -181,7 +184,7 @@ const tabOptions = {
   showLabel: false,
   keyboardHidesTabBar: true,
   style: {
-    height: "8%",
+    height: "10%",
     backgroundColor: COLORS.black,
     // borderTopRightRadius: 35, borderTopLeftRadius: 35
   },
@@ -201,70 +204,43 @@ const AppSTack = () => {
                 case "Dashboard":
                   return (
                     <View>
-                      <MaterialCommunityIcons
-                        name="home"
-                        color={tintColor}
-                        size={35}
-                        style={
-                          {
-                            //tintColor: tintColor,
-                            // width: 25,
-                            // height: 25,
-                          }
-                        }
-                      />
-                      <Text style={{color:COLORS.gray,fontSize:10}}>  Home</Text>
+                      <Octicons name="home" size={35} color={tintColor} />
+                      {focused && <Text style={{ color: COLORS.gray, fontSize: 10 }}>
+                        {"  "}
+                        Home
+                      </Text>}
                     </View>
                   );
                 case "Report":
                   return (
                     <View>
                       <MaterialCommunityIcons
-                        name="cart-outline"
                         color={tintColor}
+                        name="cart-outline"
                         size={35}
-                        style={
-                          {
-                            // tintColor: tintColor,
-                          }
-                        }
                       />
-                      <Text style={{color:COLORS.gray,fontSize:10}}>  Cart</Text>
+                      {focused && <Text style={{ color: COLORS.gray, fontSize: 10 }}>
+                        {"   "}Cart
+                      </Text>}
                     </View>
                   );
 
                 case "Cart1":
                   return (
                     <View>
-                      <MaterialCommunityIcons
-                        name="cart-arrow-right"
-                        color={tintColor}
-                        size={35}
-                        style={
-                          {
-                            //  tintColor: tintColor,
-                          }
-                        }
-                      />
-                      <Text style={{color:COLORS.gray,fontSize:10}}>Show All</Text>
+                      <FontAwesome name="tags" color={tintColor} size={35}/>
+                      {focused && <Text style={{color:COLORS.gray,fontSize:10}}>Show All</Text>}
                     </View>
                   );
                 case "Profile":
                   return (
-                    <View>
-                      <MaterialCommunityIcons
-                        name="face"
-                        color={tintColor}
-                        size={35}
-                        style={
-                          {
-                            //tintColor: tintColor,
-                          }
-                        }
-                      />
-                      <Text style={{color:COLORS.gray,fontSize:10}}>  Profile</Text>
+                    <View>  
+                      <Feather name="user" size={35} color={tintColor}/>
+                      { focused && <Text style={{color:COLORS.gray,fontSize:10}}>  Profile</Text>}
                     </View>
-                  );
+                  );     
+                        
+                      
               }
             },
           })}

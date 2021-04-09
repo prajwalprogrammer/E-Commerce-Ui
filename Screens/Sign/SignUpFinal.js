@@ -10,6 +10,8 @@ import {
   Image,
   BackHandler,
   ScrollView,
+  SafeAreaView,
+  Platform
 } from "react-native";
 import { COLORS } from "../../Assets/theme";
 
@@ -31,6 +33,12 @@ export default function SignUpFinal() {
       );
   }, []);
   return (
+    <SafeAreaView
+      style={{
+        flex: 1,
+        backgroundColor: '#000000',
+        paddingTop: Platform.OS === 'android' ? 25 : 0,
+      }}>
     <ScrollView style={{ backgroundColor: "#000000" }}>
       <Image
         source={require("../../Assets/Banner.png")}
@@ -112,5 +120,6 @@ export default function SignUpFinal() {
 
       {/* </>:<></>} */}
     </ScrollView>
+    </SafeAreaView>
   );
 }

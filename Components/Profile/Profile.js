@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet,SafeAreaView } from "react-native";
 import { COLORS } from "../../Assets/theme";
 import * as Animatable from "react-native-animatable";
 import { GetUserDetails, UpdateUser } from "../Dashboard/AxiosUrl";
@@ -141,8 +141,10 @@ const Profile = ({ navigation }) => {
     await AsyncStorage.clear().then(() => navigation.navigate("Auth"));
   };
   return (
+        <SafeAreaView style={{flex:1,backgroundColor:'#000000',paddingTop: Platform.OS === 'android' ? 0 : 0}}>
+
     <ScrollView contentContainerStyle={{ backgroundColor: COLORS.black }}>
-      <StatusBar backgroundColor={COLORS.black} />
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.black} />
       <LinearGradient
         colors={[COLORS.black, COLORS.black1, COLORS.black1]}
         style={{}}
@@ -174,34 +176,33 @@ const Profile = ({ navigation }) => {
               flexDirection: "row",
             }}
           >
-            <Text style={{ color: COLORS.font, alignSelf: "center" }}>
-              Id:
-            </Text>
             <Text
               style={{ color: COLORS.font, fontSize: 20, fontWeight: "bold" }}
             >
               {Id}
             </Text>
           </View>
-          <TouchableWithoutFeedback
-            style={{ alignItems: "center", justifyContent: "center" }}
-            onPress={pickImage}
-          >
-            {/* <Text style={{color:"white"}}>giiii</Text> */}
-            {/* <Button title="Pick an image from camera roll" onPress={pickImage} /> */}
-            {image && (
-              <Image
-                source={{ uri: image }}
-                style={{
-                  width: 110,
-                  height: 110,
-                  borderRadius: 50,
-                  borderColor: COLORS.white,
-                  borderWidth: 3,
-                }}
-              />
-            )}
-          </TouchableWithoutFeedback>
+          <View style={{elevation: 100,zIndex:100}}>
+            <TouchableWithoutFeedback
+              style={{ alignItems: "center", justifyContent: "center"}}
+              onPress={pickImage}
+            >
+              {/* <Text style={{color:"white"}}>giiii</Text> */}
+              {/* <Button title="Pick an image from camera roll" onPress={pickImage} /> */}
+                {image && (
+                    <Image
+                      source={{ uri: image }}
+                      style={{
+                        width: 110,
+                        height: 110,
+                        borderRadius: 50,
+                        borderColor: COLORS.white,
+                        borderWidth: 3,
+                      }}
+                    />
+                  )}
+            </TouchableWithoutFeedback>
+          </View>
         </View>
         {UserProfile ? (
           <LinearGradient
@@ -211,6 +212,8 @@ const Profile = ({ navigation }) => {
               borderTopLeftRadius: 40,
               borderTopRightRadius: 40,
               paddingBottom: 20,
+              zIndex:0,
+              elevation: 0
             }}
             animation="fadeInUpBig"
           >
@@ -255,52 +258,52 @@ const Profile = ({ navigation }) => {
               // onChangeText={(text) => setUsername(text)}
               editable={false}
             />
-            <TextField name="Account Status" />
+      {/* <TextField name="Account Status" /> */}
             {/* <TouchableWithoutFeedback onPress={() => setAccountStatus(!AccountStatus) }> */}
-            <>
-              <Input
-                placeholder="Status"
-                // marginTop={10}
-                value={AccountStatus ? "Active" : "InActive"}
-                onChangeText={(text) => setAccountStatus(text)}
-                editable={false}
-              />
-              {/* <MaterialIcons name="published-with-changes" size={24} color="black" /> */}
-              <MaterialIcons
-                onPress={() => setAccountStatus(!AccountStatus)}
-                name="published-with-changes"
-                size={25}
-                color={COLORS.font}
-                style={{
-                  right: 40,
-                  bottom: 40,
-                  // position:"relative"
-                  justifyContent: "flex-start",
-                  alignSelf: "center",
-                  marginBottom: -30,
-                }}
-              />
-            </>
+      <>
+        {/* <Input
+          placeholder="Status"
+          // marginTop={10}
+          value={AccountStatus ? "Active" : "InActive"}
+          onChangeText={(text) => setAccountStatus(text)}
+          editable={false}
+        /> */}
+        {/* <MaterialIcons name="published-with-changes" size={24} color="black" /> */}
+        {/* <MaterialIcons
+          onPress={() => setAccountStatus(!AccountStatus)}
+          name="published-with-changes"
+          size={25}
+          color={COLORS.font}
+          style={{
+            right: 40,
+            bottom: 40,
+            // position:"relative"
+            justifyContent: "flex-start",
+            alignSelf: "center",
+            marginBottom: -30,
+          }}
+        /> */}
+      </>
             {/* </TouchableWithoutFeedback> */}
-            <Text
-              style={{
-                color: COLORS.gray,
-                fontSize: 15,
-                //fontWeight: "bold",
-                alignSelf: "flex-start",
-                marginLeft: 20,
-                marginTop: 20,
-              }}
-            >
-              Sales Tax Id Number
-            </Text>
-            <Input
-              placeholder=" Sales Tax Id Number"
-              //  marginTop={10}
-              value={SalesId}
-              onChangeText={(text) => setSalesId(text)}
-              Num="numeric"
-            />
+      {/* <Text
+        style={{
+          color: COLORS.gray,
+          fontSize: 15,
+          //fontWeight: "bold",
+          alignSelf: "flex-start",
+          marginLeft: 20,
+          marginTop: 20,
+        }}
+      >
+        Sales Tax Id Number
+      </Text>
+      <Input
+        placeholder=" Sales Tax Id Number"
+        //  marginTop={10}
+        value={SalesId}
+        onChangeText={(text) => setSalesId(text)}
+        Num="numeric"
+      /> */}
             <TouchableWithoutFeedback
               onPress={() => Updateuser()}
               style={{
@@ -355,6 +358,7 @@ const Profile = ({ navigation }) => {
         ) : null}
       </LinearGradient>
     </ScrollView>
+    </SafeAreaView>
   );
 };
 

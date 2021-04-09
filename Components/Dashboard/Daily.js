@@ -211,7 +211,7 @@ export const RenderItem = (props) => {
                   textDecorationLine: "line-through",
                   textDecorationStyle: "solid",
                   color: COLORS.font,
-                  marginTop: 10,
+                  marginTop: 5,
                   alignSelf: "flex-start",
                 }}
               >

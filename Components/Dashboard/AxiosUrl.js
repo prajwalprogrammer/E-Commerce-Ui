@@ -10,12 +10,30 @@ export const Read = async () => {
       query: true,
       value: "isActive",
     });
+    const Ispopular=[];
     console.log("data" + JSON.stringify(data[0]));
+    data.filter(
+      (item) => item.isPopular && Ispopular.push(item)
+    );
+    return Ispopular;
+  } catch (error) {
+    console.log(data);
+  }
+};
+export const Read1 = async () => {
+  try {
+    const { data } = await instances.post(`/api/category/search`, {
+      query: true,
+      value: "isActive",
+    });
+    console.log("data" + JSON.stringify(data[0]));
+    
     return data;
   } catch (error) {
     console.log(data);
   }
 };
+
 export const ShowData = async (Cid, C) => {
   //alert(Cid + C)
   const obj = { query: Cid, value: C };

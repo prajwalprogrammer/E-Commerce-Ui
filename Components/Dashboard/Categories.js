@@ -2,7 +2,9 @@ import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import {
   StyleSheet,
-  
+  SafeAreaView,
+  Platform,
+  StatusBar,
   View,
   TouchableWithoutFeedback,
   Dimensions,
@@ -64,6 +66,13 @@ const Categories = ({ navigation }) => {
   };
 
   return (
+    <SafeAreaView
+        style={{
+          flex: 1,
+          backgroundColor: '#474747',
+          paddingTop: Platform.OS === 'android' ? 0 : 0,
+        }}>
+        <StatusBar barStyle="light-content" backgroundColor="#4d4b50" />
     <Container>
       <SearchBar
         disabled={DATA ? false : true}
@@ -75,6 +84,7 @@ const Categories = ({ navigation }) => {
         placeholderTextColor={COLORS.font}
         onClear={() => setDATA(DummyData)}
         inputStyle={{ color: COLORS.font }}
+        searchIcon={false}
       />
 
       <LinearGradient
@@ -82,12 +92,13 @@ const Categories = ({ navigation }) => {
         style={{
           // borderBottomRightRadius: 35,
           // borderBottomLeftRadius: 35,
-          paddingBottom: "10%",
+          paddingBottom:  Platform.OS === 'android' ? "15%" : "25%",
           elevation: 0.8,
           position: "relative",
           left: 0,
           right: 0,
           top: 0,
+          bottom:0,
           height: SIZES.height,
         }}
         start={{ x: 0.9, y: 0.25 }}
@@ -208,6 +219,7 @@ const Categories = ({ navigation }) => {
         </ScrollView>
       </LinearGradient>
     </Container>
+    </SafeAreaView>
   );
 };
 
