@@ -212,6 +212,8 @@ const Profile = ({ navigation }) => {
               borderTopLeftRadius: 40,
               borderTopRightRadius: 40,
               paddingBottom: 20,
+              marginTop:Platform.OS === 'android' ? 0 : 35,
+
               zIndex:0,
               elevation: 0
             }}

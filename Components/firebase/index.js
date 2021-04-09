@@ -14,8 +14,12 @@ const firebaseConfig = {
   measurementId: "G-J5B954DFWW",
 };
 
-firebase.initializeApp(firebaseConfig);
-
+// firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}else {
+  firebase.app(); // if already initialized, use that one
+}
 export async function UploadImage(uri, acc,ProfileDetails){
   const storage = firebase.storage();
   const response = await fetch(uri);
