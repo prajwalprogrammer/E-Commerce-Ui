@@ -41,6 +41,8 @@ const List = ({ navigation, route }) => {
   let MinQuantity = 10000;
   var IsProduct = false;
   // const [list] = useState(route.params.category_data);
+  const {Profile} = React.useContext(CartContext)
+
   const [DATA, setDATA] = useState([]);
   const [Visible, setVisible] = useState(null);
   const [value, setValue] = useState(1);
@@ -178,7 +180,7 @@ const List = ({ navigation, route }) => {
               List
             </Title>
             <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
-              CLUS Pvt Ltd.
+            {Profile ? Profile.AccountName : "CLUS Pvt Ltd."}
             </Subtitle>
           </Body>
           <Right>

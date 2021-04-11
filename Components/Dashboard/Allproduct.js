@@ -67,7 +67,7 @@ const Allproduct = ({ navigation, route }) => {
             All Products
           </Title>
           <Subtitle style={{ fontSize: 11, color: COLORS.font }}>
-          {Profile ? Profile.AccountName : "CLUS Pvt Ltd."}
+          {Profile ? Profile.AccountName : ""}
           </Subtitle>
         </Body>
         <Right>

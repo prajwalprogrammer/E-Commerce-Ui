@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "MWC",
-    "slug": "MWC",
+    "name": "AR Imports",
+    "slug": "AR-Imports",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./Assets/MWC2.png",
+    "icon": "./Assets/icon123.png",
     "githubUrl":"https://github.com/prajwalprogrammer/E-Commerce-Ui",
     "splash": {
-      "image": "./Assets/MWC2.png",
+      "image": "./Assets/icon123.png",
       "resizeMode": "contain",
       "backgroundColor": "#020001"
     },
