@@ -132,7 +132,7 @@ export const RenderItem = (props) => {
           <Image
             source={{ uri: props.data.image[0] }}
             style={{ ...styles.image, alignSelf: "center" }}
-            resizeMode="stretch"
+           // resizeMode="stretch"
           />
           {/* <View
             style={{

@@ -164,7 +164,7 @@ const Product = ({ navigation, route }) => {
                 />    */}
                 <SliderBox
                   images={route.params.uri1}
-                  sliderBoxHeight={300}
+                  sliderBoxHeight={400}
                   dotColor="#DBA800"
                   inactiveDotColor={COLORS.white}
                   paginationBoxVerticalPadding={20}
@@ -175,7 +175,7 @@ const Product = ({ navigation, route }) => {
                   imageLoadingColor="#2196F3"
                   style={{
                     width: "90%",
-                    height: 300,
+                    height: 400,
                     borderRadius: 10,
                   }}
                 />

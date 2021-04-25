@@ -103,6 +103,7 @@ export const GetProduct = async (Pids, Nav, Quan) => {
       Pid: data.id,
       Discount: data.discount,
       NewQuan: Quan,
+      Rating: data.Rating
     });
   } catch (error) {
     console.log(error);

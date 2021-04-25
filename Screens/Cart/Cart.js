@@ -146,7 +146,7 @@ const Cart = ({ navigation }) => {
             <ScrollView contentContainerStyle={{ paddingBottom: '20%' }}>
               <TouchableWithoutFeedback
                 onPress={() => {
-                  navigation.navigate('Allproduct');
+                  navigation.navigate('Cart1');
                 }}>
                 <LinearGradient
                   colors={['#000000', '#474747']}

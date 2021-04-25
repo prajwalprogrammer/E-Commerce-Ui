@@ -103,7 +103,7 @@ const List = ({ navigation, route }) => {
               Quantity: value,
               Image: res.image,
               Total: ORGPrice,
-              SubQuantity: res.quantity - 1,
+              SubQuantity: res.quantity - value,
             };
             // alert(newTransaction.SubQuantity)
             addTransaction(newTransaction);

@@ -130,6 +130,7 @@ const Categories = ({ navigation }) => {
                           Cid: item.category_id,
                           Pid: item.id,
                           Discount: item.discount,
+                          Rating: item.Rating,
                         })
                       }
                       // key={item.key}
